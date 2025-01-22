@@ -9,7 +9,7 @@ cd ./term-project-2025-team-3/sk-vaccine-app/
 ```
 
 ## Download Dependencies
-Ensure you have Node.js installed.
+Ensure you have [Node.js](https://nodejs.org) installed.
 
 Run the following in the `sk-vaccine-app` directory:
 
@@ -19,3 +19,4 @@ npm install
 
 ## Set Up Android Emulator
 - Make sure to select **"Mac" or "Windows"** based on your operating system.
+
