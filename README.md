@@ -17,6 +17,6 @@ Run the following in the `sk-vaccine-app` directory:
 npm install
 ```
 
-## Set Up Android Emulator
+## [Set Up Android Emulator](https://docs.expo.dev/get-started/set-up-your-environment/?mode=development-build&platform=android&device=simulated#set-up-android-studio)
 - Make sure to select **"Mac" or "Windows"** based on your operating system.
 
