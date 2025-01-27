@@ -9,7 +9,7 @@ cd ./term-project-2025-team-3/sk-vaccine-app/
 ```
 
 ## Download Dependencies
-Ensure you have [Node.js](https://nodejs.org) installed.
+Make sure you have [Node.js](https://nodejs.org) installed.
 
 Run the following in the `sk-vaccine-app` directory:
 
