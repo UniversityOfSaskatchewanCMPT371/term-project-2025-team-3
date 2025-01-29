@@ -23,7 +23,7 @@ npm install
 ## Run emulator  
 Run:  
 ```bash
-expo start --android
+npx start --android
 ```
 
 
