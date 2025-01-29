@@ -1,7 +1,12 @@
 import SquareButton from '@/components/home-btn-square';
 import { StyleSheet, Text, View } from 'react-native';
+import logger from "@/utils/logger";
 
 export default function Index() {
+
+  logger.info("HEllo")
+
+
   return (
     <View style={styles.horizontalContainer}>
       <View style={styles.btnContainer}>
