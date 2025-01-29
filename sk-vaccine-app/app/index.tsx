@@ -1,3 +1,4 @@
+import SquareButton from "@/components/home-btn-square";
 import { Text, View } from "react-native";
 
 export default function Index() {
@@ -9,7 +10,10 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+     
+      <SquareButton path={"/"} text="Clinic Information" style={{backgroundColor: "green"}}></SquareButton>
+      <SquareButton path={"/"} text="Vaccine Info"></SquareButton>
+      <SquareButton path={"/"} text="Vaccine Info"></SquareButton>
     </View>
   );
 }
