@@ -20,3 +20,11 @@ npm install
 ## [Set Up Android Emulator](https://docs.expo.dev/get-started/set-up-your-environment/?mode=development-build&platform=android&device=simulated#set-up-android-studio)
 - Select **"Mac" or "Windows"** based on your operating system.
 
+## Run emulator  
+Run:  
+```bash
+expo start --android
+```
+
+
+
