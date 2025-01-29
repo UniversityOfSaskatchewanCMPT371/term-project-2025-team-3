@@ -1,6 +1,11 @@
 import { Text, View } from "react-native";
+import logger from "@/utils/logger";
 
 export default function Index() {
+
+  logger.info("HEllo")
+
+
   return (
     <View
       style={{

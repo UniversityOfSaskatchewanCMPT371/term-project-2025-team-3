@@ -1,5 +1,6 @@
-import winston, { error } from 'winston';
+import { logger as reactLogger, consoleTransport } from 'react-native-logs';
 import config from './config';
+import { format } from 'date-fns';
 
 const logLevels = {
   error: 0,
@@ -9,30 +10,28 @@ const logLevels = {
   debug: 4,
 };
 
-const logger = winston.createLogger({
+
+ 
+
+const logger = reactLogger.createLogger({
   levels: logLevels,
-  level: config.logLevel,
-  format: winston.format.combine(
-    winston.format.errors({ stack: true }),
-    winston.format.timestamp({
-      format: 'YYYY-MM-DD hh:mm:ss.SSS A',
-    }),
-    winston.format.printf(
-      ({ timestamp, level, message, logMetadata, stack }) => {
-        return `${timestamp} ${level}: ${logMetadata || ''} ${message} ${
-          stack || ''
-        }`;
-      }
-    ),
-    winston.addColors({
+  severity: config.logLevel,
+  transport: consoleTransport,
+  transportOptions: {
+    colors: {
       error: 'red',
       warn: 'yellow',
       info: 'cyan',
       http: 'green',
-      debug: 'purple',
-    })
-  ),
-  transports: [new winston.transports.Console()],
+      debug: 'magenta',
+    },
+  },
+  async: true,
+  dateFormat: ((date: Date) => format(date, 'yyyy-MM-dd HH:mm:ss ')),
+  printLevel: true,
+  printDate: true,
+  fixedExtLvlLength: false,
+  enabled: true,
 });
 
 export default logger;
