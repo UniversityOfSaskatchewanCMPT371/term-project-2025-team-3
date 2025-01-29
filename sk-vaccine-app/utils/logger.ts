@@ -1,4 +1,4 @@
-import winston from 'winston';
+import winston, { error } from 'winston';
 import config from './config';
 
 const logLevels = {
@@ -23,7 +23,14 @@ const logger = winston.createLogger({
           stack || ''
         }`;
       }
-    )
+    ),
+    winston.addColors({
+      error: 'red',
+      warn: 'yellow',
+      info: 'cyan',
+      http: 'green',
+      debug: 'purple',
+    })
   ),
   transports: [new winston.transports.Console()],
 });
