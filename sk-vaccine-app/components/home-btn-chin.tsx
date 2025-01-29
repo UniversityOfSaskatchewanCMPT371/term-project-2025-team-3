@@ -17,7 +17,7 @@ interface SquareButtonProps {
   textStyle?: TextStyle;
 }
 
-export default function SquareButton({
+export default function ChinButton({
   path,
   text,
   style,
@@ -29,12 +29,10 @@ export default function SquareButton({
   };
 
   return (
-    <Link href={path as LinkProps['href']} asChild>
+    <Link href={'/test' as LinkProps['href']} asChild>
       <Pressable onPress={logPress}>
         <View style={[styles.container, style]}>
-          <Text style={[styles.text, textStyle]}>
-            {text.replace(' ', '\n')}
-          </Text>
+          <Text style={[styles.text, textStyle]}>{text}</Text>
         </View>
       </Pressable>
     </Link>
@@ -46,7 +44,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#3E6BFF',
     justifyContent: 'center', // Center the text vertically
     alignItems: 'center', // Center the text horizontally
-    borderRadius: 35,
+    borderTopLeftRadius: 35, // Only curve the top corners
+    borderTopRightRadius: 35,
+    paddingVertical: 20,
   },
   text: {
     color: 'white',
