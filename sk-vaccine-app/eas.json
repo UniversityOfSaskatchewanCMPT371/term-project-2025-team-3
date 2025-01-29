@@ -1,17 +1,13 @@
 {
   "cli": {
     "version": ">= 14.4.1",
-    "appVersionSource": "remote"
+    "appVersionSource": "remote",
+    "requireCommit": true
   },
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal",
-      "android": {
-        "image": "latest"
-      },
-      "ios": {
-        "image": "latest"
+      "distribution": "internal"
     },
     "preview": {
       "distribution": "internal"
