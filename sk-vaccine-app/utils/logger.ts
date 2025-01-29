@@ -11,8 +11,6 @@ const logLevels = {
 };
 
 
- 
-
 const logger = reactLogger.createLogger({
   levels: logLevels,
   severity: config.logLevel,
