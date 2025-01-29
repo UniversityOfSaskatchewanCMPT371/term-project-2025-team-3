@@ -1,19 +1,35 @@
-import SquareButton from "@/components/home-btn-square";
-import { Text, View } from "react-native";
+import SquareButton from '@/components/home-btn-square';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-     
-      <SquareButton path={"/"} text="Clinic Information" style={{backgroundColor: "green"}}></SquareButton>
-      <SquareButton path={"/"} text="Vaccine Info"></SquareButton>
-      <SquareButton path={"/"} text="Vaccine Info"></SquareButton>
+    <View style={styles.horizontalContainer}>
+      <View style={styles.btnContainer}>
+        <SquareButton
+          path={'/'}
+          text="Vaccine Info"
+          style={{ backgroundColor: '#FFC250' }}
+        />
+      </View>
+      <View style={styles.btnContainer}>
+        <SquareButton
+          path={'/'}
+          text="Vaccine Info"
+          style={{ backgroundColor: '#FF8787' }}
+        />
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  horizontalContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  btnContainer: {
+    flex: 1,
+  },
+});
