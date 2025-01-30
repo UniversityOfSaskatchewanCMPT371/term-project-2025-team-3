@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, StyleSheet } from 'react-native';
+import { Text, View, TextInput, ScrollView, StyleSheet } from 'react-native';
 
 export default function Page() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [pdfFiles, setPdfFiles] = useState([
+    'FluShield Plus',
+    'ImmuGuard',
+    'ViraSafe',
+    'ProVax',
+    'HealthGuard'
+  ]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -16,9 +23,15 @@ export default function Page() {
         />
       </View>
 
-      {/* Vaccine Info Text */}
-      <View style={styles.infoContainer}>
-        <Text style={styles.infoText}>Vaccine Info</Text>
+      {/* PDF List */}
+      <View style={styles.listContainer}>
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          {pdfFiles.map((file, index) => (
+            <View key={index} style={styles.fileItem}>
+              <Text style={styles.fileText}>{file}</Text>
+            </View>
+          ))}
+        </ScrollView>
       </View>
     </View>
   );
@@ -39,14 +52,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
   },
-  infoContainer: {
+  listContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     padding: 10,
   },
-  infoText: {
-    fontSize: 24,
-    textAlign: 'center',
+  scrollViewContent: {
+    flexGrow: 1,
+  },
+  fileItem: {
+    padding: 15,
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
+  },
+  fileText: {
+    fontSize: 18,
   },
 });
