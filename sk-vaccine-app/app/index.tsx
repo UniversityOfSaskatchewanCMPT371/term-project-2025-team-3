@@ -19,23 +19,7 @@ export default function Index() {
         <Image source={require('@/assets/images/sasklogo-tra.png')} style={{width: 90, height: 120}}/>
         <Text style={{fontSize: 45, flexWrap: 'wrap', flex:1}}>{`Sask\nImmunize`}</Text>
       </View>
-      <View style={styles.horizontalContainer}>
-        <View style={styles.btnContainer}>
-          <SquareButton
-            path={'/vaccine-info'}
-            text="Clinic Info"
-            style={{ backgroundColor: '#74FF99', aspectRatio: 1}}
-          />
-        </View>
-        <View style={styles.btnContainer}>
-          <SquareButton
-            path={'/clinic-info'}
-            text="Clinic Info"
-            textStyle={{color: "black"}}
-            style={{ backgroundColor: '#74FF99', aspectRatio: 1}}
-          />
-        </View>
-      </View>
+     
       <View style={styles.horizontalContainer}>
         <View style={styles.btnContainer}>
           <SquareButton
@@ -81,8 +65,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    gap: 5,
-    paddingHorizontal: 5,
+    gap: 10,
+    paddingHorizontal: 10,
     paddingBottom: 5,
     alignItems: 'center',
   },
