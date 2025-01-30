@@ -8,8 +8,18 @@ export default function Page() {
     'ImmuGuard',
     'ViraSafe',
     'ProVax',
-    'HealthGuard'
+    'HealthGuard',
+    'DefendVax',
+    'InfanShield',
+    'MediProtect',
+    'Safeguard',
+    'LifeShield'
+
   ]);
+
+  const filteredFile = pdfFiles.filter(file =>
+      file.toLowerCase().includes(searchQuery.toLowerCase() )
+  );
 
   return (
     <View style={{ flex: 1 }}>
@@ -26,7 +36,7 @@ export default function Page() {
       {/* PDF List */}
       <View style={styles.listContainer}>
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          {pdfFiles.map((file, index) => (
+          {filteredFile.map((file, index) => (
             <View key={index} style={styles.fileItem}>
               <Text style={styles.fileText}>{file}</Text>
             </View>
