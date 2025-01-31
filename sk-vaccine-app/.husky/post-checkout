@@ -1,0 +1,12 @@
+
+# Get the current branch name
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+# Check if the branch name does not start with "proto"
+if [[ "$current_branch" != proto_* ]]; then
+  # If the branch doesn't start with "proto", remove proto_* directories' node_modules
+  echo "Branch does not start with 'proto', removing proto_* node_modules directories..."
+  npx rimraf proto_*
+else
+  echo "Branch starts with 'proto', skipping removal."
+fi
