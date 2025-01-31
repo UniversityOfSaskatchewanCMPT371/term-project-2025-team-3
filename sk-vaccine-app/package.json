@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "test": "jest",
     "lint": "expo lint",
-    "prepare": "husky"
+    "prepare": "cd .. && husky sk-vaccine-app/.husky"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
