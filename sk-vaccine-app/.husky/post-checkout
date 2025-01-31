@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx rimraf ../proto_*/node_modules
+npx rimraf ../proto_*/*
