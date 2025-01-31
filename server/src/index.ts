@@ -5,12 +5,16 @@ import path from 'path';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get('/testdata', (req: Request, res: Response) => {
 
-    const filename = path.join(__dirname, "../testdata.json");
+/*
+ * Serves up example data at /testdata path
+ *
+ */
+app.get('/testdata', (req: Request, res: Response) => {
+  const filename = path.join(__dirname, '../testdata.json');
 
   // Read the file asynchronously
-  fs.readFile(filename, "utf8", (err, data) => {
+  fs.readFile(filename, 'utf8', (err, data) => {
     if (err) {
       console.error(err);
       return res.status(500).send('Error reading data');

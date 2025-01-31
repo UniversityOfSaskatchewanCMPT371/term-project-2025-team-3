@@ -11,8 +11,14 @@ type ClinicData = {
 export default function Index() {
   const [clinicData, setClinicData] = useState<ClinicData[]>([]);
 
+  /*
+   * Fetches example data from the express server
+   * Sets the clinicData state
+   *
+   */
   async function getClinicData() {
     try {
+      // For the Android emulator the address of the local machine is 10.0.2.2
       const response = await fetch('http://10.0.2.2:3000/testdata');
       const json = await response.json();
       logger.info('Clinic data received');
@@ -23,6 +29,7 @@ export default function Index() {
     }
   }
 
+  // Runs on page load
   useEffect(() => {
     getClinicData();
   }, []);
