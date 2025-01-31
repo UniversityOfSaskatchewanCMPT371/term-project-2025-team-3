@@ -1,5 +1,6 @@
 import SquareButton from '@/components/home-btn-square';
 import { StyleSheet, Text, View, Image } from 'react-native';
+// eslint-disable-next-line
 import logger from '@/utils/logger';
 import ChinButton from '@/components/home-btn-chin';
 import { useNavigation } from 'expo-router';
