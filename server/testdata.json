@@ -1,8 +1,8 @@
 {
-  "Clinics": [
+  "clinics": [
     {
-      "Name": "The Test Clinic",
-      "Address": "111 Clinic Lane"
+      "name": "The Test Clinic",
+      "address": "111 Clinic Lane"
     }
   ]
 }
