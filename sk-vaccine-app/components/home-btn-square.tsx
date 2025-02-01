@@ -17,13 +17,24 @@ interface SquareButtonProps {
   textStyle?: TextStyle;
 }
 
+
+/**
+ * A square button with rounded edges for the home page.
+ * @component
+ * @param {SquareButtonProps} props - The properties of the button.
+ * @param {LinkProps['href']} props.path - The navigation path for the button.
+ * @param {string} props.text - The text displayed inside the button.
+ * @param {ViewStyle} [props.style] - Optional custom styles for the button container.
+ * @param {TextStyle} [props.textStyle] - Optional custom styles for the text inside the button.
+ * @returns {JSX.Element} The rendered button component.
+ */
 export default function SquareButton({
   path,
   text,
   style,
   //onPress,
   textStyle,
-}: SquareButtonProps) {
+}: SquareButtonProps): JSX.Element {
   const logPress = () => {
     logger.info('Square button pressed.');
   };
