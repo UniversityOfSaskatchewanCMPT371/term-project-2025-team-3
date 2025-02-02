@@ -1,15 +1,24 @@
-import { Text, View } from "react-native";
+import { Text, View, Image } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { Link } from 'expo-router';
+import React from "react";
+
+
+
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+    <View>
+      <View>
+        <Link href={"./map"}>Map with offline support</Link>
+      </View>
+
     </View>
+
+
+
+    
   );
 }
+
+
