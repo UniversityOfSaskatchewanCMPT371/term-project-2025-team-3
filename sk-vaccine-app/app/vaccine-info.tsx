@@ -13,7 +13,8 @@ export default function Page() {
     'InfanShield',
     'MediProtect',
     'Safeguard',
-    'LifeShield'
+    'LifeShield',
+    'A_vaccine'
 
   ]);
 
