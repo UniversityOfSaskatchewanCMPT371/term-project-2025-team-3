@@ -1,5 +1,4 @@
-import SquareButton from "@/components/home-btn-square";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 export default function Page() {
   return (
