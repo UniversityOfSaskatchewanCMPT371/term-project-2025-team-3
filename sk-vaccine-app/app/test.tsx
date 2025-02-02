@@ -9,8 +9,8 @@ export default function Page() {
         alignItems: "center",
       }}
     >
-     
-   
+
+
     </View>
   );
 }

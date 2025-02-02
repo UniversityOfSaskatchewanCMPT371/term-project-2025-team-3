@@ -55,8 +55,8 @@ export default function Index() {
         <View style={styles.btnContainer}>
           <SquareButton
             path={'/test'}
-            text="Vaccine Info"
-            style={{ backgroundColor: '#FFC250', aspectRatio: 1 }}
+            text="Booking"
+            style={{ backgroundColor: '#FFC250', aspectRatio: 1}}
           />
         </View>
         <View style={styles.btnContainer}>
