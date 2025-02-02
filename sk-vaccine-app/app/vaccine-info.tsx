@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, ScrollView, StyleSheet } from 'react-native';
 
+// hard code vaccine name(mack) will update and load vaccine name from a folder
 export default function Page() {
   const [searchQuery, setSearchQuery] = useState('');
   const [pdfFiles, setPdfFiles] = useState([
