@@ -13,11 +13,24 @@ export default function Page() {
     'InfanShield',
     'MediProtect',
     'Safeguard',
-    'LifeShield'
+    'LifeShield',
+    'FluShield Plus',
+    'ImmuGuard',
+    'ViraSafe',
+    'ProVax',
+    'HealthGuard',
+    'DefendVax',
+    'InfanShield',
+    'MediProtect',
+    'Safeguard',
+    'LifeShield',
+
 
   ]);
 
+  // filter the PDF files based on the search query
   const filteredFile = pdfFiles.filter(file =>
+      // convert both file name and search query to lowercase for case-insensitive comparsion
       file.toLowerCase().includes(searchQuery.toLowerCase() )
   );
 
