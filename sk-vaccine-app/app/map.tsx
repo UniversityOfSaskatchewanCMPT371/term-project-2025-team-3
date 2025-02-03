@@ -21,7 +21,7 @@ import MapboxGL, {
   UserTrackingMode,
 } from '@rnmapbox/maps';
 import { Position } from '@rnmapbox/maps/lib/typescript/src/types/Position';
-import { fetchUserLocation, manageOfflineData, getBoundingBox, DEFAULT_LOCATION } from '../src/utils/map';
+import { fetchUserLocation, manageOfflineData, getBoundingBox, DEFAULT_LOCATION } from '../src/map';
 
 
 

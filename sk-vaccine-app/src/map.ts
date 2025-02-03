@@ -1,13 +1,3 @@
-/**
- * code mostly from rn mapbox docs:
- * https://rnmapbox.github.io/docs/examples/UserLocation/CustomNativeUserLocation
- * also from:
- * expo location docs:
- * https://docs.expo.dev/versions/latest/sdk/location
- */
-
-
-
 import {
   StyleSheet,
 } from 'react-native';
@@ -19,10 +9,6 @@ import * as Location from 'expo-location';
 
 
 export const DEFAULT_LOCATION: Position = [-106.63950601098527, 52.13000521154595];
-const OFFLINE_MAP_WIDTH = 0.27; // in longitude
-const OFFLINE_MAP_HEIGHT = 0.27; // in latitude
-const OFFLINE_MIN_ZOOM = 10;
-const OFFLINE_MAX_ZOOM = 20
 
 
 
@@ -43,17 +29,29 @@ export const deleteAllOfflinePacks = async () => {
 };
 
 
+
 /**
  * downloads map area around user
  * @param centerCord the cordinate that the data should be loaded around
+ * @param width the width of the box in degrees of longitude
+ * @param height the height of the box in degrees of latitude
+ * @param minZoom the minimum zoom height to download
+ * @param maxZoom the maximum zoom height to download
  */
-export const downloadOfflinePack = async (centerCord: Position) => {
+export async function downloadOfflinePack(
+  centerCord: Position, 
+  width = 0.27,
+  height = 0.27,
+  minZoom = 10,
+  maxZoom = 20
+): Promise<void>{
+
   const options = {
     name: 'offlinePack',
     styleURL: 'mapbox://styles/mapbox/streets-v11',
-    bounds: getBoundingBox(centerCord),
-    minZoom: OFFLINE_MIN_ZOOM,
-    maxZoom: OFFLINE_MAX_ZOOM,
+    bounds: getBoundingBox(centerCord, width, height),
+    minZoom: minZoom,
+    maxZoom: maxZoom,
   };
 
   const progressListener = (_region: any, status: { percentage: number }) => {
@@ -92,15 +90,18 @@ export const fetchUserLocation = async (): Promise<Position | null> => {
 };
 
 
+
 /**
  * calculates the box around the postion to download
  * @param position the postion the box should be around
+ * @param width the width of the box in degrees of longitude
+ * @param height the height of the box in degrees of latitude
  * @returns the ne and sw position
  */
-export const getBoundingBox = (position: Position): [Position, Position] => {
+export const getBoundingBox = (position: Position, width: number, height: number): [Position, Position] => {
   return [
-    [position[0] - OFFLINE_MAP_WIDTH, position[1] - OFFLINE_MAP_HEIGHT],
-    [position[0] + OFFLINE_MAP_WIDTH, position[1] + OFFLINE_MAP_HEIGHT],
+    [position[0] - width/2, position[1] - height/2],
+    [position[0] + width/2, position[1] + height/2],
   ];
 };
 
