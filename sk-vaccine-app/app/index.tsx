@@ -5,6 +5,18 @@ import logger from '@/utils/logger';
 import ChinButton from '@/components/home-btn-chin';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
+import {
+  PATH_VACCINE_INFO,
+  CLINIC_INFO,
+} from '../utils/constPaths'
+
+
+export const TITLE_TEXT = "Sask\nImmunize";
+export const CLINIC_BTN_TEXT = "Clinic Information";
+export const BOOKING_BTN_TEXT = "Booking";
+export const RECORDS_BTN_TEXT = "My Records";
+export const VACCINE_BTN_TEXT = "Vaccine Info";
+
 
 /**
  * The home screen of the Sask Immunize app.
@@ -31,21 +43,21 @@ export default function Index() {
         <Image source={saskLogo} style={{ width: 90, height: 120 }} />
         <Text
           style={{ fontSize: 45, flexWrap: 'wrap', flex: 1 }}
-        >{`Sask\nImmunize`}</Text>
+        >{TITLE_TEXT}</Text>
       </View>
 
       <View style={styles.horizontalContainer}>
         <View style={styles.btnContainer}>
           <SquareButton
-            path={'/vaccine-info'}
-            text="Vaccine Info"
+            path={PATH_VACCINE_INFO}
+            text={VACCINE_BTN_TEXT}
             style={{ backgroundColor: '#3E6BFF', aspectRatio: 1 }}
           />
         </View>
         <View style={styles.btnContainer}>
           <SquareButton
-            path={'/clinic-info'}
-            text="Clinic Information"
+            path={CLINIC_INFO}
+            text={CLINIC_BTN_TEXT}
             textStyle={{ color: 'black' }}
             style={{ backgroundColor: '#74FF99', aspectRatio: 1 }}
           />
@@ -55,20 +67,20 @@ export default function Index() {
         <View style={styles.btnContainer}>
           <SquareButton
             path={'/test'}
-            text="Booking"
+            text={BOOKING_BTN_TEXT}
             style={{ backgroundColor: '#FFC250', aspectRatio: 1}}
           />
         </View>
         <View style={styles.btnContainer}>
           <SquareButton
             path={'/test'}
-            text="Vaccine Info"
+            text="Test"
             style={{ backgroundColor: '#FF8787', aspectRatio: 1 }}
           />
         </View>
       </View>
       <View>
-        <ChinButton path={'/test'} text="My Records" />
+        <ChinButton path={'/test'} text={RECORDS_BTN_TEXT} />
       </View>
     </View>
   );
