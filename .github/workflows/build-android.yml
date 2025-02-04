@@ -1,7 +1,9 @@
 name: "Build Android app prototype"
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - build_actions_proto
 
 jobs:
   build:
