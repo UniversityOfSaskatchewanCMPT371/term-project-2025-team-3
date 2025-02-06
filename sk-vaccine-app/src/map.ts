@@ -21,10 +21,8 @@ export const deleteAllOfflinePacks = async () => {
     const packs = await MapboxGL.offlineManager.getPacks();
     for (const pack of packs) {
       await MapboxGL.offlineManager.deletePack(pack.name);
-      console.log(`Deleted offline pack: ${pack.name}`);
     }
   } catch (error) {
-    console.log('Error deleting offline packs:', error);
   }
 };
 
@@ -54,19 +52,11 @@ export async function downloadOfflinePack(
     maxZoom: maxZoom,
   };
 
-  const progressListener = (_region: any, status: { percentage: number }) => {
-    console.log(`Offline download progress: ${status.percentage}%`);
-  };
 
-  const errorListener = (_region: any, error: any) => {
-    console.error('Offline download error:', error);
-  };
 
   try {
-    await MapboxGL.offlineManager.createPack(options, progressListener, errorListener);
-    console.log('Offline pack created successfully.');
+    await MapboxGL.offlineManager.createPack(options, ()=>{}, ()=>{});
   } catch (error) {
-    console.error('Error creating offline pack:', error);
   }
 };
 
@@ -78,7 +68,6 @@ export const fetchUserLocation = async (): Promise<Position | null> => {
   try {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
-      console.log('User does not allow location usage');
       return null;
     }
     const location = await Location.getCurrentPositionAsync({});

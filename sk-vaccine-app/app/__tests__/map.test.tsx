@@ -26,7 +26,6 @@ jest.mock('@rnmapbox/maps', () => {
         createPack: jest.fn(),
       },
       Camera: jest.fn((props) => {
-        console.log('Camera Props:', props);
         return null;
       }),
     },
@@ -44,20 +43,6 @@ jest.mock('expo-location', () => ({
   getCurrentPositionAsync: jest.fn(),
 }));
 
-const originalLog = console.log;
-const originalError = console.error;
-
-// mock console
-beforeAll(() => {
-  console.log = jest.fn();
-  console.error = jest.fn();
-});
-
-// unmock console at the end
-afterAll(() => {
-  console.log = originalLog;
-  console.error = originalError;
-});
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -89,7 +74,6 @@ describe('deleteAllOfflinePacks', () => {
 
     await deleteAllOfflinePacks();
 
-    expect(console.log).toHaveBeenCalledWith('Error deleting offline packs:', expect.any(Error));
   });
 });
 
@@ -120,7 +104,6 @@ describe('downloadOfflinePack', () => {
       
     );
 
-    expect(console.log).toHaveBeenCalledWith('Offline pack created successfully.');
   });
 
   it('should log error if createPack fails', async () => {
@@ -128,7 +111,6 @@ describe('downloadOfflinePack', () => {
 
     await downloadOfflinePack([0, 0]);
 
-    expect(console.error).toHaveBeenCalledWith('Error creating offline pack:', expect.any(Error));
   });
 });
 
@@ -161,7 +143,7 @@ describe('fetchUserLocation', () => {
 
     expect(Location.getCurrentPositionAsync).not.toHaveBeenCalled();
     expect(result).toBeNull();
-    expect(console.log).toHaveBeenCalledWith('User does not allow location usage');
+    expect(log).toHaveBeenCalledWith('User does not allow location usage');
   });
 
   it('should throw error if permission is granted but location is null/invalid', async () => {

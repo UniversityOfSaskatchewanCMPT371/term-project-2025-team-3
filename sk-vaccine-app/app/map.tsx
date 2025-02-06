@@ -42,8 +42,6 @@ export default function OfflineMapWithUserLocation() {
         setUserLocation(tempLocation);
       }
 
-
-      console.log("initial user location: ", userLocation);
       manageOfflineData(userLocation);
     };
 
