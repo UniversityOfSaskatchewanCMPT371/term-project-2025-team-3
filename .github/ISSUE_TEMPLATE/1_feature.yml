@@ -7,7 +7,8 @@ body:
       value: |
          ### Intended Use
          This issue is intended to be used when detailing features discussed by the group, if it is a self decided request a separate template must be used
-  - type: checkboxex
+  - type: checkboxes
+    id: affected-architecture
     attributes:
       label: What architecture is affected be this feature
       description: What will be changed and or effected.
