@@ -69,17 +69,17 @@ body:
     attributes:
       label: Can the system still run with this bug present?
       options:
-      - label: Yes
+      - label: "Yes"
         required: false
-      - label: No
+      - label: "No"
         required: false
   - type: checkboxes
     id: recoverable
     attributes:
       label: Does this bug crash the system? Does it recover?
       options:
-      - label: Yes
+      - label: "Yes"
         required: false
-      - label: No
+      - label: "No"
         required: false
     
