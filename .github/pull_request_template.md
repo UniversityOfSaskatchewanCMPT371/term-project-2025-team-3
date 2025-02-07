@@ -1,5 +1,7 @@
-## What does this PR do?
-### Resolves Issue: #XXXX (Github issue number)
+## What does this PR do? Issue: #XXXX 
+<!-- Github issue number -->
+
+### Brief Summary / Bullet Points
 
 <!-- Please include a summary of the change and which issue is fixed. Feel free to include screenshots or links as neccesary -->
 
