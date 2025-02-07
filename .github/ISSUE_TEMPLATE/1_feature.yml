@@ -33,9 +33,3 @@ body:
       description: What new files should be created and which should be modified?
     validations:
       required: true
-  - type: input
-    id: 
-    attributes:
-      label: Your company or customer's name goes here (if applicable).
-    validations:
-      required: false
