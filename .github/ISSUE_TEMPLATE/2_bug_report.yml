@@ -1,6 +1,6 @@
 name: 🐛 Bug Report
 description: Report a bug that needs to be fixed
-labels: [ "Bug" ]
+labels: "Bug"
 body:
   - type: checkboxes
     attributes:
