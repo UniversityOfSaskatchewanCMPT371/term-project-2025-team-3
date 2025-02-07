@@ -1,4 +1,5 @@
 name: Feature
+title: "[Feature]: "
 description: This template is intended to detail features which can be assigned amongst the team
 labels: [ "Feature", "New", "Deliverable 2" ]
 body:
