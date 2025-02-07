@@ -1,0 +1,85 @@
+name: 🐛 Bug Report
+description: Report a bug that needs to be fixed
+labels: Bug
+body:
+  - type: checkboxes
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I have already run all apllicable tests
+          required: true
+        
+        - label: I have ensured that this bug has not yet been reported
+          required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Describe the bug and add attachments
+      description: What went wrong? If possible, add screenshots, error logs or screen recordings to help explain your problem.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: Explain what you expected to happen instead.
+    validations:
+      required: false
+  - type: textarea
+    id: steps-reproduce
+    attributes:
+      label: Steps to reproduce (if applicable)
+      description: List the exact steps to reproduce the issue.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: false
+  - type: input
+    id: nodejs-version
+    attributes:
+      label: What version of NodeJS are you running
+      description: Get this value running `node -v`
+      placeholder: "e.g., 1.7.5.2 or 1.7.8.0"
+    validations:
+      required: true
+  - type: input
+    id: branch
+    attributes:
+      label: What branch was this bug found?
+    validations:
+      required: false
+  - type: checkboxes
+    id: affected-region
+    attributes:
+      label: What region of the architecture is affected by this bug
+      options:
+        - label: Frontend/Visual
+          required: false
+        - label: Backend/Logic
+          required: false
+        - label: Backend/Data
+          required: false
+    validations:
+      required: false
+  - type: checkboxes
+    id: runnable
+    attributes:
+      label: Can the system still run with this bug present?
+      options:
+      - label: "Yes"
+        required: false
+      - label: "No"
+        required: false
+  - type: checkboxes
+    id: recoverable
+    attributes:
+      label: Does this bug crash the system? Does it recover?
+      options:
+      - label: "Yes"
+        required: false
+      - label: "No"
+        required: false
+    
