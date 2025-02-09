@@ -41,12 +41,14 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        working-directory: ./sk-vaccine-app
 
       - name: Build Android app
         run: eas build --platform android --profile preview --local --output ${{ github.workspace }}/app-release.apk
-
+        working-directory: ./sk-vaccine-app
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release
           path: ${{ github.workspace }}/app-release.apk
+          working-directory: ./sk-vaccine-app
