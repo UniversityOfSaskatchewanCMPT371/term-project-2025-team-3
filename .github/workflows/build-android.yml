@@ -5,61 +5,72 @@ on:
     branches:
       - build_actions_proto
 
+
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
     steps:
+      # 1. Checkout the repository.
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # - name: Install Java
-      #   uses: actions/setup-java@v3
-      #   with:
-      #     java-version: 17
-      #     distribution: temurin
-      #     cache: gradle
-      
-      - name: Set up Node.js
+      # 2. Setup Node.js.
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'yarn'
 
-      # - name: Validate Gradle wrapper
-      #   uses: gradle/wrapper-validation-action@v1
+      # 3. Setup Expo CLI and EAS CLI.
+      - name: Setup Expo
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
 
-      # - name: Setup Node
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '18'
-      #     cache: 'yarn'
-
-      # - name: Run Yarn Install
-      #   run: yarn install
-
-      # - name: Build application
-      #   run: |
-      #        cd android
-      #        ./gradlew assembleRelease
-
+      # 4. Install dependencies.
       - name: Install dependencies
-        run: npm install
-        working-directory: sk-vaccine-app
+        run: yarn install
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: '17'
+      # 5. Trigger the Android build.
+      # This command starts an EAS build. (Adjust your flags/profile as needed.)
+      - name: Start EAS Android Build
+        id: build
+        run: |
+          eas build --platform android --non-interactive --profile production > build_output.txt
+          BUILD_ID=$(grep -o 'Build ID: [^ ]*' build_output.txt | awk '{print $3}')
+          echo "::set-output name=build_id::$BUILD_ID"
 
-      - name: Install Android SDK
-        uses: android-actions/setup-android@v2
-        with:
-          api-level: 35
-          build-tools-version: 35.0.0
+      # 6. Wait for build completion (this may be done via a custom script or CLI polling).
+      - name: Wait for build to complete
+        run: |
+          eas build:wait --build-id ${{ steps.build.outputs.build_id }}
 
-      - name: Upload application
-        uses: actions/upload-artifact@v4
+      # 7. Download the build artifact.
+      - name: Download Android Build
+        run: |
+          mkdir -p build
+          eas build:download --build-id ${{ steps.build.outputs.build_id }} --output build/app.apk
+
+      # 8. Create a GitHub release.
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: app
-          path: android/app/build/outputs/apk/release/app-release.apk
-          retention-days: 3
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+
+      # 9. Upload the APK as a release asset.
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/app.apk
+          asset_name: app.apk
+          asset_content_type: application/vnd.android.package-archive
