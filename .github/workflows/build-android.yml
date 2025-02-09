@@ -19,7 +19,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'yarn'
 
       # 3. Setup Expo CLI and EAS CLI.
       - name: Setup Expo
@@ -30,10 +29,10 @@ jobs:
 
       # 4. Install dependencies.
       - name: Install dependencies
-        run: yarn install
+        run: npm install
+        working-directory: sk-vaccine-app
 
       # 5. Trigger the Android build.
-      # This command starts an EAS build. (Adjust your flags/profile as needed.)
       - name: Start EAS Android Build
         id: build
         run: |
@@ -41,7 +40,7 @@ jobs:
           BUILD_ID=$(grep -o 'Build ID: [^ ]*' build_output.txt | awk '{print $3}')
           echo "::set-output name=build_id::$BUILD_ID"
 
-      # 6. Wait for build completion (this may be done via a custom script or CLI polling).
+      # 6. Wait for build completion.
       - name: Wait for build to complete
         run: |
           eas build:wait --build-id ${{ steps.build.outputs.build_id }}
