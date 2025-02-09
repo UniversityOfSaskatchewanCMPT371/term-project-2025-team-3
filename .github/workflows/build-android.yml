@@ -38,6 +38,7 @@ jobs:
           eas build --platform android --non-interactive --profile production > build_output.txt
           BUILD_ID=$(grep -o 'Build ID: [^ ]*' build_output.txt | awk '{print $3}')
           echo "::set-output name=build_id::$BUILD_ID"
+        working-directory: sk-vaccine-app
 
       # 6. Wait for build completion.
       - name: Wait for build to complete
