@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./sk-vaccine-app
+        working-directory: sk-vaccine-app
     steps:
       - name: Setup repo
         uses: actions/checkout@v4
@@ -22,15 +22,22 @@ jobs:
         with:
           node-version: 18.x
           cache: 'npm'
+          working-directory: sk-vaccine-app
+          
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+          working-directory: sk-vaccine-app
+
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        
+
+
 
       - name: Setup Expo
         uses: expo/expo-github-action@v8
@@ -41,14 +48,14 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: ./sk-vaccine-app
+        working-directory: sk-vaccine-app
 
       - name: Build Android app
         run: eas build --platform android --profile preview --local --output ${{ github.workspace }}/app-release.apk
-        working-directory: ./sk-vaccine-app
+        working-directory: sk-vaccine-app
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release
           path: ${{ github.workspace }}/app-release.apk
-          working-directory: ./sk-vaccine-app
+          working-directory: sk-vaccine-app
