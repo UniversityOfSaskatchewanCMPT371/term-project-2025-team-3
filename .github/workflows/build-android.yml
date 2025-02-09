@@ -35,6 +35,7 @@ jobs:
       - name: Start EAS Android Build
         id: build
         run: |
+          ls
           eas build --platform android --non-interactive --profile production > build_output.txt
           BUILD_ID=$(grep -o 'Build ID: [^ ]*' build_output.txt | awk '{print $3}')
           echo "::set-output name=build_id::$BUILD_ID"
