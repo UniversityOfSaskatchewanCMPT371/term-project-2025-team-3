@@ -3,7 +3,7 @@ name: "Build Android app prototype"
 on:
   push:
     branches:
-      - build_actions_proto
+      - build_actions_android
 
 
 jobs:
