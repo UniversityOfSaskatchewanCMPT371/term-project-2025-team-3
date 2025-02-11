@@ -29,7 +29,7 @@
     "date-fns": "^4.1.0",
     "eas-cli": "^14.5.0",
     "expo": "~52.0.27",
-    "expo-blur": "~14.0.2",
+    "expo-blur": "^14.0.3",
     "expo-constants": "~17.0.4",
     "expo-dev-client": "~5.0.10",
     "expo-font": "~13.0.3",
