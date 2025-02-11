@@ -127,7 +127,7 @@ describe('Unit tests for useLocation', () => {
         // wait for it to stop loading
         await waitFor(() => expect(result.current.loading).toBe(false));
         expect(result.current.error).toEqual("Cannot access user's location");
-        expect(result.current.isEnabled).toBe(true);
+        expect(result.current.isEnabled).toEqual(true);
         expect(result.current.location).toBeNull();
 
     });

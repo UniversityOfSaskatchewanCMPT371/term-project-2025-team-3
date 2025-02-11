@@ -44,7 +44,6 @@ export default class LocationData implements iLocationData {
      * @returns true if permission is granted, false otherwise.
      */
     async requestPermission(): Promise<boolean> {
-
         return (await Location.requestForegroundPermissionsAsync()).granted;
     }
 

@@ -7,8 +7,6 @@
 export default interface iLocationData {
 
 
-
-
     
     /**
      * Checks if the user allows the app to access their location.
