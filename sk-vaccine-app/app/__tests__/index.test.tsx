@@ -1,12 +1,16 @@
 import React, { ReactNode } from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
+
 import Index, {TITLE_TEXT, CLINIC_BTN_TEXT, BOOKING_BTN_TEXT, RECORDS_BTN_TEXT, VACCINE_BTN_TEXT} from '../index';
+
+
 import {
     PATH_HOME,
     PATH_VACCINE_INFO,
     CLINIC_INFO,
 } from '../../utils/constPaths'
 import SquareButton from '@/components/home-btn-square';
+
 
 
 import { useNavigation } from 'expo-router';
@@ -69,7 +73,7 @@ beforeEach(() => {
 
     
     // make useNavigation return the mock object
-    (useNavigation as jest.Mock).mockReturnValue(mockNavigation);
+    useNavigation.mockReturnValue(mockNavigation);
 
 });
 
