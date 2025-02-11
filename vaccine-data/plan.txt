@@ -1,0 +1,5 @@
+openning the web page https://www.saskhealthauthority.ca/your-health/conditions-illnesses-services-wellness/all-z/immunizations/immunizations-services-and-locations
+find the date of each clinic (information)
+make a json file
+save the time
+
