@@ -46,7 +46,7 @@ export default function useLocation(locationService: iLocationData): LocationRes
             
             if (enabled || (await locationService.requestPermission())) {
                 /* if location permision is granted */
-
+                enabled = true;
                 try {
                     const loc = await locationService.getLocation();
                     setLocation(loc);
