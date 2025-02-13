@@ -1,7 +1,7 @@
 ---
 name: Feature
 title: "[Feature] "
-description: This template is intended to detail features which can be assigned amongst the team
+about: This template is intended to detail features which can be assigned amongst the team
 labels: [ "Feature", "Deliverable 2" ]
 ---
 ## What architecture is affected by this feature
