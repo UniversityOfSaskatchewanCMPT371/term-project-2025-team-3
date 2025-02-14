@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "tsc scrape-clinic-info.ts && node scrape-clinic-info.js"
+    "start": "node scrape-clinic-info.js"
   },
   "dependencies": {
     "puppeteer": "^24.2.0",
