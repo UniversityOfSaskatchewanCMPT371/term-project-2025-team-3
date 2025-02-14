@@ -2,6 +2,9 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
+// Use set environment browser if set, if not use puppeteer chromium
+const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath();
+
 // Check for the "Next" and controlling the flag
 async function getNextButton(page){
   const nextButton = await page.$('.paginate_button.next:not(.disabled)');
@@ -16,7 +19,7 @@ async function getNextButton(page){
 // Function for scrapping the data of each page
 async function pageDataCollecting() {
   // Launch the browser and open a new blank page
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({executablePath});
   const page = await browser.newPage();
   
   // Variables
