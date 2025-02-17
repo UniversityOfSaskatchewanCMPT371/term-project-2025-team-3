@@ -34,7 +34,8 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-sqlite"
     ],
     "expo": {
       "plugins": [
@@ -46,7 +47,6 @@
         ]
       ]
     },
-
     "experiments": {
       "typedRoutes": true
     },

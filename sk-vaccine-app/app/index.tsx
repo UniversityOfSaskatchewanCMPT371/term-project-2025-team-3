@@ -1,3 +1,7 @@
+if (typeof __non_webpack_require__ === "undefined") {
+  (global as any).__non_webpack_require__ = require;
+}
+
 import SquareButton from '@/components/home-btn-square';
 import { StyleSheet, Text, View, Image } from 'react-native';
 // eslint-disable-next-line
@@ -9,6 +13,7 @@ import {
   PATH_VACCINE_INFO,
   CLINIC_INFO,
 } from '../utils/constPaths'
+import DatabaseInitializer from '@/components/db-init';
 
 
 export const TITLE_TEXT = "Sask\nImmunize";
@@ -38,51 +43,54 @@ export default function Index() {
   }, [navigation]);
 
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
-        <Image source={saskLogo} style={{ width: 90, height: 120 }} />
-        <Text
-          style={{ fontSize: 45, flexWrap: 'wrap', flex: 1 }}
-        >{TITLE_TEXT}</Text>
-      </View>
+    <DatabaseInitializer>
+      <View style={{ flex: 1 }}>
+        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+          <Image source={saskLogo} style={{ width: 90, height: 120 }} />
+          <Text
+            style={{ fontSize: 45, flexWrap: 'wrap', flex: 1 }}
+          >{TITLE_TEXT}</Text>
+        </View>
 
-      <View style={styles.horizontalContainer}>
-        <View style={styles.btnContainer}>
-          <SquareButton
-            path={PATH_VACCINE_INFO}
-            text={VACCINE_BTN_TEXT}
-            style={{ backgroundColor: '#3E6BFF', aspectRatio: 1 }}
-          />
+        <View style={styles.horizontalContainer}>
+          <View style={styles.btnContainer}>
+            <SquareButton
+              path={PATH_VACCINE_INFO}
+              text={VACCINE_BTN_TEXT}
+              style={{ backgroundColor: '#3E6BFF', aspectRatio: 1 }}
+            />
+          </View>
+          <View style={styles.btnContainer}>
+            <SquareButton
+              path={CLINIC_INFO}
+              text={CLINIC_BTN_TEXT}
+              textStyle={{ color: 'black' }}
+              style={{ backgroundColor: '#74FF99', aspectRatio: 1 }}
+            />
+          </View>
         </View>
-        <View style={styles.btnContainer}>
-          <SquareButton
-            path={CLINIC_INFO}
-            text={CLINIC_BTN_TEXT}
-            textStyle={{ color: 'black' }}
-            style={{ backgroundColor: '#74FF99', aspectRatio: 1 }}
-          />
+        <View style={styles.horizontalContainer}>
+          <View style={styles.btnContainer}>
+            <SquareButton
+              path={'/test'}
+              text={BOOKING_BTN_TEXT}
+              style={{ backgroundColor: '#FFC250', aspectRatio: 1}}
+            />
+          </View>
+          <View style={styles.btnContainer}>
+            <SquareButton
+              path={'/test'}
+              text="Test"
+              style={{ backgroundColor: '#FF8787', aspectRatio: 1 }}
+            />
+          </View>
+        </View>
+        <View>
+          <ChinButton path={'/test'} text={RECORDS_BTN_TEXT} />
         </View>
       </View>
-      <View style={styles.horizontalContainer}>
-        <View style={styles.btnContainer}>
-          <SquareButton
-            path={'/test'}
-            text={BOOKING_BTN_TEXT}
-            style={{ backgroundColor: '#FFC250', aspectRatio: 1}}
-          />
-        </View>
-        <View style={styles.btnContainer}>
-          <SquareButton
-            path={'/test'}
-            text="Test"
-            style={{ backgroundColor: '#FF8787', aspectRatio: 1 }}
-          />
-        </View>
-      </View>
-      <View>
-        <ChinButton path={'/test'} text={RECORDS_BTN_TEXT} />
-      </View>
-    </View>
+    </DatabaseInitializer>
+
   );
 }
 

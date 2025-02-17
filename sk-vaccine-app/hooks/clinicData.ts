@@ -1,4 +1,6 @@
-import iClinicData, { ClinicArray } from "@/interfaces/iClincData";
+import iClinicData from "@/interfaces/iClinicData";
+import { ClinicArray } from "@/services/clinicDataService";
+import { useEffect, useState } from "react";
 
 
 
@@ -42,12 +44,12 @@ class ClinicResults {
  * Retrieves clinic data.
  *
  * @param {Object} data The configuration for getting clinic information.
- * @param {iClinicData} [data.clinicService] The interface to use to access clinic data.
+ * @param {iClinicData} data.clinicService The interface to use to access clinic data.
  * @param {string} [data.url] The URL to retrieve the json formatted clinic data from. 
  *   If null only retrieves files stored on device.
  * @param {string} [data.searchValue] Value to search for in the list of clinics. 
  *   If null it gets all of the clinics.
- * @param {number} [data.searchColumn] The column to search for `seachValue` in. 
+ * @param {string} [data.searchColumn] The column to search for `searchValue` in. 
  *   Ignored unless `searchValue` is set. If null, all columns are searched.
  *
  * @returns {ClinicResults} Object representing the current status of clinic data loading, containing:
@@ -61,9 +63,74 @@ class ClinicResults {
  *      An error message if an error occurred, or `null` if no error.
  */
 export default function useClinicData(
-    data: {clinicService: iClinicData, url?:string, searchValue?:string, searchColumn?:number}
+    data: {clinicService: iClinicData, url?:string, searchValue?:string, searchColumn?:string}
 ): ClinicResults {
+    const {clinicService, url, searchValue, searchColumn} = data;
+    
+    const [clinics, setClinics] = useState<ClinicArray|null>(null);
+    const [loading, setLoading] = useState(true);
+    const [accessFailed, setAccessFailed] = useState(false);
+    const [error, setError] = useState<string|null>(null);
 
 
-    return new ClinicResults({});
+
+    useEffect(() => {
+        const fetchResults = async () => {
+            try {
+                // If a url is provided get remote data
+                if (url) {
+                    try {
+                        const response = await fetch(url);
+                        if (!response.ok) {
+                            setAccessFailed(true);
+                            setError(response.statusText);
+                        } else {
+                            const jsonResponse = await response.json();
+                            
+                            const remoteClinics = new ClinicArray(jsonResponse);
+                            // only store remote clinics if they are more recent
+                            if (remoteClinics.timeStamp > (await clinicService.getTimeStamp())) {
+                                await clinicService.storeClinics(remoteClinics);
+                            }
+                        }
+                    } catch (fetchError) {
+                        setAccessFailed(true);
+                        setError(String(fetchError));
+                    }
+                }
+                
+                // retrieve clinics from storage
+                let storedClinics: ClinicArray | null;
+                if (searchValue && searchColumn) {
+                    storedClinics = await clinicService.searchClinics(searchValue, searchColumn);
+                } else if (searchValue) {
+                    storedClinics = await clinicService.searchClinics(searchValue);
+                } else {
+                    storedClinics = await clinicService.getClinics();
+                }
+
+                setClinics(storedClinics);
+            } catch (error) {
+                // this catches errors thrown by clinicService methods (like EmptyStorageError or InvalidArgumentError)
+                setError(String(error));
+            } finally {
+                setLoading(false);
+            }
+        };
+
+
+        fetchResults();
+
+    }, [clinicService, url, searchValue, searchColumn]);
+
+    
+
+    const response = {
+        clinicArray: clinics,
+        loading: loading,
+        serverAccessFailed: accessFailed,
+        error: error,
+    };
+
+    return response;
 }
