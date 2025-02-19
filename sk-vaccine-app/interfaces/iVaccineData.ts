@@ -19,10 +19,14 @@ export type VaccineSheet = {
     */
 );
 
+export interface iVaccineDataController {
+
+}
 
 
 
-export default interface iVaccineData {
+
+export interface iVaccineDataService {
 
     /**
     * Gets a list of all vaccines stored on device.

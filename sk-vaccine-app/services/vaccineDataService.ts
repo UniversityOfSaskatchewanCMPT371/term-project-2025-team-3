@@ -1,6 +1,6 @@
-import iVaccineData, { VaccineSheet } from "@/interfaces/iVaccineData";
+import { iVaccineDataService, VaccineSheet } from "@/interfaces/iVaccineData";
 
-class VaccineData implements iVaccineData {
+export class VaccineDataService implements iVaccineDataService {
     updateVaccines(): boolean {
         throw new Error("Method not implemented.");
     }
