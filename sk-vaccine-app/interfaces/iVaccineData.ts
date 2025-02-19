@@ -31,4 +31,22 @@ export default interface iVaccineData {
     getVaccines(): VaccineSheet[];
 
 
+    /**
+    * Makes a request to update the vaccine PDFs
+    * @return true if the update was sucessfull, and false if 
+    * there was an error
+    */
+    updateVaccines(): boolean;
+
+    /**
+    * Search for vaccine sheets that are stored on device.
+    * @param input The value to search for.
+    * @param field The field to search in, might be removed might be
+    * updated to reflect multiple options
+    * @return A list of vaccine sheets filtered by the input
+    */
+    searchVaccines(input:string, field?:string): VaccineSheet;
+
+
+
 }
