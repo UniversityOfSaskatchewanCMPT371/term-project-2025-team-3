@@ -1,6 +1,7 @@
-import { AppDataSource } from "@/database/data-source";
 import logger from "@/utils/logger";
 import { useEffect, useState } from "react";
+import * as SQLite from 'expo-sqlite';
+import BaseEntity from "@/myorm/base-entity";
 
 
 
@@ -12,6 +13,7 @@ export class InitDataSourceResults {
 }
 
 
+const DB_NAME = "sk-vaccine-app.db"
 
 
 /**
@@ -26,8 +28,9 @@ export default function useInitDataSource(): InitDataSourceResults {
           
 
 
-        AppDataSource.initialize()
-            .then(() => {
+        SQLite.openDatabaseAsync(DB_NAME)
+            .then((db) => {
+                BaseEntity.db = db;
                 logger.debug("Database initialized successfully:");
                 setIsReady(true);
             })

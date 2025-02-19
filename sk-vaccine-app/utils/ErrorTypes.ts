@@ -1,22 +1,37 @@
-export class InvalidArgumentError extends Error {
-    constructor(message: string) {
-      super(message);
-      this.name = "InvalidArgumentError";
+import logger from "./logger";
+
+export class MyError extends Error {
+    constructor(message: string, name: string) {
+        super(message);
+        this.name = name;
+        logger.error(`${this.name}: ${this.message}`);
     }
 }
 
 
-export class EmptyStorageError extends Error {
+export class InvalidEntityError extends MyError {
     constructor(message: string) {
-        super(message);
-        this.name = "EmptyStorageError";
+        super(message, "InvalidEntityError");
+    }
+}
+
+
+export class InvalidArgumentError extends MyError {
+    constructor(message: string) {
+      super(message, "InvalidArgumentError");
+    }
+}
+
+
+export class EmptyStorageError extends MyError {
+    constructor(message: string) {
+        super(message, "EmptyStorageError");
     } 
 }
 
 
-export class LocationAccessError extends Error {
+export class LocationAccessError extends MyError {
     constructor(message: string) {
-        super(message);
-        this.name = "LocationAccessError";
+        super(message, "LocationAccessError");
     }
 }

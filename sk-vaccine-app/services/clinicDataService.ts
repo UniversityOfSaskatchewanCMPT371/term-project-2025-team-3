@@ -1,5 +1,5 @@
-import ClinicEntity from "@/database/clinic-entity";
-import { AppDataSource } from "@/database/data-source";
+import ClinicEntity from "@/myorm/clinic-entity";
+import { AppDataSource } from "@/myorm/data-source";
 import iClinicData from "@/interfaces/iClinicData";
 import { EmptyStorageError, InvalidArgumentError } from "@/utils/ErrorTypes";
 import AsyncStorage from '@react-native-async-storage/async-storage';

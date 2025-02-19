@@ -5,8 +5,6 @@
     "baseUrl": ".",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strictPropertyInitialization": false,
-    "useDefineForClassFields": false,
     "paths": {
       "@/*": [
         "./*"

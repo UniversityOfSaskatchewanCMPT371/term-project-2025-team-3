@@ -2,7 +2,7 @@
 
 
 import iLocationData from "@/interfaces/iLocationData";
-import { LocationAccessError } from "@/services/locationDataService";
+import { LocationAccessError } from "@/utils/ErrorTypes";
 import { useState, useEffect } from 'react';
 import { isEnabled } from "react-native/Libraries/Performance/Systrace";
 

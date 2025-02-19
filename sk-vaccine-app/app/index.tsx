@@ -1,6 +1,4 @@
-if (typeof __non_webpack_require__ === "undefined") {
-  (global as any).__non_webpack_require__ = require;
-}
+
 
 import SquareButton from '@/components/home-btn-square';
 import { StyleSheet, Text, View, Image } from 'react-native';
@@ -43,7 +41,6 @@ export default function Index() {
   }, [navigation]);
 
   return (
-    <DatabaseInitializer>
       <View style={{ flex: 1 }}>
         <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
           <Image source={saskLogo} style={{ width: 90, height: 120 }} />
@@ -89,7 +86,6 @@ export default function Index() {
           <ChinButton path={'/test'} text={RECORDS_BTN_TEXT} />
         </View>
       </View>
-    </DatabaseInitializer>
 
   );
 }

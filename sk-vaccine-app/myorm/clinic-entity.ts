@@ -1,36 +1,42 @@
 import { Clinic } from '@/services/clinicDataService';
 import "reflect-metadata";
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import { Column, Entity } from './decorators';
+import BaseEntity from './base-entity';
+
+// TODO make sure that the table is deleted and rebuilt if
+// the fields do not match
+
+
 
 @Entity()
 export default class ClinicEntity extends BaseEntity implements Clinic {
 
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
-  @Column("real", { nullable: true })
+  @Column({ isNullable: true })
   latitude?: number;
   
-  @Column("real", { nullable: true })
+  @Column({ isNullable: true })
   longitude?: number;
   
-  @Column("text")
-  serviceArea: string;
+  @Column()
+  serviceArea!: string;
   
-  @Column("text")
-  name: string;
+  @Column()
+  name!: string;
   
-  @Column("text")
-  address: string;
+  @Column()
+  address!: string;
   
-  @Column("text")
-  contactInfo: string;
+  @Column()
+  contactInfo!: string;
   
-  @Column("text")
-  hours: string;
+  @Column()
+  hours!: string;
   
-  @Column("simple-array")
-  services: string[];
+  @Column({isList: true})
+  services!: string[];
 
   constructor(data?: Partial<Clinic> & {
     serviceArea: string,
@@ -58,4 +64,8 @@ export default class ClinicEntity extends BaseEntity implements Clinic {
 
 
 
+
+function PrimaryGeneratedColumn(): (target: ClinicEntity, propertyKey: "id") => void {
+  throw new Error('Function not implemented.');
+}
 
