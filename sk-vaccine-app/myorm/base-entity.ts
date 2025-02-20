@@ -35,7 +35,7 @@ export default class BaseEntity {
     ): Promise<T[]> {
 
         // ensure prototype is properly defined
-        (new this()).verifyPrototype();
+        (this.constructor as typeof BaseEntity).verifyPrototype();
         
         const db = this.db;
 
@@ -149,7 +149,7 @@ export default class BaseEntity {
     ): Promise<number> {
         const prototype = this.prototype as EntityPrototype;
         // ensure prototype is properly defined
-        (new this()).verifyPrototype();
+        (this.constructor as typeof BaseEntity).verifyPrototype();
         const db = this.db;
         const result = await db.getFirstAsync(`SELECT COUNT(*) as count FROM ${prototype._tableName}`) as any;
         return result.rows[0]['COUNT(*)'];
@@ -165,7 +165,7 @@ export default class BaseEntity {
         this: { new (): T } & typeof BaseEntity,
     ): Promise<void> {
         // ensure prototype is properly defined
-        (new this()).verifyPrototype();
+        (this.constructor as typeof BaseEntity).verifyPrototype();
 
         const db = this.db;
         const prototype = this.prototype as EntityPrototype;
@@ -193,7 +193,7 @@ export default class BaseEntity {
 
 
         // ensure prototype is properly defined
-        (new this()).verifyPrototype();
+        (this.constructor as typeof BaseEntity).verifyPrototype();
 
 
 
@@ -207,8 +207,10 @@ export default class BaseEntity {
      * set up a table
      * @throws {InvalidEntityError} If the entity prototype is not properly defined.
      */
-    private verifyPrototype(): void {
-        const prototype = this.constructor.prototype as EntityPrototype;
+    private static verifyPrototype<T extends BaseEntity>(
+        this: { new (): T } & typeof BaseEntity,
+    ): void {
+        const prototype = this.prototype as EntityPrototype;
 
         const undefinedAttrs: string[] = []
 
@@ -243,7 +245,7 @@ export default class BaseEntity {
 
 
         // ensure prototype is properly defined
-        this.verifyPrototype();
+        (this.constructor as typeof BaseEntity).verifyPrototype();
 
 
 
@@ -264,9 +266,9 @@ export default class BaseEntity {
         const cols = columns!.filter(col => !col.isPrimary);
 
 
-        const pkColumn = columns!.find(col => col.isPrimary)!.name;
+        const pkColumn = columns!.find(col => col.isPrimary)!;
 
-
+        
         // values for the columns
         const values = cols.map(col => {
             let val = (this as any)[col.propertyKey];
@@ -284,16 +286,23 @@ export default class BaseEntity {
         
         }) as string[];
 
-        // INSERT
-        if (pkValue == null) {
-            
 
-            // column names
+        const {recordExists} = await db.getFirstAsync("SELECT EXISTS(SELECT 1 FROM myTable WHERE id = ?) as recordExists;") as any;
+        // INSERT
+        if (!recordExists) {
+            
+            // if id is defined insert it
+            if (pkValue !== undefined && pkValue !== null) {
+                cols.push(pkColumn);
+                values.push(pkValue);
+            }
+
             const colNames = cols.map(col => col.name);
 
-            const placeholders = cols.map(_ => '?').join(', ');
 
-            const sql = `INSERT INTO ${tableName} (${colNames.join(', ')}) VALUES ( ${placeholders} )`;
+
+            const placeholders = cols.map(_ => '?').join(', ');
+            const sql = `INSERT INTO ${tableName} ( ${colNames.join(', ')} ) VALUES ( ${placeholders} )`;
             const result = await db.runAsync(sql, ...values);
             (this as any)[pk!] = result.lastInsertRowId;
         }
@@ -301,7 +310,7 @@ export default class BaseEntity {
         else {
             const assignments = cols.map(col => `${col.name} = ?`);
             
-            const sql = `UPDATE ${tableName} SET ${assignments.join(', ')} WHERE ${pkColumn} = ?`;
+            const sql = `UPDATE ${tableName} SET ${assignments.join(', ')} WHERE ${pkColumn.name} = ?`;
 
             values.push(pkValue)
 

@@ -16,15 +16,6 @@ const mockdb = {
 
 class TestClass extends BaseEntity {}
 
-function DummyDecorator() {
-  return function(target: any, propertyKey: string) {
-  };
-}
-
-export class TestColumn {
-  @DummyDecorator()
-  columnOne:string = "";
-}
 
 
 describe("Unit tests for myorm decorators", () => {
@@ -92,8 +83,8 @@ describe("Unit tests for myorm decorators", () => {
                     isNullable: true
                 },
                 {
-                    propertyKey: "id",
-                    name: "id",
+                    propertyKey: "columnTwo",
+                    name: "columntwo",
                     type: "TEXT",
                     isPrimary: false,
                     isList: true,
@@ -109,7 +100,7 @@ describe("Unit tests for myorm decorators", () => {
             entity(TestClass as any);
 
             expect(mockdb.execSync).toHaveBeenCalledWith(
-                "CREATE TABLE IF NOT EXISTS testclass (\n  id INTEGER PRIMARY KEY AUTOINCREMENT,\n  columnone TEXT NULL,\n  id TEXT NOT NULL\n);"
+                "CREATE TABLE IF NOT EXISTS testclass (\n  id INTEGER PRIMARY KEY AUTOINCREMENT,\n  columnone TEXT NULL,\n  columntwo TEXT NOT NULL\n);"
             );
 
         });
