@@ -16,16 +16,13 @@ import { InvalidEntityError } from '@/utils/ErrorTypes';
  * Core class for all db entities. Db entities
  * must extend this class.
  */
-export default class BaseEntity implements EntityPrototype  {
-    _columns?: ColumnMetadata[];
-    _primaryKey?: string;
-    _tableName?: string;
+export default class BaseEntity {
+
 
     /** 
-     * A promise that resolves to the sqlite database connection.
+     * An sqlite database connection.
      */
     static db: SQLite.SQLiteDatabase;
-    static tableIsReady = false;
 
     /**
      * Finds and returns all records of the current entity.

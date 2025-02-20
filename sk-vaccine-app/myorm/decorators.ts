@@ -1,4 +1,4 @@
-import { InvalidArgumentError } from "@/utils/ErrorTypes";
+import { InvalidArgumentError, InvalidEntityError } from "@/utils/ErrorTypes";
 import logger from "@/utils/logger";
 import "reflect-metadata";
 import BaseEntity from "./base-entity";
@@ -45,6 +45,7 @@ export interface EntityPrototype {
  * Decorator for creating a column in the database.
  * @param options Properties of the row in the database see {@link ColumnOptions}
  * @returns Returns a decorator function that will be applied to an attribute.
+ * @throws {InvalidEntityError} If the type of the attribute is not valid
  */
 export function Column(options?: ColumnOptions) {
 
@@ -53,6 +54,7 @@ export function Column(options?: ColumnOptions) {
      * Returns a decorator function that will be applied to an attribute.
      * @param target The prototype of the class.
      * @param propertyKey The name of the property being decorated.
+     * @throws {InvalidEntityError} If the type of the object is not valid
      */
     return function (target: any, propertyKey: string) {
         const prototype = target.constructor.prototype as EntityPrototype;
@@ -63,11 +65,9 @@ export function Column(options?: ColumnOptions) {
         }
 
         
-
         // get the type of the attribute
         // "design:type" is the type the attribute is declared as
         const designType = Reflect.getMetadata("design:type", target, propertyKey);
-
 
         // set primary key
         if (options?.isPrimary) {
@@ -97,7 +97,7 @@ export function Column(options?: ColumnOptions) {
  * @param options Properties of the row in the database see {@link ColumnOptions}
  * @returns Returns a decorator function that will be applied to an attribute.
  */
-export function PrimaryKey(options?: Omit<ColumnOptions, 'isPrimary'>) {
+export function PrimaryGeneratedColumn(options?: Omit<ColumnOptions, 'isPrimary'>) {
     return function (target: any, propertyKey: string) {
         Column({ ...options, isPrimary: true, type: options?.type || 'INTEGER' })(target, propertyKey);
     };
@@ -121,7 +121,7 @@ export function List(options?: Omit<ColumnOptions, 'isList'>) {
  * @param type The type to map
  * @param isList If the data is a list
  * @returns The sql type as a string
- * @throws {InvalidArgumentError} if the type is invalid.
+ * @throws {InvalidEntityError} if the type is invalid.
  */
 function mapJsTypeToSql(jsType: any, isList?: boolean): string {
     if (isList) {
@@ -139,7 +139,7 @@ function mapJsTypeToSql(jsType: any, isList?: boolean): string {
     if (jsType === Array) {
         return 'TEXT';
     }
-    throw new InvalidArgumentError(`${jsType} is not a valid column type`)
+    throw new InvalidEntityError(`${jsType} is not a valid column type`)
 }
 
 
@@ -153,12 +153,13 @@ function mapJsTypeToSql(jsType: any, isList?: boolean): string {
  * @param options.immutable If the columns change should the table be cleared amd
  *      rebuilt. There is currently no way to add database migrations to the table
  *      because it is not needed.
+ * @throws {InvalidEntityError} If there is no primary column 
  */
 export function Entity(options?: {tableName?: string, immutable?: boolean}) {
     options = options || {};
     return function (constructor: EntityConstructor,) {
         logger.info("Entity initialization starting, should run after db initialization unless this is a test")
-        const db = BaseEntity.db
+        const db = BaseEntity.db;
         let sql: string;
     
         const prototype = constructor.prototype;
@@ -189,11 +190,14 @@ export function Entity(options?: {tableName?: string, immutable?: boolean}) {
 
         }
         // generate sql table.
+
+
         sql = createTable(constructor.prototype);
+
+
+        
         
         db.execSync(sql);
-
-        BaseEntity.tableIsReady = true;
 
         logger.info(`creating table for entity ${constructor.name}:`);
 
@@ -207,13 +211,13 @@ export function Entity(options?: {tableName?: string, immutable?: boolean}) {
  * Creates a table for an entity if it does not exist.
  * @param EntityPrototype The metadata for the table
  * @returns An sql statement that builds a table
- * @throws {InvalidArgumentError} If there is not exactly one primary key
+ * @throws {InvalidEntityError} If there is not exactly one primary key
  */
 function createTable(prototype: EntityPrototype): string {
     const tableName = prototype._tableName;
     
     if (prototype._columns == undefined || prototype._columns.length == 0) {
-        throw new InvalidArgumentError(`No columns defined in table: ${tableName}`);
+        throw new InvalidEntityError(`No columns defined in table: ${tableName}`);
     }
 
     const columns = prototype._columns;
@@ -223,7 +227,7 @@ function createTable(prototype: EntityPrototype): string {
     // create primary key column
     const pkColumn = columns.find((col: ColumnMetadata) => col.isPrimary);
     if (!pkColumn) {
-        throw new InvalidArgumentError(`No primary key defined in table: ${tableName}`);
+        throw new InvalidEntityError(`No primary key defined in table: ${tableName}`);
     }
     sql += `  ${pkColumn.name} INTEGER PRIMARY KEY AUTOINCREMENT,\n`;
 
@@ -236,7 +240,7 @@ function createTable(prototype: EntityPrototype): string {
         if (col.isPrimary) {
             primaryCount++;
             if (primaryCount > 1) {
-                throw new InvalidArgumentError(`Multiple primary keys defined in table: ${tableName}`);
+                throw new InvalidEntityError(`Multiple primary keys defined in table: ${tableName}`);
             }
             return;
         }
