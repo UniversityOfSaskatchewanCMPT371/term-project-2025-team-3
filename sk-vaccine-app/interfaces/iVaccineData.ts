@@ -8,13 +8,11 @@ export type VaccineSheet = {
        Might be no new version, but check succeeded
     */
     upToDate: boolean,
-} & (
-    | { startingAge: number; startingGrade?: never }
-    | { startingGrade: number; startingAge?: never }
-    /* This enforces that one MUST be present but
-       ONLY one can be present
-    */
-);
+    /**
+     * @field starting: This could be age or grade
+     */
+    starting: string,
+};
 
 export type VaccineUpdate = {
     nameEnglish?: string;
@@ -56,7 +54,13 @@ export interface iVaccineDataService {
      * updates any data given.
      * @returns a boolean, whether the update was successful
      */
-    updatePDFs(toUpdate: VaccineUpdate[]): boolean
+    updateVaccineData(toUpdate: VaccineUpdate[]): boolean
+
+    /**
+     * Replaces the 
+     * @returns a boolean, whether the update was successful
+     */
+    updatePDFFiles(uris: string[]): Promise<boolean>;
 
 
     /**

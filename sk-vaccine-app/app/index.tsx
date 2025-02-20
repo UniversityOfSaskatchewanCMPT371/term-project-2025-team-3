@@ -50,21 +50,21 @@ export default function Index() {
             <View style={styles.horizontalContainer}>
                 <View style={styles.btnContainer}>
                     <SquareButton
-                        path={"/test"}
+                        path={"/vaccine-info"}
                         text={BOOKING_BTN_TEXT}
                         style={{ backgroundColor: "#FFC250", aspectRatio: 1 }}
                     />
                 </View>
                 <View style={styles.btnContainer}>
                     <SquareButton
-                        path={"/test"}
+                        path={"/vaccine-info"}
                         text="Test"
                         style={{ backgroundColor: "#FF8787", aspectRatio: 1 }}
                     />
                 </View>
             </View>
             <View>
-                <ChinButton path={"/test"} text={RECORDS_BTN_TEXT} />
+                <ChinButton path={"/vaccine-info"} text={RECORDS_BTN_TEXT} />
             </View>
         </View>
     );
