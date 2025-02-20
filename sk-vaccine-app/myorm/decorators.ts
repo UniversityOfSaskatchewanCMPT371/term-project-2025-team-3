@@ -97,7 +97,7 @@ export function Column(options?: ColumnOptions) {
             {
                 propertyKey: propertyKey,
                 name: options?.name || propertyKey,
-                type: options?.type || mapJsTypeToSql(options?.tsType, options?.isList),
+                type: options?.type || mapTsTypeToSql(options?.tsType, options?.isList),
                 isList: options?.isList || false,
                 isPrimary: options?.isPrimary || false,
                 isNullable: options?.isNullable || false
@@ -138,7 +138,7 @@ export function List(options?: Omit<ColumnOptions, 'isList'>) {
  * @returns The sql type as a string
  * @throws {InvalidEntityError} if the type is invalid.
  */
-export function mapJsTypeToSql(jsType: any, isList?: boolean): string {
+export function mapTsTypeToSql(jsType: any, isList?: boolean): string {
     if (isList) {
         return 'TEXT';
     }

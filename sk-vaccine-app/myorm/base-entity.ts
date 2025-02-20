@@ -35,17 +35,14 @@ export default class BaseEntity {
     ): Promise<T[]> {
 
         // ensure prototype is properly defined
-        (this.constructor as typeof BaseEntity).verifyPrototype();
+        this.verifyPrototype();
         
-        const db = this.db;
+        const db = BaseEntity.db;
 
 
 
         const prototype = this.prototype as EntityPrototype;
-
-        if (prototype._tableName == undefined) {
-            throw new InvalidEntityError(`Entity prototype has undefined attribute: _tableName`);
-        }
+        
 
         const result = await db.getAllAsync(`SELECT * FROM ${prototype._tableName}`);
         
@@ -78,10 +75,11 @@ export default class BaseEntity {
             const obj = new this() as any;
             prototype._columns!.forEach(col => {
 
-                // verify that the object and database query contain the proper rows
-                if (!(col.propertyKey in obj)) {
-                    throw new InvalidEntityError(`Entity does not contain attribute: "${col.propertyKey}"`);
-                }
+
+
+
+
+                // verify that the object contains the proper rows
                 if (!(col.name! in row)) {
                     throw new InvalidEntityError(`Query result does not contain column: "${col.name}"`);
                 }
@@ -149,7 +147,7 @@ export default class BaseEntity {
     ): Promise<number> {
         const prototype = this.prototype as EntityPrototype;
         // ensure prototype is properly defined
-        (this.constructor as typeof BaseEntity).verifyPrototype();
+        this.verifyPrototype();
         const db = this.db;
         const result = await db.getFirstAsync(`SELECT COUNT(*) as count FROM ${prototype._tableName}`) as any;
         return result.rows[0]['COUNT(*)'];
@@ -165,7 +163,7 @@ export default class BaseEntity {
         this: { new (): T } & typeof BaseEntity,
     ): Promise<void> {
         // ensure prototype is properly defined
-        (this.constructor as typeof BaseEntity).verifyPrototype();
+        this.verifyPrototype();
 
         const db = this.db;
         const prototype = this.prototype as EntityPrototype;
@@ -193,7 +191,7 @@ export default class BaseEntity {
 
 
         // ensure prototype is properly defined
-        (this.constructor as typeof BaseEntity).verifyPrototype();
+        this.verifyPrototype();
 
 
 

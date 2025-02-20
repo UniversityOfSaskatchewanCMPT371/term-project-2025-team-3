@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Entity, ColumnMetadata, PrimaryGeneratedColumn, Column, mapJsTypeToSql, List } from '../decorators';
+import { Entity, ColumnMetadata, PrimaryGeneratedColumn, Column, mapTsTypeToSql, List } from '../decorators';
 import BaseEntity from '../base-entity';
 import { InvalidEntityError } from '@/utils/ErrorTypes';
 import * as SQLite from 'expo-sqlite';
@@ -258,7 +258,7 @@ describe("Unit tests for myorm decorators", () => {
                 {
                     propertyKey: "id",
                     name: "id",
-                    type: mapJsTypeToSql(Number),
+                    type: mapTsTypeToSql(Number),
                     isList: false,
                     isPrimary: true,
                     isNullable: false,
@@ -279,7 +279,7 @@ describe("Unit tests for myorm decorators", () => {
                 {
                     propertyKey: "id",
                     name: "id",
-                    type: mapJsTypeToSql(Number),
+                    type: mapTsTypeToSql(Number),
                     isList: false,
                     isPrimary: true,
                     isNullable: false,
@@ -337,7 +337,7 @@ describe("Unit tests for myorm decorators", () => {
                 {
                     propertyKey: "isActive",
                     name: "isActive",
-                    type: mapJsTypeToSql(Boolean),
+                    type: mapTsTypeToSql(Boolean),
                     isList: false,
                     isPrimary: false,
                     isNullable: true,
@@ -356,7 +356,7 @@ describe("Unit tests for myorm decorators", () => {
                 {
                     propertyKey: "id",
                     name: "custom_id",
-                    type: mapJsTypeToSql(Number),
+                    type: mapTsTypeToSql(Number),
                     isList: false,
                     isPrimary: false,
                     isNullable: false,
