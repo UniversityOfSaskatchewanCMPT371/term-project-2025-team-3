@@ -7,7 +7,10 @@ import BaseEntity from "./base-entity";
 export interface ColumnOptions {
     /** The name of the row in the db */
     name?: string;
-    /** The sql row type */
+    /** 
+     * The sql row type, either `tsType` or `type` must be set.
+     *  `type` takes presedence over `tsType`
+     */
     type?: string;
     /** Set to store a list of elements as a json*/
     isList?: boolean;
@@ -15,6 +18,11 @@ export interface ColumnOptions {
     isPrimary?: boolean;
     /** Can the row hold the value of null, `false` by default */
     isNullable?: boolean;
+    /** 
+     * typescript type, either `tsType` or `type` must be set.
+     * `type` takes presedence over `tsType`
+     */
+    tsType?: any;
 }
 
 
@@ -43,7 +51,8 @@ export interface EntityPrototype {
 
 /**
  * Decorator for creating a column in the database.
- * @param options Properties of the row in the database see {@link ColumnOptions}
+ * @param options Properties of the row in the database see {@link ColumnOptions},
+ *      `options.tsType` or `options.type` must be set
  * @returns Returns a decorator function that will be applied to an attribute.
  * @throws {InvalidEntityError} If the type of the attribute is not valid
  */
@@ -59,6 +68,11 @@ export function Column(options?: ColumnOptions) {
     return function (target: any, propertyKey: string) {
         const prototype = target.constructor.prototype as EntityPrototype;
 
+        if (!options?.tsType && !options?.type) {
+            throw new InvalidEntityError("options.tsType or options.type must be set")
+        }
+
+
         // initialize metadata storage on the prototype 
         if (!prototype._columns) {
             prototype._columns = [] as ColumnMetadata[];
@@ -67,7 +81,8 @@ export function Column(options?: ColumnOptions) {
         
         // get the type of the attribute
         // "design:type" is the type the attribute is declared as
-        const designType = Reflect.getMetadata("design:type", target, propertyKey);
+        // DOES NOT WORK. SOMETHING IS WRONG WITH THE COMPILER
+        // const designType = Reflect.getMetadata("design:type", target, propertyKey);
 
         // set primary key
         if (options?.isPrimary) {
@@ -82,7 +97,7 @@ export function Column(options?: ColumnOptions) {
             {
                 propertyKey: propertyKey,
                 name: options?.name || propertyKey,
-                type: options?.type || mapJsTypeToSql(designType, options?.isList),
+                type: options?.type || mapJsTypeToSql(options?.tsType, options?.isList),
                 isList: options?.isList || false,
                 isPrimary: options?.isPrimary || false,
                 isNullable: options?.isNullable || false
@@ -123,7 +138,7 @@ export function List(options?: Omit<ColumnOptions, 'isList'>) {
  * @returns The sql type as a string
  * @throws {InvalidEntityError} if the type is invalid.
  */
-function mapJsTypeToSql(jsType: any, isList?: boolean): string {
+export function mapJsTypeToSql(jsType: any, isList?: boolean): string {
     if (isList) {
         return 'TEXT';
     }

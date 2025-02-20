@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Entity, ColumnMetadata, PrimaryGeneratedColumn, Column } from '../decorators';
+import { Entity, ColumnMetadata, PrimaryGeneratedColumn, Column, mapJsTypeToSql, List } from '../decorators';
 import BaseEntity from '../base-entity';
 import { InvalidEntityError } from '@/utils/ErrorTypes';
 import * as SQLite from 'expo-sqlite';
@@ -222,21 +222,156 @@ describe("Unit tests for myorm decorators", () => {
 
 
 
-	describe("Test @Column", () => {
+	describe("Test @Column, @PrimaryGeneratedColumn and @List decorators", () => {
 
 		it("test with text column", () => {
 
 
+            class TestColumn1 {
+                @Column({tsType: String})
+                columnOne: string;
+            }
       
-      
-      const keys = Reflect.getMetadataKeys(TestColumn.prototype, "columnOne");
+            expect((TestColumn1.prototype as any)._columns).toEqual([
+                {
+                    name: "columnOne",
+                    type: "TEXT",
+                    isList: false,
+                    isPrimary: false,
+                    isNullable: false,
+                    propertyKey: "columnOne"
+                }
+            ])
 
-
-			expect(keys).not.toEqual([]);
 
 
 		});
+        it("throws error when neither tsType or type is provided", () => {
+            expect(() => {
+                class TestColumn2 {
+                    @Column()
+                    columnTwo: string = "";
+                }
+              void (TestColumn2.prototype as any)._columns;
+            }).toThrow(InvalidEntityError);
+        });
+        
+          it("test with primary column", () => {
+            class TestColumn3 {
+              @Column({ tsType: Number, isPrimary: true })
+              id: number = 0;
+            }
+        
+            const proto = TestColumn3.prototype as any;
+            expect(proto._columns).toEqual([
+                {
+                    propertyKey: "id",
+                    name: "id",
+                    type: mapJsTypeToSql(Number),
+                    isList: false,
+                    isPrimary: true,
+                    isNullable: false,
+                },
+            ]);
+            expect(proto._primaryKey).toEqual("id");
+        });
 
+
+        it("test with @PrimaryGeneratedColumn", () => {
+            class TestColumn7 {
+              @PrimaryGeneratedColumn()
+              id: number = 0;
+            }
+        
+            const proto = TestColumn7.prototype as any;
+            expect(proto._columns).toEqual([
+                {
+                    propertyKey: "id",
+                    name: "id",
+                    type: mapJsTypeToSql(Number),
+                    isList: false,
+                    isPrimary: true,
+                    isNullable: false,
+                },
+            ]);
+            expect(proto._primaryKey).toEqual("id");
+        });
+        
+          it("test with list column", () => {
+            class TestColumn4 {
+                @Column({ tsType: Array, isList: true })
+                tags: string[] = [];
+            }
+        
+            const proto = TestColumn4.prototype as any;
+            expect(proto._columns).toEqual([
+                {
+                    propertyKey: "tags",
+                    name: "tags",
+                    type: "TEXT",
+                    isList: true,
+                    isPrimary: false,
+                    isNullable: false,
+                },
+            ]);
+        });
+
+        it("test with @List", () => {
+            class TestColumn8 {
+                @List()
+                tags: string[] = [];
+            }
+        
+            const proto = TestColumn8.prototype as any;
+            expect(proto._columns).toEqual([
+                {
+                    propertyKey: "tags",
+                    name: "tags",
+                    type: "TEXT",
+                    isList: true,
+                    isPrimary: false,
+                    isNullable: false,
+                },
+            ]);
+        });
+        
+          it("test with nullable column", () => {
+            class TestColumn5 {
+                @Column({ tsType: Boolean, isNullable: true })
+                isActive: boolean = false;
+            }
+        
+            const proto = TestColumn5.prototype as any;
+            expect(proto._columns).toEqual([
+                {
+                    propertyKey: "isActive",
+                    name: "isActive",
+                    type: mapJsTypeToSql(Boolean),
+                    isList: false,
+                    isPrimary: false,
+                    isNullable: true,
+                },
+            ]);
+        });
+        
+        it("test with custom name", () => {
+            class TestColumn6 {
+                @Column({ tsType: Number, name: "custom_id" })
+                id: number = 0;
+            }
+        
+            const proto = TestColumn6.prototype as any;
+            expect(proto._columns).toEqual([
+                {
+                    propertyKey: "id",
+                    name: "custom_id",
+                    type: mapJsTypeToSql(Number),
+                    isList: false,
+                    isPrimary: false,
+                    isNullable: false,
+                },
+            ]);
+        });
 
 
 	});
