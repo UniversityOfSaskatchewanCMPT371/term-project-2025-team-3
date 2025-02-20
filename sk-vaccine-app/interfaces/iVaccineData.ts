@@ -44,8 +44,12 @@ export interface iVaccineDataService {
      * Attempts to fetch all vaccine PDFs
      * @returns a list of paths where the pdfs have been
      * downloaded to.
+     * 
+     * Note:
+     * This is going to be private within the class I think?
+     * 
      */
-    fetchPDFs(): string[];
+    //fetchPDFs(): string[];
 
     /**
      * Attempts to update the database with new pdfs and
