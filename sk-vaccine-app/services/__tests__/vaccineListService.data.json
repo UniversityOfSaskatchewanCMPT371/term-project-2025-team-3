@@ -4,8 +4,6 @@
 		{
 			"vaccineName": "DTaP-IPV-Hib",
 		    "productId": 11766,
-            "englishFormatId": 74270,
-            "frenchFormatId": 141783,
 			"starting": "2 Mo",
 		    "associatedDiseases": {
 				"english": [

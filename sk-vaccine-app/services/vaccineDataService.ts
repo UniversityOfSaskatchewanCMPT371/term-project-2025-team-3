@@ -1,4 +1,4 @@
-import { iVaccineDataService, VaccineInfoJSON, VaccineListResponse, VaccineProduct, VaccineSheet, VaccineUpdate } from "@/interfaces/iVaccineData";
+import { iVaccineDataService, Vaccine, VaccineInfoJSON, VaccineListResponse, VaccinePDFData, VaccineProduct, VaccineSheet } from "@/interfaces/iVaccineData";
 import logger from "@/utils/logger";
 import * as FileSystem from "expo-file-system";
 import * as Crypto from 'expo-crypto';
@@ -8,17 +8,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import VaccineEntity from "@/myorm/vaccine-entity";
 
 class VaccineDataService implements iVaccineDataService {
-    updateVaccineData(toUpdate: VaccineUpdate[]): boolean {
-        throw new Error("Method not implemented.");
-    }
-    private fetchPDFs(): string[] {
-        throw new Error("Method not implemented.");
-    }
-
-    updatePDFs(toUpdate: string[]): boolean {
-        throw new Error("Method not implemented.");
-    }
-
     
 
     vaccineQuery(input: string, language: string, field?: string): VaccineSheet[] {
@@ -43,10 +32,6 @@ class VaccineDataService implements iVaccineDataService {
                             }
                         ] //await executeQuery(productIDQuery);
         return productNumbers;
-    }
-
-    async updatePDFFiles(uris: string[]): Promise<boolean> {
-        throw new Error("Method not implemented.");
     }
 
     /**
@@ -134,22 +119,41 @@ class VaccineDataService implements iVaccineDataService {
         
     }
 
-    async storeVaccineListLocal(vaccineList: VaccineInfoJSON[]) {
+    /**
+     * Stores the remote vaccine list locally, returns a promise
+     * @param vaccineList a list of VaccineInfoJSON objects to insert into
+     * the vaccine data table. This will also update and existing row if
+     * a row with the productId already exists.
+     * @returns a void promise
+     */
+    async storeVaccineListLocal(vaccineList: VaccineInfoJSON[]): Promise<void> {
         try {
             assert(vaccineList.length > 0, "Vaccine list should not be empty")
             const insertPromises = vaccineList.map(async (vaccine) => {
                 try {
-                    const vaccineEntity = new VaccineEntity(vaccine);
-                    await vaccineEntity.save();
+                    const vaccineEntity = new VaccineEntity;
+                    await vaccineEntity.query(`INSERT OR REPLACE INTO $table
+                        (
+                        vaccineName, 
+                        productId, 
+                        starting, 
+                        associatedDiseasesEnglish,
+                        associatedDiseasesFrench,
+                        ) VALUES (?, ?, ?, ?, ?)`, 
+                         vaccine.vaccineName,
+                         vaccine.productId,
+                         vaccine.starting,
+                         vaccine.associatedDiseases.english,
+                         vaccine.associatedDiseases.french
+                        )
+                    
                 } catch (error) {
                     logger.error("Error storing vaccine list\nError", error)
-                    return null
                 }
             })
-            return await Promise.all(insertPromises);
+            await Promise.all(insertPromises);
         } catch (error) {
             logger.error("Error in store vaccine\nError", error)
-            return null
         }
     }
 
@@ -165,15 +169,15 @@ class VaccineDataService implements iVaccineDataService {
         }
     }
 
-    async compareExternalPDFs() {
+    async compareExternalPDFs(): Promise<VaccinePDFData[]> {
         const productIds = this.getProductIDs();
         try {
             const comparePromises = productIds.map(async (product) => {
                 try {
                     const productJSON = await (await fetch(`https://publications.saskatchewan.ca/api/v1/products/${product.productId}`)).json();
                    
-                    const englishPDFFilename = productJSON.productFormats[0].digitalAttributes.fileaName;
-                    const frenchPDFFilename = productJSON.productFormats[1].digitalAttributes.fileaName;
+                    const englishPDFFilename: string = productJSON.productFormats[0].digitalAttributes.fileaName;
+                    const frenchPDFFilename: string = productJSON.productFormats[1].digitalAttributes.fileaName;
                     const localFilenames = await this.getLocalPDFFilenames(product.productId);
 
                     return {
@@ -211,7 +215,19 @@ class VaccineDataService implements iVaccineDataService {
  
     } 
 
-    async updateLocalPDFFilenames(productId: number, englishFilename?: string, frenchFilename?: string) {
+    /**
+     * Takes in a product id and potentially an english and french filename.
+     * Filenames that exist are updated in the row linked to the product Id
+     * @param productId the id of the row to update, a vaccine entry
+     *                  This must be a positive number which already exists in
+     *                  the table.
+     * @param englishFilename the new name of the remote vaccine pdf in english
+     *                        This must be a string.
+     * @param frenchFilename the new name of the remote vaccine pdf in french
+     *                       This must be a string.
+     * @returns A void promise.
+     */
+    async updateLocalPDFFilenames(productId: number, englishFilename?: string, frenchFilename?: string): Promise<void> {
         let statment = `UPDATE $table SET 
                 ${englishFilename ? "englishPDFFilename = ?," : ""} 
                 ${frenchFilename ? "frenchPDFFilename = ?" : ""} WHERE productId = ?`
@@ -221,10 +237,20 @@ class VaccineDataService implements iVaccineDataService {
         })
     }
 
+    /**
+     * Gets the entire JSON sheet for each product ID from the Government of
+     * Saskatchewan publications api
+     * @returns A list of responses in the form of the JSON received. It is
+     * much too large to warrant its own type
+     * 
+     * !! This is going to be removed, it is not needed and cannot test reliably !!
+     * 
+     */
     async getVaccineJSONSHA(): Promise<Response[]> {
         const productIDs = this.getProductIDs();
 
         try {
+            // Building all of the promises
             const fetchPromises = productIDs.map(async (product) => {
                 try {
                 const response = await fetch(`https://publications.saskatchewan.ca/api/v1/products/${product.productId}`);
@@ -241,10 +267,9 @@ class VaccineDataService implements iVaccineDataService {
                 }
             
             })
-            // Wait for all promises to resolve and filter out any null values
+            // Execute all of the promises at once
             const JSONSheets = await Promise.all(fetchPromises);
             return JSONSheets
-        // Filter out any null values (in case some fetches failed)
         } catch (error) {
             logger.error("Error in getVaccineSheetJSON:", error);
             return [];

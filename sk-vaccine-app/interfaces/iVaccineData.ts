@@ -1,5 +1,8 @@
 
 
+/**
+ * The response to a vaccine data request
+ */
 export type VaccineSheet = {
     vaccineName: string;
     associatedDiseases: string[];
@@ -13,6 +16,22 @@ export type VaccineSheet = {
      */
     starting: string,
 };
+
+/**
+ * Used when updating filename and checking for differences
+ */
+export type VaccinePDFData = {
+    productId: number
+    english?: {
+        filename: string,
+        formatId?: number,
+    },
+    french?: {
+        filename: string,
+        formatId?: number,
+    }
+}
+
 
 export interface Vaccine {
     vaccineName: string;
@@ -40,8 +59,6 @@ export type VaccineProduct = {
 export type VaccineInfoJSON = {
     vaccineName: string,
     productId: number,
-    englishFormatId: number,
-    frenchFormatId: number,
     starting: string,
     associatedDiseases: {
         english: string[],
@@ -49,54 +66,65 @@ export type VaccineInfoJSON = {
     }
 }
 
-export type VaccineUpdate = {
-    nameEnglish?: string;
-    nameFrench?: string;
 
-    associatedDiseasesEnglish?: string[];
-    associatedDiseasesFrench?: string[];
-    
-    englishPDFPath?: string;
-    englishPDFFilename?: String;
-    englishPDFLastChecked: string;
-
-    frenchPDFPath?: string;
-    frenchPDFFilename?: string;
-    frenchPDFLastChecked: string;
-
-    starting: string;
-}
 
 export interface iVaccineDataService {
 
+
+
+    downloadVaccinePDF(productId: number, formatId: number): Promise<string>;
+
     /**
-     * Attempts to fetch all vaccine PDFs
-     * @returns a list of paths where the pdfs have been
-     * downloaded to.
+     * @async this function is asynchronous
+     */
+    compareExternalPDFs(): Promise<VaccinePDFData[]>;
+
+    /**
+     * @async this function is asynchronous
+     * Takes in a product id and potentially an english and french filename.
+     * Filenames that exist are updated in the row linked to the product Id
+     * @param productId the id of the row to update, a vaccine entry
+     *                  This must be a positive number which already exists in
+     *                  the table.
+     * @param englishFilename the new name of the remote vaccine pdf in english
+     *                        This must be a string.
+     * @param frenchFilename the new name of the remote vaccine pdf in french
+     *                       This must be a string.
+     * @returns A void promise.
+     */
+    updateLocalPDFFilenames(productId: number, englishFilename?: string, frenchFilename?: string): Promise<void>
+
+    /**
+     * @async this function is asynchronous
+     * Stores the remote vaccine list locally, returns a promise
+     * @param vaccineList a list of VaccineInfoJSON objects to insert into
+     * the vaccine data table. This will also update and existing row if
+     * a row with the productId already exists.
+     * @returns a void promise
+     */
+    storeVaccineListLocal(vaccineList: VaccineInfoJSON[]): Promise<void>
+
+    /**
+     * @async this function is asynchronous
+     * Stores the version of the Vaccine List. This version number is obtained
+     * from the vaccine list JSON endpoint
+     * @param version a string representing the version number to set
+     */
+    storeVaccineListVersionLocal(version: number): Promise<void>
+
+     /**
+     * @async this function is asynchronous
+     * Gets the local version of the Vaccine List. This version number is 
+     * obtained from the vaccine list JSON endpoint and store in async storage
      * 
-     * Note:
-     * This is going to be private within the class I think?
-     * 
+     * If the version number is not present in storage a -1 is returned to
+     * ensure that it is always less than the new version
+     * @returns A promise containing the version number. It is type casted as
+     * AsyncStorage can only store strings
      */
-    //fetchPDFs(): string[];
+     getVaccineListVersionLocal(): Promise<number>
 
-    /**
-     * Attempts to update the database with new pdfs and
-     * updates any data given.
-     * @returns a boolean, whether the update was successful
-     */
-    updateVaccineData(toUpdate: VaccineUpdate[]): boolean
-
-    /**
-     * @async This function is run asynchronously
-     * Replaces the 
-     * @returns a boolean, whether the update was successful
-     */
-    updatePDFFiles(uris: string[]): Promise<boolean>;
-
-
-    getVaccineSheetsSHA(): Promise<Response[]>;
-
+    getVaccineListRemote(): Promise<VaccineListResponse>
 
     /**
     * Queries the database for vaccine sheets
@@ -107,7 +135,6 @@ export interface iVaccineDataService {
     * @return A list of responses from the 
     */
     vaccineQuery(input: string, language: string, field?: string): VaccineSheet[];
-
 
 }
 

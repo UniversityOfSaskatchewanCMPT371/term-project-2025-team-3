@@ -1,4 +1,4 @@
-import { iVaccineDataController, VaccineListResponse, VaccineSheet } from "@/interfaces/iVaccineData";
+import { iVaccineDataController, VaccineListResponse, VaccinePDFData, VaccineSheet } from "@/interfaces/iVaccineData";
 import VaccineEntity from "@/myorm/vaccine-entity";
 import { vaccineDataService } from "@/services/vaccineDataService";
 import logger from "@/utils/logger";
@@ -10,13 +10,19 @@ class VaccineDataContoller implements iVaccineDataController {
         throw new Error("Method not implemented.");
     }
 
+    /**
+     * 
+     * @returns 
+     *     | true if the update was successful
+     *     | false if the update was unsuccesful
+     */
     updateVaccines(): boolean {
         
         this.vaccineListUpToDate().then(async (upToDate: boolean) => {
             if (!upToDate) {
                 await this.updateVaccineList();
             } 
-            const pdfsToUpdate = (await vaccineDataService.compareExternalPDFs()).map(async (vaccine) => {
+            const pdfsToUpdate = (await vaccineDataService.compareExternalPDFs()).map(async (vaccine: VaccinePDFData) => {
                 try {
                     if (vaccine.english?.formatId) {
                         vaccineDataService.downloadVaccinePDF(vaccine.productId, vaccine.english.formatId);
@@ -27,7 +33,7 @@ class VaccineDataContoller implements iVaccineDataController {
 
                     }
                     if (vaccine.english || vaccine.french) {
-                        vaccineDataService.updateLocalPDFFilenames(vaccine.productId, vaccine.english.filename, vaccine.french.filename);
+                        vaccineDataService.updateLocalPDFFilenames(vaccine.productId, vaccine.english?.filename, vaccine.french?.filename);
                     }
                 } catch (error) {
                     logger.error(`Error updating pdfs in updateVaccines`);

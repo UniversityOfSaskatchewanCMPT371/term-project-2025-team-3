@@ -17,7 +17,7 @@ export default class VaccineEntity extends BaseEntity implements Vaccine {
   @Column({ tsType: String })
     vaccineName!: string;
   
-  @Column({ tsType: Number })
+  @Column({ tsType: Number, unique: true })
   productId!: number;
   
   @Column({ tsType: Number })
@@ -26,10 +26,10 @@ export default class VaccineEntity extends BaseEntity implements Vaccine {
   @Column({ tsType: Number })
   frenchFormatId!: number;
 
-  @Column({ tsType: String })
+  @Column({ tsType: String, isNullable: true })
   englishPDFFilename!: string;
 
-  @Column({ tsType: String })
+  @Column({ tsType: String, isNullable: true })
   frenchPDFFilename!: string;
   
   @Column({ tsType: String })
