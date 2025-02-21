@@ -34,45 +34,45 @@ export default function Index() {
     }, [navigation]);
 
     return (
-        <DatabaseInitializer>
-          <View style={{ flex: 1 }}>
-              <View style={styles.horizontalContainer}>
-                  <View style={styles.btnContainer}>
-                      <SquareButton
-                          path={PATH_VACCINE_INFO}
-                          text={VACCINE_BTN_TEXT}
-                          style={{ backgroundColor: "#3E6BFF", aspectRatio: 1 }}
-                      />
-                  </View>
-                  <View style={styles.btnContainer}>
-                      <SquareButton
-                          path={CLINIC_INFO}
-                          text={CLINIC_BTN_TEXT}
-                          textStyle={{ color: "black" }}
-                          style={{ backgroundColor: "#74FF99", aspectRatio: 1 }}
-                      />
-                  </View>
-              </View>
-              <View style={styles.horizontalContainer}>
-                  <View style={styles.btnContainer}>
-                      <SquareButton
-                          path={"/test"}
-                          text={BOOKING_BTN_TEXT}
-                          style={{ backgroundColor: "#FFC250", aspectRatio: 1 }}
-                      />
-                  </View>
-                  <View style={styles.btnContainer}>
-                      <SquareButton
-                          path={"/test"}
-                          text="Test"
-                          style={{ backgroundColor: "#FF8787", aspectRatio: 1 }}
-                      />
-                  </View>
-              </View>
-              <View>
-                  <ChinButton path={"/test"} text={RECORDS_BTN_TEXT} />
-              </View>
-          </View>
+      <DatabaseInitializer>
+        <View style={{ flex: 1 }}>
+            <View style={styles.horizontalContainer}>
+                <View style={styles.btnContainer}>
+                    <SquareButton
+                        path={PATH_VACCINE_INFO}
+                        text={VACCINE_BTN_TEXT}
+                        style={{ backgroundColor: "#3E6BFF", aspectRatio: 1 }}
+                    />
+                </View>
+                <View style={styles.btnContainer}>
+                    <SquareButton
+                        path={CLINIC_INFO}
+                        text={CLINIC_BTN_TEXT}
+                        textStyle={{ color: "black" }}
+                        style={{ backgroundColor: "#74FF99", aspectRatio: 1 }}
+                    />
+                </View>
+            </View>
+            <View style={styles.horizontalContainer}>
+                <View style={styles.btnContainer}>
+                    <SquareButton
+                        path={"/vaccine-info"}
+                        text={BOOKING_BTN_TEXT}
+                        style={{ backgroundColor: "#FFC250", aspectRatio: 1 }}
+                    />
+                </View>
+                <View style={styles.btnContainer}>
+                    <SquareButton
+                        path={"/vaccine-info"}
+                        text="Test"
+                        style={{ backgroundColor: "#FF8787", aspectRatio: 1 }}
+                    />
+                </View>
+            </View>
+            <View>
+                <ChinButton path={"/vaccine-info"} text={RECORDS_BTN_TEXT} />
+            </View>
+        </View>
       </DatabaseInitializer>
     );
 
