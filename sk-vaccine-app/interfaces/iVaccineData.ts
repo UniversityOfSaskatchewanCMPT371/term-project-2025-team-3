@@ -14,6 +14,21 @@ export type VaccineSheet = {
     starting: string,
 };
 
+export type VaccineListResponse = {
+    version: number,
+    vaccines: VaccineListJSON[]
+}
+
+export type VaccineListJSON = {
+    vaccineName: string,
+    productID: number,
+    starting: string,
+    associatedDiseases: {
+        english: string[],
+        french: string[]
+    }
+}
+
 export type VaccineUpdate = {
     nameEnglish?: string;
     nameFrench?: string;

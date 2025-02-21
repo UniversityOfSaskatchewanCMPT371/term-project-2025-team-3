@@ -1,0 +1,29 @@
+{
+	"version": 1,
+	"vaccines": [
+		{
+			"vaccineName": "DTaP-IPV-Hib",
+		    "productID": 11766,
+			"starting": "2 Mo",
+		    "associatedDiseases": {
+				"english": [
+				    "Diphtheria",
+					"Tetanus",
+					"Pertussis",
+					"Polio",
+				    "Haemophilus Influenzae Type b"
+				],
+				"french": [
+					"La Diphtérie",
+					"Le Tétanos",
+				    "La Coqueluche",
+					"La Poliomyélite",
+					"l’Haemophilus Influenzae de Type b"
+                ]
+            }
+        }
+    ]
+}
+
+
+
