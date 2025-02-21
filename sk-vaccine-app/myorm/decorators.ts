@@ -172,7 +172,7 @@ export function mapTsTypeToSql(jsType: any, isList?: boolean): string {
  */
 export function Entity(options?: {tableName?: string, immutable?: boolean}) {
     options = options || {};
-    return function (constructor: EntityConstructor,) {
+    return function (constructor: Function) {
         logger.info("Entity initialization starting, should run after db initialization unless this is a test")
         const db = BaseEntity.db;
         let sql: string;

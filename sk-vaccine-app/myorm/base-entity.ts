@@ -104,37 +104,88 @@ export default class BaseEntity {
 
 
     /**
-     * Queries the database for objects where atleast one of the conditions are true.
-     * Warning: Make sure conditions are sanitized for sql injections.
+     * Executes a query that returns a list of objects of the type this
+     * is called with.
+     * It automatically replaces `$table` with the entity’s table name.
+     *
      * @template T The type of the entity.
-     * @param firstCondition A sql condition (required)
-     * @param conditions More sql conditions (optional)
-     * @returns An array of entities where atleast one of the conditions are true.
-     * 
+     * @param query A valid SQL query string. Use `$table` within the query
+     * to reference this entity's table name. Needs to return a list of objects
+     * @param params Additional parameters for the query (optional).
+     * @returns An array of entities resulting from the query.
+     * @throws {InvalidEntityError} If the entity prototype is not properly defined.
+     *
+     * @example
+     * // The table name is "employees"
+     * const results = await Employee.query(
+     *    "SELECT * FROM $table WHERE salary > ?",
+     *    100000
+     * );
+     * // This runs:
+     * //   SELECT * FROM employees WHERE salary > 100000
      */
-    static async where<T extends BaseEntity>(
+    static async queryObjs<T extends BaseEntity>(
         this: { new (): T } & typeof BaseEntity,
-        firstCondition: string,
-        ...conditions: string[]
+        query: string,
+        ...params: any[]
     ): Promise<T[]> {
         const db = this.db;
         const prototype = this.prototype as EntityPrototype;
-
-        if (prototype._tableName == undefined) {
-            throw new InvalidEntityError(`Entity prototype has undefined attribute: _tableName`);
-        }
-
-
-        let sql = `SELECT * FROM ${prototype._tableName} WHERE ${firstCondition}`;
-        conditions.forEach((condition) => {
-            sql += ` OR ${condition}`
-        });
-
-        sql += ';'
-        const result = await db.getAllAsync(sql);
-        
+        this.verifyPrototype();
+    
+        const tableName = prototype._tableName;
+        const finalQuery = query.replace(/\$table/g, tableName!);
+    
+        const result = await db.getAllAsync(finalQuery, ...params);
+    
+        // Convert rows to entity instances
         return this.convertToObj<T>(result);
     }
+
+
+    /**
+     * Executes a query.
+     * It automatically replaces `$table` with the entity’s table name.
+     *
+     * @template T The type of the entity.
+     * @param query A valid SQL query string. Use `$table` within the query
+     * to reference this entity's table name. Needs to return a list of objects
+     * @param params Additional parameters for the query (optional).
+     * @returns An the result of the query the same way as the expo-sqlite dataabase does
+     * see @link https://docs.expo.dev/versions/latest/sdk/sqlite/. 
+     * If, after reading the documentation, you are still unsure what kind of object will be 
+     * returned, don't worry, that is normal. Their documentation is terrible.
+     * @throws {InvalidEntityError} If the entity prototype is not properly defined.
+     *
+     * @example
+     * // The table name is "employees"
+     * const results = await Employee.query(
+     *    "SELECT * FROM $table WHERE salary > ?",
+     *    100000
+     * );
+     * // This runs:
+     * //   SELECT * FROM employees WHERE salary > 100000
+     */
+    static async query<T extends BaseEntity>(
+        this: { new (): T } & typeof BaseEntity,
+        query: string,
+        ...params: any[]
+    ): Promise<any>{
+        const db = this.db;
+        const prototype = this.prototype as EntityPrototype;
+        this.verifyPrototype();
+    
+        const tableName = prototype._tableName;
+        const finalQuery = query.replace(/\$table/g, tableName!);
+    
+        const result = await db.getAllAsync(finalQuery, ...params);
+    
+        // Convert rows to entity instances
+        return result;
+    }
+
+
+
 
     /**
      * Get the number of entities in the table.
@@ -150,7 +201,7 @@ export default class BaseEntity {
         this.verifyPrototype();
         const db = this.db;
         const result = await db.getFirstAsync(`SELECT COUNT(*) as count FROM ${prototype._tableName}`) as any;
-        return result.rows[0]['COUNT(*)'];
+        return result.count;
     }
 
 
@@ -181,12 +232,12 @@ export default class BaseEntity {
     /**
      * Get a list of all database column names.
      * @template T The type of the entity.
-     * @returns A list of column names.
+     * @returns A list of column data.
      * @throws {InvalidEntityError} If the entity prototype is not properly defined.
      */
     static getColumns<T extends BaseEntity>(
         this: { new (): T } & typeof BaseEntity,
-    ): Promise<Array<string>> {
+    ): Promise<Array<ColumnMetadata>> {
         const prototype = this.prototype as EntityPrototype;
 
 
@@ -194,9 +245,7 @@ export default class BaseEntity {
         this.verifyPrototype();
 
 
-
-        throw new Error("unimplimented");
-
+        return (this.prototype as any)._columns
     }
 
 

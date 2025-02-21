@@ -1,6 +1,6 @@
 import { Clinic } from '@/services/clinicDataService';
 import "reflect-metadata";
-import { Column, Entity } from './decorators';
+import { Column, Entity, PrimaryGeneratedColumn } from './decorators';
 import BaseEntity from './base-entity';
 
 // TODO make sure that the table is deleted and rebuilt if
@@ -14,28 +14,28 @@ export default class ClinicEntity extends BaseEntity implements Clinic {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ isNullable: true })
+  @Column({ tsType: Number, isNullable: true })
   latitude?: number;
   
-  @Column({ isNullable: true })
+  @Column({ tsType: Number, isNullable: true })
   longitude?: number;
   
-  @Column()
+  @Column({ tsType: String })
   serviceArea!: string;
   
-  @Column()
+  @Column({ tsType: String })
   name!: string;
   
-  @Column()
+  @Column({ tsType: String })
   address!: string;
   
-  @Column()
+  @Column({ tsType: String })
   contactInfo!: string;
   
-  @Column()
+  @Column({ tsType: String })
   hours!: string;
   
-  @Column({isList: true})
+  @Column({ tsType: String, isList: true })
   services!: string[];
 
   constructor(data?: Partial<Clinic> & {
@@ -65,7 +65,4 @@ export default class ClinicEntity extends BaseEntity implements Clinic {
 
 
 
-function PrimaryGeneratedColumn(): (target: ClinicEntity, propertyKey: "id") => void {
-  throw new Error('Function not implemented.');
-}
 

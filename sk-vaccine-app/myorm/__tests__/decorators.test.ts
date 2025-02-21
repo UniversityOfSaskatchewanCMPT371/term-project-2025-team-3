@@ -279,7 +279,7 @@ describe("Unit tests for myorm decorators", () => {
                 {
                     propertyKey: "id",
                     name: "id",
-                    type: mapTsTypeToSql(Number),
+                    type: "INTEGER",
                     isList: false,
                     isPrimary: true,
                     isNullable: false,

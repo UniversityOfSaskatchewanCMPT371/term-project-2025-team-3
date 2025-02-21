@@ -11,11 +11,7 @@ import DatabaseInitializer from '@/components/db-init';
   
 export default function RootLayout() {
 
-  return (
-          <DatabaseInitializer>
-            <Stack />;
-          </DatabaseInitializer>
-          );
+  return <Stack />;
 }
 
 

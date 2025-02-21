@@ -771,9 +771,336 @@ describe("Unit tests for BaseEntity", () => {
 
 
     
+    describe("Unit tests for queryObjs method", () => {
+
+        class TestEntity extends BaseEntity {
+            id: number;
+            name: string;
+        }
 
 
 
+
+        beforeEach(() => {
+            jest.clearAllMocks();
+            
+            (TestEntity.prototype as any)._tableName = "test_table";
+            (TestEntity.prototype as any)._primaryKey = "id";
+            (TestEntity.prototype as any)._columns = [
+                {
+                    propertyKey: "id",
+                    name: "id",
+                    type: "INTEGER",
+                    isPrimary: true,
+                    isList: false,
+                    isNullable: false
+                },
+                {
+                    propertyKey: "name",
+                    name: "name",
+                    type: "TEXT",
+                    isPrimary: false,
+                    isList: false,
+                    isNullable: false
+                }
+            ];
+        });
+    
+        it("should replace $table with the correct table name and return entity objects", async () => {
+            (mockdb.getAllAsync as jest.Mock).mockResolvedValue([
+                { id: 1, name: "Alice" },
+                { id: 2, name: "Bob" }
+            ]);
+    
+            const results = await TestEntity.queryObjs(
+                "SELECT * FROM $table WHERE name LIKE ?",
+                "A%"
+            );
+    
+            expect(mockdb.getAllAsync).toHaveBeenCalledWith(
+                "SELECT * FROM test_table WHERE name LIKE ?",
+                "A%"
+            );
+            expect(results.length).toBe(2);
+            expect(results[0].id).toBe(1);
+            expect(results[0].name).toBe("Alice");
+            expect(results[1].id).toBe(2);
+            expect(results[1].name).toBe("Bob");
+        });
+    
+        it("should return an empty array if no rows match", async () => {
+            (mockdb.getAllAsync as jest.Mock).mockResolvedValue([]);
+    
+            const results = await TestEntity.queryObjs("SELECT * FROM $table");
+    
+            expect(results).toEqual([]);
+            expect(mockdb.getAllAsync).toHaveBeenCalledWith("SELECT * FROM test_table");
+        });
+    
+        it("should pass multiple parameters correctly", async () => {
+            (mockdb.getAllAsync as jest.Mock).mockResolvedValue([{ id: 999, name: "Testy" }]);
+    
+            const results = await TestEntity.queryObjs(
+                "SELECT * FROM $table WHERE id > ? AND name = ?",
+                100,
+                "Testy"
+            );
+    
+            expect(mockdb.getAllAsync).toHaveBeenCalledWith(
+                "SELECT * FROM test_table WHERE id > ? AND name = ?",
+                100,
+                "Testy"
+            );
+            expect(results[0].id).toBe(999);
+            expect(results[0].name).toBe("Testy");
+        });
+    
+        it("should throw InvalidEntityError if prototype is missing a table name", async () => {
+            (TestEntity.prototype as any)._tableName = undefined;
+    
+            await expect(TestEntity.queryObjs("SELECT * FROM $table")).rejects.toThrow(
+                InvalidEntityError
+            );
+            expect(mockdb.getAllAsync).not.toHaveBeenCalled();
+        });
+    });
+    
+    describe("Unit tests for query method", () => {
+
+
+        class TestEntity extends BaseEntity {
+            id: number;
+            name: string;
+        }
+
+
+
+        beforeEach(() => {
+            jest.clearAllMocks();
+            (TestEntity.prototype as any)._tableName = "test_table";
+            (TestEntity.prototype as any)._primaryKey = "id";
+            (TestEntity.prototype as any)._columns = [
+                {
+                    propertyKey: "id",
+                    name: "id",
+                    type: "INTEGER",
+                    isPrimary: true,
+                    isList: false,
+                    isNullable: false
+                },
+                {
+                    propertyKey: "name",
+                    name: "name",
+                    type: "TEXT",
+                    isPrimary: false,
+                    isList: false,
+                    isNullable: false
+                }
+            ];
+        });
+    
+        it("should replace $table and return result from the database", async () => {
+            (mockdb.getAllAsync as jest.Mock).mockResolvedValue([
+                { id: 10, name: "RawName" }
+            ]);
+    
+            const result = await TestEntity.query("SELECT * FROM $table WHERE id = ?", 10);
+    
+            expect(mockdb.getAllAsync).toHaveBeenCalledWith(
+                "SELECT * FROM test_table WHERE id = ?",
+                10
+            );
+            expect(result).toEqual([{ id: 10, name: "RawName" }]);
+        });
+    
+        it("should handle no matching rows and return an empty array", async () => {
+            (mockdb.getAllAsync as jest.Mock).mockResolvedValue([]);
+    
+            const result = await TestEntity.query("SELECT * FROM $table WHERE id = ?", 999);
+    
+            expect(mockdb.getAllAsync).toHaveBeenCalledWith(
+                "SELECT * FROM test_table WHERE id = ?",
+                999
+            );
+            expect(result).toEqual([]);
+        });
+    
+        it("should pass multiple parameters and return data", async () => {
+            (mockdb.getAllAsync as jest.Mock).mockResolvedValue([
+                { id: 101, name: "ParamTester" }
+            ]);
+    
+            const result = await TestEntity.query(
+                "SELECT * FROM $table WHERE id > ? AND name = ?",
+                100,
+                "ParamTester"
+            );
+    
+            expect(mockdb.getAllAsync).toHaveBeenCalledWith(
+                "SELECT * FROM test_table WHERE id > ? AND name = ?",
+                100,
+                "ParamTester"
+            );
+            expect(result).toEqual([{ id: 101, name: "ParamTester" }]);
+        });
+    
+        it("should throw InvalidEntityError if prototype is not complete", async () => {
+            (TestEntity.prototype as any)._tableName = undefined;
+    
+            await expect(TestEntity.query("SELECT * FROM $table")).rejects.toThrow(
+                InvalidEntityError
+            );
+            expect(mockdb.getAllAsync).not.toHaveBeenCalled();
+        });
+    });
+    
+
+    describe("Unit tests for count", () => {
+
+
+        it("should return the correct count when the table has records", async () => {
+            (mockdb.getFirstAsync as jest.Mock).mockResolvedValue({ count: 5 });
+    
+            class Test extends BaseEntity {}
+    
+            (Test.prototype as any)._tableName = "test";
+            (Test.prototype as any)._primaryKey = "id";
+            (Test.prototype as any)._columns = [
+                {
+                    propertyKey: "id",
+                    name: "id",
+                    type: "INTEGER",
+                    isPrimary: true,
+                    isList: false,
+                    isNullable: false
+                }
+            ];
+    
+            const count = await Test.count();
+            expect(count).toBe(5);
+            expect(mockdb.getFirstAsync).toHaveBeenCalledWith("SELECT COUNT(*) as count FROM test");
+        });
+    
+        it("should return 0 when the table is empty", async () => {
+            (mockdb.getFirstAsync as jest.Mock).mockResolvedValue({ count: 0 });
+    
+            class Test extends BaseEntity {}
+    
+            (Test.prototype as any)._tableName = "test";
+            (Test.prototype as any)._primaryKey = "id";
+            (Test.prototype as any)._columns = [
+                {
+                    propertyKey: "id",
+                    name: "id",
+                    type: "INTEGER",
+                    isPrimary: true,
+                    isList: false,
+                    isNullable: false
+                }
+            ];
+    
+            const count = await Test.count();
+            expect(count).toBe(0);
+            expect(mockdb.getFirstAsync).toHaveBeenCalledWith("SELECT COUNT(*) as count FROM test");
+        });
+    
+        it("should throw InvalidEntityError if the prototype is not defined", async () => {
+            class Test extends BaseEntity {}
+    
+            (Test.prototype as any)._tableName = undefined;
+            (Test.prototype as any)._primaryKey = "id";
+            (Test.prototype as any)._columns = [];
+    
+            await expect(Test.count()).rejects.toThrow(InvalidEntityError);
+            expect(mockdb.getFirstAsync).not.toHaveBeenCalled();
+        });
+    
+
+        describe("Unit tests for clear", () => {
+            it("should delete all records from the table", async () => {
+                (mockdb.execAsync as jest.Mock).mockResolvedValue(undefined);
+        
+                class Test extends BaseEntity {}
+
+                (Test.prototype as any)._tableName = "test";
+                (Test.prototype as any)._primaryKey = "id";
+                (Test.prototype as any)._columns = [
+                    {
+                        propertyKey: "id",
+                        name: "id",
+                        type: "INTEGER",
+                        isPrimary: true,
+                        isList: false,
+                        isNullable: false
+                    }
+                ];
+
+        
+                (Test.prototype as any)._tableName = "test";
+        
+                await Test.clear();
+        
+                expect(mockdb.execAsync).toHaveBeenCalledWith("DELETE FROM test");
+            });
+        
+            it("should throw an error if _tableName is undefined", async () => {
+                class Test extends BaseEntity {}
+        
+                (Test.prototype as any)._tableName = undefined;
+        
+                await expect(Test.clear()).rejects.toThrow(InvalidEntityError);
+            });
+        });
+
+        describe("Unit tests for getColumns", () => {
+            it("should return a list of column names", async () => {
+                class Test extends BaseEntity {}
+        
+                (Test.prototype as any)._tableName = "test";
+                (Test.prototype as any)._primaryKey = "id";
+                (Test.prototype as any)._columns = [
+                    { propertyKey: "id", name: "id", type: "INTEGER", isPrimary: true, isList: false, isNullable: false },
+                    { propertyKey: "columnOne", name: "column_one", type: "TEXT", isPrimary: false, isList: false, isNullable: true },
+                    { propertyKey: "columnTwo", name: "column_two", type: "TEXT", isPrimary: false, isList: true, isNullable: false }
+                ];
+        
+                const columns = await Test.getColumns();
+        
+                expect(columns).toEqual([
+                    { propertyKey: "id", name: "id", type: "INTEGER", isPrimary: true, isList: false, isNullable: false },
+                    { propertyKey: "columnOne", name: "column_one", type: "TEXT", isPrimary: false, isList: false, isNullable: true },
+                    { propertyKey: "columnTwo", name: "column_two", type: "TEXT", isPrimary: false, isList: true, isNullable: false }
+                ]);
+            });
+            
+            it("should return an empty array when there are no columns", async () => {
+                class Test extends BaseEntity {}
+        
+                (Test.prototype as any)._tableName = "test";
+                (Test.prototype as any)._primaryKey = "id";
+                (Test.prototype as any)._columns = [];
+        
+                const columns = await Test.getColumns();
+        
+                expect(columns).toEqual([]);
+            });
+        
+            it("should throw InvalidEntityError if the prototype is not defined", async () => {
+                class Test extends BaseEntity {}
+        
+                (Test.prototype as any)._tableName = undefined;
+                (Test.prototype as any)._columns = undefined;
+        
+                expect(() => {
+                    Test.getColumns();
+                }).toThrow(InvalidEntityError);
+            });
+        
+
+
+        });
+
+    });
 
 
 

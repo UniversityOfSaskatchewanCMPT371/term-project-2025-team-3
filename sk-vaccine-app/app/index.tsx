@@ -41,6 +41,7 @@ export default function Index() {
   }, [navigation]);
 
   return (
+    <DatabaseInitializer>
       <View style={{ flex: 1 }}>
         <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
           <Image source={saskLogo} style={{ width: 90, height: 120 }} />
@@ -86,7 +87,7 @@ export default function Index() {
           <ChinButton path={'/test'} text={RECORDS_BTN_TEXT} />
         </View>
       </View>
-
+    </DatabaseInitializer>
   );
 }
 

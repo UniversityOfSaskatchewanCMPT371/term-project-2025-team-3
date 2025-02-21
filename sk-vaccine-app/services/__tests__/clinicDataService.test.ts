@@ -1,8 +1,43 @@
 import ClinicData, { ClinicArray, Clinic } from "@/services/clinicDataService";
 import { EmptyStorageError, InvalidArgumentError } from "@/utils/ErrorTypes";
-import ClinicEntity from "@/myorm/clinic-entity";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import logger from "@/utils/logger";
+import BaseEntity from "@/myorm/base-entity";
+import * as SQLite from 'expo-sqlite';
+
+const mockdb = {
+  execAsync: jest.fn(),
+  getAllAsync: jest.fn(),
+  getFirstAsync: jest.fn(),
+  execSync: jest.fn(),
+  getAllSync: jest.fn()
+} as unknown as SQLite.SQLiteDatabase;
+BaseEntity.db = mockdb;
+
+import ClinicEntity from "@/myorm/clinic-entity";
+
+
+
+
+
+
+
+jest.mock("@/myorm/base-entity", () => {
+const actualModule = jest.requireActual("@/myorm/base-entity");
+  return {
+    __esModule: true,
+    ...actualModule,
+    default: jest.fn().mockImplementation(() => {
+      return {
+        save: jest.fn(),
+      };
+    }),
+    find: jest.fn(),
+    count: jest.fn(),
+    clear: jest.fn(),
+  };
+});
+
 
 describe("Unit tests for ClinicData", () => {
   let clinicData: ClinicData;
@@ -29,6 +64,7 @@ describe("Unit tests for ClinicData", () => {
         hours: "9 AM - 7 PM",
         services: ["Child"],
       }
+      
     ];
     const timeStamp = new Date("2025-02-15T12:00:00Z");
     testClinicArray = new ClinicArray(testClinics, timeStamp);

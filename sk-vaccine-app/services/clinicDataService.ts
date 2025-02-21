@@ -1,5 +1,4 @@
 import ClinicEntity from "@/myorm/clinic-entity";
-import { AppDataSource } from "@/myorm/data-source";
 import iClinicData from "@/interfaces/iClinicData";
 import { EmptyStorageError, InvalidArgumentError } from "@/utils/ErrorTypes";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -107,30 +106,29 @@ export default class ClinicData implements iClinicData {
                 const validColumns = await this.getTextColumns();
                 throw new InvalidArgumentError(`Invalid column name: ${column}, \n\tValid column names are: ${validColumns.join(', ')}`);
             }
-        
-            clinicArray = await ClinicEntity.createQueryBuilder("clinic")
-                .where(`clinic.${column} LIKE :input`, { input: `%${input}%` })
-                .getMany();
+            
+            clinicArray = await ClinicEntity.queryObjs(`SELECT * from $table WHERE ${column} LIKE ?`, `%${input}%`);
+
         }
         else {
 
-            const query = ClinicEntity.createQueryBuilder("clinic");
+            let query = `SELECT * from $table WHERE`;
 
 
             const textColumns = await this.getTextColumns();
             
             textColumns.forEach((column, index) => {
                 if (index === 0) {
-                    query.where(`clinic.${column} LIKE :input`, {input: `%${input}%`});
+                    query += ` ${column} LIKE ?`;
                 }
                 else {
-                    query.orWhere(`clinic.${column} LIKE :input`, {input: `%${input}%`});
+                    query += ` OR ${column} LIKE ?`;
                 }
             });
 
 
 
-            clinicArray = await query.getMany();
+            clinicArray = await ClinicEntity.queryObjs(query, ...(textColumns.map(() => `%${input}%`)));
         }
 
         
@@ -172,11 +170,11 @@ export default class ClinicData implements iClinicData {
      * @returns A list of text column names.
      */
     async getTextColumns(): Promise<string[]> {
-        const metadata = AppDataSource.getMetadata(ClinicEntity);
-        return metadata.columns.filter(col => {
+        const columns = await ClinicEntity.getColumns();
+        return columns.filter(col => {
             const type = col.type;
-            return type === "varchar" || type === "text" || type === "simple-array";
-          }).map(col => col.propertyName);
+            return type === "TEXT" || type?.includes("VARCHAR") || type?.includes("CHARACTER");
+          }).map(col => col.name!);
     }
 
     /**
@@ -195,8 +193,7 @@ export default class ClinicData implements iClinicData {
      * Deletes all stored clinic data and timestamp
      */
     async emptyStorage(): Promise<void> {
-        const clinicRepository = AppDataSource.getRepository(ClinicEntity);
-        await clinicRepository.clear();
+        await ClinicEntity.clear();
         await AsyncStorage.removeItem(CLINIC_TIMESTAMP_KEY);
     }
 
