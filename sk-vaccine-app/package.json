@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "test": "jest",
     "lint": "expo lint",
-    "prepare": "husky"
+    "prepare": "cd .. && husky sk-vaccine-app/.husky"
   },
   "jest": {
     "preset": "jest-expo",
@@ -23,6 +23,7 @@
     ],
     "setupFiles": [
       "<rootDir>/jest-setup.ts"
+
     ]
   },
   "dependencies": {
@@ -71,12 +72,14 @@
     "@types/react-test-renderer": "^18.3.0",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "babel-preset-expo": "^12.0.6",
+    "eslint-config-expo": "^8.0.1",
+    "react-test-renderer": "18.3.1",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "jest-expo": "~52.0.3",
-    "react-test-renderer": "18.3.1",
     "reflect-metadata": "^0.2.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "rimraf": "^6.0.1"
   },
   "private": true
 }

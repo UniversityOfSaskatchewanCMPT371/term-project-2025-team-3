@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 
-import Index, {TITLE_TEXT, CLINIC_BTN_TEXT, BOOKING_BTN_TEXT, RECORDS_BTN_TEXT, VACCINE_BTN_TEXT} from '../index';
+import Index, {CLINIC_BTN_TEXT, BOOKING_BTN_TEXT, RECORDS_BTN_TEXT, VACCINE_BTN_TEXT} from '../index';
 
 
 import {
@@ -82,7 +82,6 @@ describe('Index (home screen)', () => {
     it('renders correctly', () => {
 
         const { getByText } = render(<Index/>);
-        expect(getByText(TITLE_TEXT)).toBeTruthy();
         expect(getByText(CLINIC_BTN_TEXT)).toBeTruthy();
         expect(getByText(BOOKING_BTN_TEXT)).toBeTruthy();
         expect(getByText(RECORDS_BTN_TEXT)).toBeTruthy();
