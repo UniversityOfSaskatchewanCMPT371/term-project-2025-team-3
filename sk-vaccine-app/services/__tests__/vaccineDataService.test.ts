@@ -12,7 +12,7 @@ describe('Unit tests for VaccineDataService.getVaccineSheetJSON', () => {
         // Cast 'as any' to allow for accessing private methods
         jest.spyOn(vaccineDataService as any, "getProductIDs").mockReturnValue(mockIDs);    
     
-        const result = await vaccineDataService.getVaccineSheetJSON();
+        const result = await vaccineDataService.getVaccineSheetsSHA();
         
         expect(result).toEqual(test1Data);
     })
@@ -23,7 +23,7 @@ describe('Unit tests for VaccineDataService.getVaccineSheetJSON', () => {
         // Cast 'as any' to allow for accessing private methods
         jest.spyOn(vaccineDataService as any, "getProductIDs").mockReturnValue(mockIDs);    
     
-        const result = await vaccineDataService.getVaccineSheetJSON();
+        const result = await vaccineDataService.getVaccineSheetsSHA();
         
         expect(result).toEqual(test1Data);
     })

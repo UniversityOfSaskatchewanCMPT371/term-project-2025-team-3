@@ -14,14 +14,34 @@ export type VaccineSheet = {
     starting: string,
 };
 
-export type VaccineListResponse = {
-    version: number,
-    vaccines: VaccineListJSON[]
+export interface Vaccine {
+    vaccineName: string;
+    productId: number;
+    englishFormatId: number;
+    frenchFormatId: number;
+    englishPDFFilename: string;
+    frenchPDFFilename: string;
+    starting: string;
+    associatedDiseasesEnglish: string[];
+    associatedDiseasesFrench: string[];
 }
 
-export type VaccineListJSON = {
+export type VaccineListResponse = {
+    version: number,
+    vaccines: VaccineInfoJSON[]
+}
+
+export type VaccineProduct = {
+    productId: number,
+    englishFormatId?: number,
+    frenchFormatId?: number,
+} 
+
+export type VaccineInfoJSON = {
     vaccineName: string,
-    productID: number,
+    productId: number,
+    englishFormatId: number,
+    frenchFormatId: number,
     starting: string,
     associatedDiseases: {
         english: string[],
@@ -33,22 +53,18 @@ export type VaccineUpdate = {
     nameEnglish?: string;
     nameFrench?: string;
 
-    descriptionEnglish?: string;
-    descriptionFrench?: string;
-
     associatedDiseasesEnglish?: string[];
     associatedDiseasesFrench?: string[];
     
     englishPDFPath?: string;
-    englishPDFDate?: String;
+    englishPDFFilename?: String;
     englishPDFLastChecked: string;
 
     frenchPDFPath?: string;
-    frenchPDFDate?: string;
+    frenchPDFFilename?: string;
     frenchPDFLastChecked: string;
 
-    startingAge?: string;
-    startingGrade?: string;
+    starting: string;
 }
 
 export interface iVaccineDataService {
@@ -72,10 +88,14 @@ export interface iVaccineDataService {
     updateVaccineData(toUpdate: VaccineUpdate[]): boolean
 
     /**
+     * @async This function is run asynchronously
      * Replaces the 
      * @returns a boolean, whether the update was successful
      */
     updatePDFFiles(uris: string[]): Promise<boolean>;
+
+
+    getVaccineSheetsSHA(): Promise<Response[]>;
 
 
     /**

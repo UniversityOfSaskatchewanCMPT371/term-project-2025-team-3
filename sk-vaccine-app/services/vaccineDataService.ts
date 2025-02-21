@@ -1,8 +1,11 @@
-import { iVaccineDataService, VaccineListJSON, VaccineListResponse, VaccineSheet, VaccineUpdate } from "@/interfaces/iVaccineData";
+import { iVaccineDataService, VaccineInfoJSON, VaccineListResponse, VaccineProduct, VaccineSheet, VaccineUpdate } from "@/interfaces/iVaccineData";
 import logger from "@/utils/logger";
 import * as FileSystem from "expo-file-system";
+import * as Crypto from 'expo-crypto';
+import assert from 'assert'
 import tempJson from "@/services/__tests__/vaccineListService.data.json";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import VaccineEntity from "@/myorm/vaccine-entity";
 
 class VaccineDataService implements iVaccineDataService {
     updateVaccineData(toUpdate: VaccineUpdate[]): boolean {
@@ -15,18 +18,30 @@ class VaccineDataService implements iVaccineDataService {
     updatePDFs(toUpdate: string[]): boolean {
         throw new Error("Method not implemented.");
     }
+
     
 
     vaccineQuery(input: string, language: string, field?: string): VaccineSheet[] {
         throw new Error("Method not implemented.");
     }
 
-    private getProductIDs(): number[] {
-        const productIDQuery = `SELECT product_id FROM vaccines`
-        const productNumbers: number[] = await VaccineEntity.createQueryBuilder("vaccine_product_ids")
-                                                .where(`vaccine_product`)
+    private getProductIDs(): VaccineProduct[] {
+        const productIDQuery = `SELECT productId, englishFormatId, frenchFormatId FROM vaccines`
+        //const productNumbers: VaccineProduct[] = await VaccineProductEntity.createQueryBuilder("vaccine_product_ids").where(`vaccine_product`)
         //TODO: Implememnt query execution, for now returns mock
-        const productNumbers: number[] = [11766, 31990] //await executeQuery(productIDQuery);
+        const productNumbers: VaccineProduct[] = 
+                        [
+                            {
+                                productId: 11766, 
+                                englishFormatId: 74270,
+                                frenchFormatId: 141783 
+                            }, 
+                            {
+                                productId: 31990,
+                                englishFormatId: 39096,
+                                frenchFormatId: 141785
+                            }
+                        ] //await executeQuery(productIDQuery);
         return productNumbers;
     }
 
@@ -96,7 +111,8 @@ class VaccineDataService implements iVaccineDataService {
         
     }
 
-    async getVaccineListJSON(): Promise<VaccineListResponse> {
+
+    async getVaccineListRemote(): Promise<VaccineListResponse> {
         return new Promise((resolve, reject) => {
             try {
                 // TODO: Don't have the link to request from yet
@@ -118,13 +134,80 @@ class VaccineDataService implements iVaccineDataService {
         
     }
 
-    async getVaccineSheetJSON(): Promise<Response[]> {
+    async storeVaccineListLocal(vaccineList: VaccineInfoJSON[]) {
+        try {
+            assert(vaccineList.length > 0, "Vaccine list should not be empty")
+            const insertPromises = vaccineList.map(async (vaccine) => {
+                try {
+                    const vaccineEntity = new VaccineEntity(vaccine);
+                    await vaccineEntity.save();
+                } catch (error) {
+                    logger.error("Error storing vaccine list\nError", error)
+                    return null
+                }
+            })
+            return await Promise.all(insertPromises);
+        } catch (error) {
+            logger.error("Error in store vaccine\nError", error)
+            return null
+        }
+    }
+
+    async downloadVaccinePDF(productId: string, formatId: string) {
+        try {
+            const fileUri = `${FileSystem.documentDirectory}vaccinePdfs/${productId}/${formatId}.pdf`;
+            const uri = await FileSystem.downloadAsync(`https://publications.saskatchewan.ca/api/v1/products/${productId}/formats/${formatId}`, fileUri)
+        } catch (error) {
+            logger.error(`Error downloading vaccind PDF for productId: ${productId}\nError: `, error);
+        }
+    }
+
+    async compareExternalPDFs(): Promise<VaccineProduct[]> {
+        const productIds = this.getProductIDs();
+        try {
+            const comparePromises = productIds.map(async (product) => {
+                try {
+                    const productJSON = await (await fetch(`https://publications.saskatchewan.ca/api/v1/products/${product.productId}`)).json();
+                   
+                    const englishPDFFilename = productJSON.productFormats[0].digitalAttributes.fileaName;
+                    const frenchPDFFilename = productJSON.productFormats[1].digitalAttributes.fileaName;
+                    const localFilenames = await this.getLocalPDFFilenames(product.productId);
+
+                    return {
+                        productId: product.productId,
+                        englishFormatId: englishPDFFilename === localFilenames.englishFilename ?  product.englishFormatId : undefined,
+                        frenchFormatId: frenchPDFFilename === localFilenames.frenchFilename ? product.frenchFormatId : undefined 
+                    }
+                } catch (error) {
+                    logger.error(`Error comparing PDFs for product ${product.productId}\nError: `, error)
+                    return {
+                        productId: product.productId
+                    }
+                }
+            })
+            const comparisons = await Promise.all(comparePromises);
+            return comparisons
+        } catch (error) {
+            logger.error(`Error comparing PDFs\nError: `, error)
+            return [];
+        }
+    }
+
+    async getLocalPDFFilenames(productId: number): Promise<{englishFilename: string, frenchFilename: string}> {
+        return new Promise((resolve, reject) => {
+            const filenames = await VaccineEntity.query(`SELECT englishPDFFilename, frenchPDFFilename FROM vaccines WHERE productId = ?`, productId)
+            resolve(filenames);
+        })
+ 
+    } 
+
+    async getVaccineJSONSHA(): Promise<Response[]> {
         const productIDs = this.getProductIDs();
 
         try {
             const fetchPromises = productIDs.map(async (product) => {
                 try {
-                const response = await fetch(`https://publications.saskatchewan.ca/api/v1/products/${product}`);
+                const response = await fetch(`https://publications.saskatchewan.ca/api/v1/products/${product.productId}`);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error, Status: ${response.status}`);
