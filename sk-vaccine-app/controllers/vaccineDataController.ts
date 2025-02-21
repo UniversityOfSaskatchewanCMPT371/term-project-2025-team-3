@@ -1,5 +1,7 @@
 import { iVaccineDataController, VaccineListResponse, VaccineSheet } from "@/interfaces/iVaccineData";
+import VaccineEntity from "@/myorm/vaccine-entity";
 import { vaccineDataService } from "@/services/vaccineDataService";
+import logger from "@/utils/logger";
 
 
 class VaccineDataContoller implements iVaccineDataController {
@@ -16,13 +18,25 @@ class VaccineDataContoller implements iVaccineDataController {
             } 
             const pdfsToUpdate = (await vaccineDataService.compareExternalPDFs()).map(async (vaccine) => {
                 try {
-                    if (vaccine.englishFormatId) {
+                    if (vaccine.english?.formatId) {
+                        vaccineDataService.downloadVaccinePDF(vaccine.productId, vaccine.english.formatId);
                         
                     }
+                    if (vaccine.french?.formatId) {
+                        vaccineDataService.downloadVaccinePDF(vaccine.productId, vaccine.french.formatId);
+
+                    }
+                    if (vaccine.english || vaccine.french) {
+                        vaccineDataService.updateLocalPDFFilenames(vaccine.productId, vaccine.english.filename, vaccine.french.filename);
+                    }
+                } catch (error) {
+                    logger.error(`Error updating pdfs in updateVaccines`);
+                    return false;
                 }
             })
-            const 
+            await Promise.all(pdfsToUpdate)
         })
+        return true;
     }
 
     private async updateVaccineList() {

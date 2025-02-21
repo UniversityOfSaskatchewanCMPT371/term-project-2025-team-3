@@ -153,16 +153,19 @@ class VaccineDataService implements iVaccineDataService {
         }
     }
 
-    async downloadVaccinePDF(productId: string, formatId: string) {
+    async downloadVaccinePDF(productId: number, formatId: number): Promise<string> {
+        assert(productId != null && formatId != null);
         try {
             const fileUri = `${FileSystem.documentDirectory}vaccinePdfs/${productId}/${formatId}.pdf`;
-            const uri = await FileSystem.downloadAsync(`https://publications.saskatchewan.ca/api/v1/products/${productId}/formats/${formatId}`, fileUri)
+            const { uri } = await FileSystem.downloadAsync(`https://publications.saskatchewan.ca/api/v1/products/${productId}/formats/${formatId}`, fileUri)
+            return uri;
         } catch (error) {
             logger.error(`Error downloading vaccind PDF for productId: ${productId}\nError: `, error);
+            return "";
         }
     }
 
-    async compareExternalPDFs(): Promise<VaccineProduct[]> {
+    async compareExternalPDFs() {
         const productIds = this.getProductIDs();
         try {
             const comparePromises = productIds.map(async (product) => {
@@ -175,9 +178,16 @@ class VaccineDataService implements iVaccineDataService {
 
                     return {
                         productId: product.productId,
-                        englishFormatId: englishPDFFilename === localFilenames.englishFilename ?  product.englishFormatId : undefined,
-                        frenchFormatId: frenchPDFFilename === localFilenames.frenchFilename ? product.frenchFormatId : undefined 
+                        english: {
+                            filename: englishPDFFilename,
+                            formatId: englishPDFFilename === localFilenames.englishFilename ? undefined :  product.englishFormatId,
+                        },
+                        french: {
+                            filename: frenchPDFFilename,
+                            formatId: frenchPDFFilename === localFilenames.frenchFilename ? undefined : product.frenchFormatId 
+                        }
                     }
+
                 } catch (error) {
                     logger.error(`Error comparing PDFs for product ${product.productId}\nError: `, error)
                     return {
@@ -194,12 +204,22 @@ class VaccineDataService implements iVaccineDataService {
     }
 
     async getLocalPDFFilenames(productId: number): Promise<{englishFilename: string, frenchFilename: string}> {
-        return new Promise((resolve, reject) => {
-            const filenames = await VaccineEntity.query(`SELECT englishPDFFilename, frenchPDFFilename FROM vaccines WHERE productId = ?`, productId)
+        return new Promise(async (resolve, reject) => {
+            const filenames = await VaccineEntity.query(`SELECT englishPDFFilename, frenchPDFFilename FROM $table WHERE productId = ?`, productId)
             resolve(filenames);
         })
  
     } 
+
+    async updateLocalPDFFilenames(productId: number, englishFilename?: string, frenchFilename?: string) {
+        let statment = `UPDATE $table SET 
+                ${englishFilename ? "englishPDFFilename = ?," : ""} 
+                ${frenchFilename ? "frenchPDFFilename = ?" : ""} WHERE productId = ?`
+        return new Promise(async (resolve, reject) => {
+            const vaccineEntity = await VaccineEntity
+            vaccineEntity.query(statment, englishFilename, frenchFilename, productId);  
+        })
+    }
 
     async getVaccineJSONSHA(): Promise<Response[]> {
         const productIDs = this.getProductIDs();
