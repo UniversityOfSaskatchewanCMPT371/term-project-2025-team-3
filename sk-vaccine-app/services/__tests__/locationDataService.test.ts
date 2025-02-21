@@ -1,8 +1,9 @@
 import { renderHook, waitFor } from '@testing-library/react-native';
-import LocationData, { LocationAccessError } from '@/services/locationDataService';
+import LocationData from '@/services/locationDataService';
 import { getLastKnownPositionAsync, hasServicesEnabledAsync, requestForegroundPermissionsAsync } from 'expo-location';
 
 import { PermissionStatus } from 'expo-location';
+import { LocationAccessError } from '@/utils/ErrorTypes';
 
 jest.mock('expo-location', () => ({
     __esModule: true,

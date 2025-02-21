@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Stack } from "expo-router";
 import { Image, View, Text } from "react-native";
 import { memo } from "react";
@@ -29,6 +30,11 @@ const CustomHeader = memo(() => {
     );
 });
 
+
+
+
+
+  
 export default function RootLayout() {
     return (
         <Stack
@@ -42,3 +48,5 @@ export default function RootLayout() {
         />
     );
 }
+
+
