@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 
 
 
+
+export const JSON_TIMESTAMP_KEY = "time-created"
+
 /**
  * Holds the current state of loading clinic data.
  */
@@ -87,9 +90,9 @@ export default function useClinicData(
                         } else {
                             const jsonResponse = await response.json();
                             
-                            const remoteClinics = new ClinicArray(jsonResponse);
+                            const remoteClinics = new ClinicArray(jsonResponse.clinics, new Date(jsonResponse[JSON_TIMESTAMP_KEY]));
                             // only store remote clinics if they are more recent
-                            if (remoteClinics.timeStamp > (await clinicService.getTimeStamp())) {
+                            if ( await clinicService.isStorageEmpty() || remoteClinics.timeStamp > (await clinicService.getTimeStamp())) {
                                 await clinicService.storeClinics(remoteClinics);
                             }
                         }
