@@ -2,6 +2,7 @@ import { InvalidArgumentError, InvalidEntityError } from "@/utils/ErrorTypes";
 import logger from "@/utils/logger";
 import "reflect-metadata";
 import BaseEntity from "./base-entity";
+import * as SQLite from 'expo-sqlite';
 
 
 export interface ColumnOptions {
@@ -174,6 +175,27 @@ export function Entity(options?: {tableName?: string, immutable?: boolean}) {
     options = options || {};
     return function (constructor: Function) {
         logger.info("Entity initialization starting, should run after db initialization unless this is a test")
+        
+
+        // set up a mock database if being tested
+        // this might look like bad practice, but you haven't tried to
+        // find a better solution, and you won't find one
+        if (process.env.NODE_ENV === 'test' && process.env.JEST_WORKER_ID !== undefined) {
+            logger.info("Entity is initalized with mock database")
+
+            const mockdb = {
+              execAsync: jest.fn(),
+              getAllAsync: jest.fn(),
+              getFirstAsync: jest.fn(),
+              execSync: jest.fn(),
+              getAllSync: jest.fn()
+            } as unknown as SQLite.SQLiteDatabase;
+            BaseEntity.db = mockdb;
+        }
+        
+        
+        
+        
         const db = BaseEntity.db;
         let sql: string;
     
@@ -271,3 +293,6 @@ function createTable(prototype: EntityPrototype): string {
     sql = sql.slice(0, -2) + "\n);";
     return sql;
 }
+
+
+

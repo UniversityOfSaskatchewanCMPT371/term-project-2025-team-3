@@ -3,7 +3,7 @@ import iClinicData from "@/interfaces/iClinicData";
 import { EmptyStorageError, InvalidArgumentError } from "@/utils/ErrorTypes";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CLINIC_TIMESTAMP_KEY='clinic-data-timestamp';
+export const CLINIC_TIMESTAMP_KEY='clinic-data-timestamp';
 
 /**
  * Stores data about a clinic.
