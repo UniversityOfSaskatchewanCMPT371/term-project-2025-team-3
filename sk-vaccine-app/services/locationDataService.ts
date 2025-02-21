@@ -1,12 +1,7 @@
 import iLocationData from '@/interfaces/iLocationData';
+import { LocationAccessError } from '@/utils/ErrorTypes';
 import * as Location from 'expo-location';
 
-export class LocationAccessError extends Error {
-    constructor(message: string) {
-        super(message);
-        this.name = "LocationAccessError";
-    }
-}
 
 /**
  * gets the user's location using the expo-location module

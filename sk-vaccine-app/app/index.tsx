@@ -1,11 +1,16 @@
-import SquareButton from "@/components/home-btn-square";
-import { StyleSheet, Text, View, Image } from "react-native";
+import SquareButton from '@/components/home-btn-square';
+import { StyleSheet, Text, View, Image } from 'react-native';
 // eslint-disable-next-line
-import logger from "@/utils/logger";
-import ChinButton from "@/components/home-btn-chin";
-import { useNavigation } from "expo-router";
-import { useEffect } from "react";
-import { PATH_VACCINE_INFO, CLINIC_INFO } from "../utils/constPaths";
+import logger from '@/utils/logger';
+import ChinButton from '@/components/home-btn-chin';
+import { useNavigation } from 'expo-router';
+import { useEffect } from 'react';
+import {
+  PATH_VACCINE_INFO,
+  CLINIC_INFO,
+} from '../utils/constPaths'
+import DatabaseInitializer from '@/components/db-init';
+
 
 export const CLINIC_BTN_TEXT = "Clinic Information";
 export const BOOKING_BTN_TEXT = "Booking";
@@ -29,6 +34,7 @@ export default function Index() {
     }, [navigation]);
 
     return (
+      <DatabaseInitializer>
         <View style={{ flex: 1 }}>
             <View style={styles.horizontalContainer}>
                 <View style={styles.btnContainer}>
@@ -67,7 +73,9 @@ export default function Index() {
                 <ChinButton path={"/vaccine-info"} text={RECORDS_BTN_TEXT} />
             </View>
         </View>
+      </DatabaseInitializer>
     );
+
 }
 
 const styles = StyleSheet.create({
