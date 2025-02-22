@@ -1,10 +1,16 @@
 import { iVaccineDataController, VaccineListResponse, VaccinePDFData, VaccineSheet } from "@/interfaces/iVaccineData";
 import VaccineEntity from "@/myorm/vaccine-entity";
-import { vaccineDataService } from "@/services/vaccineDataService";
+import VaccineDataService from "@/services/vaccineDataService";
 import logger from "@/utils/logger";
 
 
 class VaccineDataContoller implements iVaccineDataController {
+
+    private vaccineDataService: VaccineDataService
+
+    iVaccineDataController() {
+        this.vaccineDataService = new VaccineDataService();
+    }
 
     getVaccines(): VaccineSheet[] {
         throw new Error("Method not implemented.");
@@ -22,18 +28,18 @@ class VaccineDataContoller implements iVaccineDataController {
             if (!upToDate) {
                 await this.updateVaccineList();
             } 
-            const pdfsToUpdate = (await vaccineDataService.compareExternalPDFs()).map(async (vaccine: VaccinePDFData) => {
+            const pdfsToUpdate = (await this.vaccineDataService.compareExternalPDFs()).map(async (vaccine: VaccinePDFData) => {
                 try {
                     if (vaccine.english?.formatId) {
-                        vaccineDataService.downloadVaccinePDF(vaccine.productId, vaccine.english.formatId);
+                        this.vaccineDataService.downloadVaccinePDF(vaccine.productId, vaccine.english.formatId);
                         
                     }
                     if (vaccine.french?.formatId) {
-                        vaccineDataService.downloadVaccinePDF(vaccine.productId, vaccine.french.formatId);
+                        this.vaccineDataService.downloadVaccinePDF(vaccine.productId, vaccine.french.formatId);
 
                     }
                     if (vaccine.english || vaccine.french) {
-                        vaccineDataService.updateLocalPDFFilenames(vaccine.productId, vaccine.english?.filename, vaccine.french?.filename);
+                        this.vaccineDataService.updateLocalPDFFilenames(vaccine.productId, vaccine.english?.filename, vaccine.french?.filename);
                     }
                 } catch (error) {
                     logger.error(`Error updating pdfs in updateVaccines`);
@@ -46,9 +52,9 @@ class VaccineDataContoller implements iVaccineDataController {
     }
 
     private async updateVaccineList() {
-        vaccineDataService.getVaccineListRemote().then(async (vaccineList: VaccineListResponse) => {
-            await vaccineDataService.storeVaccineListVersionLocal(vaccineList.version);
-            await vaccineDataService.storeVaccineListLocal(vaccineList.vaccines)
+        this.vaccineDataService.getVaccineListRemote().then(async (vaccineList: VaccineListResponse) => {
+            await this.vaccineDataService.storeVaccineListVersionLocal(vaccineList.version);
+            await this.vaccineDataService.storeVaccineListLocal(vaccineList.vaccines)
         }); 
     }
 
@@ -62,8 +68,8 @@ class VaccineDataContoller implements iVaccineDataController {
      */
     private async vaccineListUpToDate(): Promise<boolean> {
         return new Promise(async (resolve, reject) => {
-            const remoteVersion = await vaccineDataService.getVaccineListVersionRemote();
-            const localVersion = await vaccineDataService.getVaccineListVersionLocal();
+            const remoteVersion = await this.vaccineDataService.getVaccineListVersionRemote();
+            const localVersion = await this.vaccineDataService.getVaccineListVersionLocal();
             resolve(remoteVersion === localVersion)
         })
     }

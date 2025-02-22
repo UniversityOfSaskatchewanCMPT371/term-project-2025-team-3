@@ -15,9 +15,9 @@ export default class VaccineEntity extends BaseEntity implements Vaccine {
   id!: number;
 
   @Column({ tsType: String })
-    vaccineName!: string;
+  vaccineName!: string;
   
-  @Column({ tsType: Number, unique: true })
+  @Column({ tsType: Number, isUnique: true })
   productId!: number;
   
   @Column({ tsType: Number })
