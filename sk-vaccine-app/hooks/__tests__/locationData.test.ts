@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from '@testing-library/react-native';
 import useLocation from '../locationData';
 import logger from '@/utils/logger';
-import { LocationAccessError } from '@/services/locationDataService';
+import { LocationAccessError } from '@/utils/ErrorTypes';
 
 
 const mockLocationService = {
