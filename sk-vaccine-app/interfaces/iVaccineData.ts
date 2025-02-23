@@ -10,7 +10,7 @@ export type VaccineSheet = {
     /* Whether an update attempt was succesful
        Might be no new version, but check succeeded
     */
-    upToDate: boolean,
+    upToDate?: boolean,
     /**
      * @field starting: This could be age or grade
      */

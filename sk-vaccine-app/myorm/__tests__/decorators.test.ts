@@ -46,7 +46,8 @@ describe("Unit tests for myorm decorators", () => {
                     name: "id",
                     type: "INTEGER",
                     isPrimary: true,
-                    isNullable: false
+                    isNullable: false,
+                    isUnique: false,
                 }
             ] as Array<ColumnMetadata>;
             (TestClass.prototype as any)._primaryKey = "id";
@@ -72,7 +73,8 @@ describe("Unit tests for myorm decorators", () => {
                     type: "INTEGER",
                     isPrimary: true,
                     isList: false,
-                    isNullable: false
+                    isNullable: false,
+                    isUnique: false,
                 },
                 {
                     propertyKey: "columnOne",
@@ -80,7 +82,8 @@ describe("Unit tests for myorm decorators", () => {
                     type: "TEXT",
                     isPrimary: false,
                     isList: false,
-                    isNullable: true
+                    isNullable: true,
+                    isUnique: false,
                 },
                 {
                     propertyKey: "columnTwo",
@@ -88,7 +91,8 @@ describe("Unit tests for myorm decorators", () => {
                     type: "TEXT",
                     isPrimary: false,
                     isList: true,
-                    isNullable: false
+                    isNullable: false,
+                    isUnique: false,
                 }
             ] as Array<ColumnMetadata>;
 
@@ -125,14 +129,16 @@ describe("Unit tests for myorm decorators", () => {
 					name: "id",
 					type: "INTEGER",
 					isPrimary: true,
-					isNullable: false
+					isNullable: false,
+                    isUnique: false,
 				},
 				{
 					propertyKey: "uuid",
 					name: "uuid",
 					type: "TEXT",
 					isPrimary: true,
-					isNullable: false
+					isNullable: false,
+                    isUnique: false,
 				}
             ];
             (TestClass.prototype as any)._primaryKey = "id";
@@ -152,7 +158,8 @@ describe("Unit tests for myorm decorators", () => {
 					name: "id",
 					type: "INTEGER",
 					isPrimary: true,
-					isNullable: false
+					isNullable: false,
+                    isUnique: false,
 				}
             ];
             (TestClass.prototype as any)._primaryKey = "id";
@@ -183,7 +190,8 @@ describe("Unit tests for myorm decorators", () => {
 				name: "id",
 				type: "INTEGER",
 				isPrimary: true,
-				isNullable: false
+				isNullable: false,
+                isUnique: false,
 			  }
 			];
 			(TestClass.prototype as any)._primaryKey = "id";
@@ -230,7 +238,8 @@ describe("Unit tests for myorm decorators", () => {
                     isList: false,
                     isPrimary: false,
                     isNullable: false,
-                    propertyKey: "columnOne"
+                    propertyKey: "columnOne",
+                    isUnique: false,
                 }
             ])
 
@@ -262,6 +271,7 @@ describe("Unit tests for myorm decorators", () => {
                     isList: false,
                     isPrimary: true,
                     isNullable: false,
+                    isUnique: false,
                 },
             ]);
             expect(proto._primaryKey).toEqual("id");
@@ -283,6 +293,7 @@ describe("Unit tests for myorm decorators", () => {
                     isList: false,
                     isPrimary: true,
                     isNullable: false,
+                    isUnique: false,
                 },
             ]);
             expect(proto._primaryKey).toEqual("id");
@@ -303,6 +314,7 @@ describe("Unit tests for myorm decorators", () => {
                     isList: true,
                     isPrimary: false,
                     isNullable: false,
+                    isUnique: false,
                 },
             ]);
         });
@@ -322,6 +334,7 @@ describe("Unit tests for myorm decorators", () => {
                     isList: true,
                     isPrimary: false,
                     isNullable: false,
+                    isUnique: false,
                 },
             ]);
         });
@@ -341,6 +354,7 @@ describe("Unit tests for myorm decorators", () => {
                     isList: false,
                     isPrimary: false,
                     isNullable: true,
+                    isUnique: false,
                 },
             ]);
         });
@@ -360,6 +374,7 @@ describe("Unit tests for myorm decorators", () => {
                     isList: false,
                     isPrimary: false,
                     isNullable: false,
+                    isUnique: false,
                 },
             ]);
         });

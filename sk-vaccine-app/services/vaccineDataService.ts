@@ -16,22 +16,6 @@ export default class VaccineDataService implements iVaccineDataService {
 
     private async getProductIDs(): Promise<VaccineProduct[]> {
         const productNumbers: VaccineProduct[] = await VaccineEntity.query(`SELECT productId, englishFormatId, frenchFormatId FROM $table`)
-        //TODO: Implememnt query execution, for now returns mock
-        /*
-        const productNumbers: VaccineProduct[] = 
-                        [
-                            {
-                                productId: 11766, 
-                                englishFormatId: 74270,
-                                frenchFormatId: 141783 
-                            }, 
-                            {
-                                productId: 31990,
-                                englishFormatId: 39096,
-                                frenchFormatId: 141785
-                            }
-                        ] 
-        */
         return productNumbers;
     }
 
@@ -56,6 +40,22 @@ export default class VaccineDataService implements iVaccineDataService {
                 reject(error);
             }
         })
+    }
+
+
+    async getVaccineSheets(language: "english" | "french"): Promise<VaccineSheet[]> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                if (language == "english") {
+                    resolve(await VaccineEntity.query(`SELECT vaccineName, associatedDiseasesEnglish AS associatedDiseases, englishPDFFilename AS pdfPath, starting FROM $table`))
+                } else {
+                    resolve(await VaccineEntity.query(`SELECT vaccineName, associatedDiseasesFrench AS associatedDiseases, frenchPDFFilename AS pdfPath, starting FROM $table`))
+                }
+            } catch (error) {
+                reject(error);
+            }
+        })
+    
     }
 
     /**
