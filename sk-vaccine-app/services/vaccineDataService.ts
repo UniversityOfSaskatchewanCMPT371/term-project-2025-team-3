@@ -7,30 +7,15 @@ import tempJson from "@/services/__tests__/vaccineListService.data.json";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import VaccineEntity from "@/myorm/vaccine-entity";
 
-class VaccineDataService implements iVaccineDataService {
+export default class VaccineDataService implements iVaccineDataService {
     
 
     vaccineQuery(input: string, language: string, field?: string): VaccineSheet[] {
         throw new Error("Method not implemented.");
     }
 
-    private getProductIDs(): VaccineProduct[] {
-        const productIDQuery = `SELECT productId, englishFormatId, frenchFormatId FROM vaccines`
-        //const productNumbers: VaccineProduct[] = await VaccineProductEntity.createQueryBuilder("vaccine_product_ids").where(`vaccine_product`)
-        //TODO: Implememnt query execution, for now returns mock
-        const productNumbers: VaccineProduct[] = 
-                        [
-                            {
-                                productId: 11766, 
-                                englishFormatId: 74270,
-                                frenchFormatId: 141783 
-                            }, 
-                            {
-                                productId: 31990,
-                                englishFormatId: 39096,
-                                frenchFormatId: 141785
-                            }
-                        ] //await executeQuery(productIDQuery);
+    private async getProductIDs(): Promise<VaccineProduct[]> {
+        const productNumbers: VaccineProduct[] = await VaccineEntity.query(`SELECT productId, englishFormatId, frenchFormatId FROM $table`)
         return productNumbers;
     }
 
@@ -55,6 +40,22 @@ class VaccineDataService implements iVaccineDataService {
                 reject(error);
             }
         })
+    }
+
+
+    async getVaccineSheets(language: "english" | "french"): Promise<VaccineSheet[]> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                if (language == "english") {
+                    resolve(await VaccineEntity.query(`SELECT vaccineName, associatedDiseasesEnglish AS associatedDiseases, englishPDFFilename AS pdfPath, starting FROM $table`))
+                } else {
+                    resolve(await VaccineEntity.query(`SELECT vaccineName, associatedDiseasesFrench AS associatedDiseases, frenchPDFFilename AS pdfPath, starting FROM $table`))
+                }
+            } catch (error) {
+                reject(error);
+            }
+        })
+    
     }
 
     /**
@@ -131,8 +132,7 @@ class VaccineDataService implements iVaccineDataService {
             assert(vaccineList.length > 0, "Vaccine list should not be empty")
             const insertPromises = vaccineList.map(async (vaccine) => {
                 try {
-                    const vaccineEntity = new VaccineEntity;
-                    await vaccineEntity.query(`INSERT OR REPLACE INTO $table
+                    VaccineEntity.query(`INSERT OR REPLACE INTO $table
                         (
                         vaccineName, 
                         productId, 
@@ -170,7 +170,7 @@ class VaccineDataService implements iVaccineDataService {
     }
 
     async compareExternalPDFs(): Promise<VaccinePDFData[]> {
-        const productIds = this.getProductIDs();
+        const productIds = await this.getProductIDs();
         try {
             const comparePromises = productIds.map(async (product) => {
                 try {
@@ -232,8 +232,7 @@ class VaccineDataService implements iVaccineDataService {
                 ${englishFilename ? "englishPDFFilename = ?," : ""} 
                 ${frenchFilename ? "frenchPDFFilename = ?" : ""} WHERE productId = ?`
         return new Promise(async (resolve, reject) => {
-            const vaccineEntity = await VaccineEntity
-            vaccineEntity.query(statment, englishFilename, frenchFilename, productId);  
+            VaccineEntity.query(statment, englishFilename, frenchFilename, productId);  
         })
     }
 
@@ -247,7 +246,7 @@ class VaccineDataService implements iVaccineDataService {
      * 
      */
     async getVaccineJSONSHA(): Promise<Response[]> {
-        const productIDs = this.getProductIDs();
+        const productIDs = await this.getProductIDs();
 
         try {
             // Building all of the promises
@@ -279,5 +278,4 @@ class VaccineDataService implements iVaccineDataService {
         
 }
 
-export const vaccineDataService = new VaccineDataService();
 

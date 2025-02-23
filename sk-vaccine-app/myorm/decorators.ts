@@ -19,6 +19,8 @@ export interface ColumnOptions {
     isPrimary?: boolean;
     /** Can the row hold the value of null, `false` by default */
     isNullable?: boolean;
+    /** Must every value in this column be unique, `false` by default */
+    isUnique?: boolean;
     /** 
      * typescript type, either `tsType` or `type` must be set.
      * `type` takes presedence over `tsType`
@@ -99,6 +101,7 @@ export function Column(options?: ColumnOptions) {
                 propertyKey: propertyKey,
                 name: options?.name || propertyKey,
                 type: options?.type || mapTsTypeToSql(options?.tsType, options?.isList),
+                isUnique: options?.isUnique || false,
                 isList: options?.isList || false,
                 isPrimary: options?.isPrimary || false,
                 isNullable: options?.isNullable || false
@@ -283,6 +286,9 @@ function createTable(prototype: EntityPrototype): string {
         }
         if (col.isNullable) {
             sql += `  ${col.name} ${col.type} NULL,\n`;
+        }
+        if (col.isUnique) {
+            sql += `  ${col.name} ${col.type} UNIQUE, \n`;
         }
         else {
             sql += `  ${col.name} ${col.type} NOT NULL,\n`;
