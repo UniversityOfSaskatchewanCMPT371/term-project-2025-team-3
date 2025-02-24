@@ -51,7 +51,7 @@ export default class ClinicData implements iClinicData {
 
     /**
      * Replace all clinics stored on device with new ones.
-     * @param clinics A list of clinics.
+     * @param clinics A list of clinics. All attributes must be defined.
      */
     async storeClinics(clinics: ClinicArray): Promise<void> {
 
@@ -88,6 +88,7 @@ export default class ClinicData implements iClinicData {
      * Search for clinics that are stored on device.
      * @param input The value to search for.
      * @param column The text column to search in, if left blank all column are searched.
+     *  The column must be a valid text column name in the ClinicData table.
      * @return An array of all of the clinics containing `input`.
      * @throws EmptyStorageError If no clinics are stored.
      * @throws InvalidArgumentError If `column` is not a valid column. 
