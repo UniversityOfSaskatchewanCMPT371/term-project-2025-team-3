@@ -1,0 +1,186 @@
+Test Cases
+**********************
+
+1. getVaccineListVersionRemote
+Description: This test case verifies the method that fetches the remote vaccine list version.
+
+Test Case: should get remote vaccine list version
+
+Setup:
+
+Mock the fetch function to return a JSON object with a version of 1.
+
+Execution:
+
+Call the getVaccineListVersionRemote() method.
+
+Expected Outcome:
+
+The method should return the version from the mock response (version: 1).
+
+The fetch function should be called.
+
+2. getVaccineListRemote
+Description: This test case verifies the method that fetches the remote vaccine list.
+
+Test Case: should get remote vaccine list
+
+Setup:
+
+Mock the fetch function to return a JSON object with the vaccine list.
+
+Execution:
+
+Call the getVaccineListRemote() method.
+
+Expected Outcome:
+
+The method should return the vaccine list from the mock response.
+
+The fetch function should be called.
+
+3. compareExternalPDFs
+Description: This test case verifies the method that compares external PDFs.
+
+Test Case: should compare external PDFs
+
+Setup:
+
+Mock the fetch function to return a JSON object with the product formats.
+
+Mock the getLocalPDFFilenames method to return local filenames.
+
+Mock the getProductIDs method to return product IDs.
+
+Execution:
+
+Call the compareExternalPDFs() method.
+
+Expected Outcome:
+
+The method should return a list of products with their PDF filenames and format IDs.
+
+The fetch function should be called.
+
+The getLocalPDFFilenames method should be called.
+
+The getProductIDs method should be called.
+
+4. getLocalPDFFilenames
+Description: This test case verifies the method that fetches local PDF filenames.
+
+Test Case: should get local PDF filenames
+
+Setup:
+
+Mock the query function to return the local filenames.
+
+Execution:
+
+Call the getLocalPDFFilenames() method with a product ID.
+
+Expected Outcome:
+
+The method should return the local PDF filenames.
+
+The query function should be called.
+
+5. updateLocalPDFFilenames
+Description: This test case verifies the method that updates local PDF filenames.
+
+Test Case: should update local PDF filenames
+
+Setup:
+
+Mock the query function to simulate the update operation.
+
+Execution:
+
+Call the updateLocalPDFFilenames() method with a product ID and filenames.
+
+Expected Outcome:
+
+The method should update the local PDF filenames.
+
+The query function should be called.
+
+6. downloadVaccinePDF
+Description: This test case verifies the method that downloads a vaccine PDF.
+
+Test Cases:
+
+should download vaccine PDF
+
+should handle download vaccine PDF failure
+
+Setup:
+
+Mock the downloadAsync function to return a path or throw an error.
+
+Execution:
+
+Call the downloadVaccinePDF() method with a product ID and format ID.
+
+Expected Outcome:
+
+For the success case:
+
+The method should return the path to the downloaded PDF.
+
+The downloadAsync function should be called.
+
+For the failure case:
+
+The method should handle download failure and return an empty string.
+
+The downloadAsync function should be called.
+
+7. storeVaccineListVersionLocal
+Description: This test case verifies the method that stores the vaccine list version locally.
+
+Test Case: should store vaccine list version locally
+
+Setup:
+
+Mock the setItem function of AsyncStorage.
+
+Execution:
+
+Call the storeVaccineListVersionLocal() method with a version number.
+
+Expected Outcome:
+
+The method should store the version in AsyncStorage.
+
+The setItem function should be called with the correct arguments.
+
+8. getVaccineListVersionLocal
+Description: This test case verifies the method that fetches the vaccine list version from local storage.
+
+Test Cases:
+
+should fetch vaccine list version locally
+
+should handle missing local vaccine list version
+
+Setup:
+
+Mock the getItem function of AsyncStorage.
+
+Execution:
+
+Call the getVaccineListVersionLocal() method.
+
+Expected Outcome:
+
+For the success case:
+
+The method should return the version from AsyncStorage.
+
+The getItem function should be called.
+
+For the missing version case:
+
+The method should return -1 if the version is not found in AsyncStorage.
+
+The getItem function should be called.
