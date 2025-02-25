@@ -169,6 +169,7 @@ export default class BaseEntity {
      * If, after reading the documentation, you are still unsure what kind of object will be 
      * returned, don't worry, that is normal. Their documentation is terrible.
      * @throws {InvalidEntityError} If the entity prototype is not properly defined.
+     * @effects modifys the sqlite database based on the given `query`
      *
      * @example
      * // The table name is "employees"
@@ -228,6 +229,7 @@ export default class BaseEntity {
      * database must also be initialized using the hook `useInitDataSource`.
      * @template T The type of the entity.
      * @throws {InvalidEntityError} If the entity prototype is not properly defined.
+     * @effects Deletes all of the rows in the database.
      */
     static async clear<T extends BaseEntity>(
         this: { new (): T } & typeof BaseEntity,
@@ -314,6 +316,7 @@ export default class BaseEntity {
      * database must also be initialized using the hook `useInitDataSource`.
      * @throws {InvalidEntityError} If a required field is empty or
      *      the entity prototype is not properly defined.
+     * @effects Adds a row to the database with the objects data.
      */
     async save(): Promise<void> {
 
