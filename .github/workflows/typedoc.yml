@@ -1,0 +1,35 @@
+name: Generate TypeDoc and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write  # Allows committing the generated docs
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.18'
+
+      - name: Install Dependencies
+        run: npm install  
+
+      - name: Generate TypeDoc Documentation
+        run: npx typedoc --out docs --entryPointStrategy Expand app/ components/ controllers/ hooks/ interfaces/ myorm/ services/ utils/
+
+      - name: Commit and Push Docs
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs
+          git diff --cached --quiet || (git commit -m "Update TypeDoc documentation" && git push)
