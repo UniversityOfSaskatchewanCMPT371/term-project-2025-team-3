@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "start": "node scrape-clinic-info.js"
+  },
+  "dependencies": {
+    "puppeteer": "^24.2.0",
+    "puppeteer-core": "^24.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  },
+  "name": "vaccine-data",
+  "version": "1.0.0",
+  "main": "scrape-clinic-info.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

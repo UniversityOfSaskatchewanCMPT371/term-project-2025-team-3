@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, ScrollView, StyleSheet } from 'react-native';
 
+// hard code vaccine name(mack) will update and load vaccine name from a folder
 export default function Page() {
   const [searchQuery, setSearchQuery] = useState('');
   const [pdfFiles, setPdfFiles] = useState([
@@ -14,11 +15,23 @@ export default function Page() {
     'MediProtect',
     'Safeguard',
     'LifeShield',
-    'A_vaccine'
+    'FluShield Plus',
+    'ImmuGuard',
+    'ViraSafe',
+    'ProVax',
+    'HealthGuard',
+    'DefendVax',
+    'InfanShield',
+    'MediProtect',
+    'Safeguard',
+    'LifeShield',
+
 
   ]);
 
+  // filter the PDF files based on the search query
   const filteredFile = pdfFiles.filter(file =>
+      // convert both file name and search query to lowercase for case-insensitive comparsion
       file.toLowerCase().includes(searchQuery.toLowerCase() )
   );
 

@@ -1,0 +1,6 @@
+1. calling the library (Puppeteer) init JSOn file. Prepre the list for storing the data
+find the date of each clinic (information)
+2. Oppeing the website (with page.goto)
+3. go through every page (will continue untill we get to the disable class)
+4. extracing the information in the tanel with page.evaluate
+5. Creating a JSON file of the data
