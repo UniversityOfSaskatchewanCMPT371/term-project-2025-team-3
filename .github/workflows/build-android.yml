@@ -5,7 +5,7 @@ name: "Android App APK Build"
 on:
   push:
     branches:
-      - build_actions_android
+      - main
 
 jobs:
   build:

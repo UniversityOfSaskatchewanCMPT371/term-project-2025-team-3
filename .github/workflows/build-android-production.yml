@@ -6,7 +6,7 @@ name: Android App Release Build
 on:
     push:
       branches:
-        - build_actions_android
+        - main
 
 jobs:
   build:
