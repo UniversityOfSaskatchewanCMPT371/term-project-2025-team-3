@@ -24,14 +24,17 @@ jobs:
       - name: Install Dependencies
         run: |
           cd sk-vaccine-app
-          npm install  
+          npm install
+          npm install typedoc
 
       - name: Generate TypeDoc Documentation
-        run: npx typedoc --out docs --entryPointStrategy Expand app/ components/ controllers/ hooks/ interfaces/ myorm/ services/ utils/
-
-      - name: Commit and Push Docs
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs
-          git diff --cached --quiet || (git commit -m "Update TypeDoc documentation" && git push)
+          cd sk-vaccine-app
+          npx typedoc --out ../docs --ignoreCompilerErrors --entryPointStrategy Expand app/ components/ controllers/ hooks/ interfaces/ myorm/ services/ utils/
+
+      - name: Deploy to Github Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs # Deploys the docs
+          publish_branch: gh-pages # Makes sure to deploy on the github pages branch
