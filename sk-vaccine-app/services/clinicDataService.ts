@@ -52,6 +52,7 @@ export default class ClinicData implements iClinicData {
     /**
      * Replace all clinics stored on device with new ones.
      * @param clinics A list of clinics. All attributes must be defined.
+     * @effects stores each clinic as a row in the dabase
      */
     async storeClinics(clinics: ClinicArray): Promise<void> {
 
@@ -192,6 +193,7 @@ export default class ClinicData implements iClinicData {
 
     /**
      * Deletes all stored clinic data and timestamp
+     * @effects removes all rows in the clinic data table 
      */
     async emptyStorage(): Promise<void> {
         await ClinicEntity.clear();
