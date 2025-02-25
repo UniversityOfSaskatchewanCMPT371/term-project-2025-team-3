@@ -1,19 +1,22 @@
 import { iVaccineDataService, Vaccine, VaccineInfoJSON, VaccineListResponse, VaccinePDFData, VaccineProduct, VaccineSheet } from "@/interfaces/iVaccineData";
 import logger from "@/utils/logger";
 import * as FileSystem from "expo-file-system";
-import * as Crypto from 'expo-crypto';
 import assert from 'assert'
 import tempJson from "@/services/__tests__/vaccineListService.data.json";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import VaccineEntity from "@/myorm/vaccine-entity";
 
-export default class VaccineDataService implements iVaccineDataService {
+export class VaccineDataService implements iVaccineDataService {
     
 
     vaccineQuery(input: string, language: string, field?: string): VaccineSheet[] {
         throw new Error("Method not implemented.");
     }
 
+    /**
+     * 
+     * @returns 
+     */
     private async getProductIDs(): Promise<VaccineProduct[]> {
         const productNumbers: VaccineProduct[] = await VaccineEntity.query(`SELECT productId, englishFormatId, frenchFormatId FROM $table`)
         return productNumbers;
@@ -156,7 +159,17 @@ export default class VaccineDataService implements iVaccineDataService {
             logger.error("Error in store vaccine\nError", error)
         }
     }
-
+    
+     /**
+      * This will take the 
+      * 
+      * @param productId the Id of the vaccine being updated, used to build
+      * the path
+      * @param formatId the format id, this refers to the id of the english
+      * or french PDF, used to build the path
+      * @returns a promise containing a string, this string is the path to the
+      * pdf within the mobile device
+      */
     async downloadVaccinePDF(productId: number, formatId: number): Promise<string> {
         assert(productId != null && formatId != null);
         try {
