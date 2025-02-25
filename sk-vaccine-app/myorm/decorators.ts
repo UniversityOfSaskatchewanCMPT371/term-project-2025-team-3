@@ -54,6 +54,9 @@ export interface EntityPrototype {
 
 /**
  * Decorator for creating a column in the database.
+ * @precondition This decorator must be used on a class that extends `BaseEntity`.
+ *  The class must have a `Entity` on it and exactly one of the attributes must be set
+ *  as a primary column.
  * @param options Properties of the row in the database see {@link ColumnOptions},
  *      `options.tsType` or `options.type` must be set
  * @returns Returns a decorator function that will be applied to an attribute.
@@ -113,7 +116,10 @@ export function Column(options?: ColumnOptions) {
 
 /**
  * Decorator for marking a property as the primary key.
- * @param options Properties of the row in the database see {@link ColumnOptions}
+ * @precondition This decorator must be used on a class that extends `BaseEntity`.
+ *  The class must have a `Entity` on it and there can only be one primary column.
+ * @param options Properties of the row in the database see {@link ColumnOptions}.
+ *  must define `options.tsType` or `options.type`.
  * @returns Returns a decorator function that will be applied to an attribute.
  */
 export function PrimaryGeneratedColumn(options?: Omit<ColumnOptions, 'isPrimary'>) {
@@ -135,9 +141,9 @@ export function List(options?: Omit<ColumnOptions, 'isList'>) {
 
 /**
  * Maps types to SQL types for the types:
- * String, Number, Boolean and Array of strings, otherwise the value is stored as text
+ * String, Number, Boolean and Array, otherwise the value is stored as text
  * 
- * @param type The type to map
+ * @param type The type to map, must be String, Number, Boolean and Array
  * @param isList If the data is a list
  * @returns The sql type as a string
  * @throws {InvalidEntityError} if the type is invalid.
@@ -168,7 +174,10 @@ export function mapTsTypeToSql(jsType: any, isList?: boolean): string {
 
 /**
  * Class decorator that creates a table for the class.
- * @param options.tableName The name of the table.
+ * @precondition This must be on a table that extends BaseEntity and have exactly one
+ *  primary column
+ * @param options.tableName The name of the table. Maximum 64 characters. Can contain
+ *  capital and lower case letters, underscores, and `$`.
  * @param options.immutable If the columns change should the table be cleared amd
  *      rebuilt. There is currently no way to add database migrations to the table
  *      because it is not needed.
@@ -249,13 +258,18 @@ export function Entity(options?: {tableName?: string, immutable?: boolean}) {
 
 /**
  * Creates a table for an entity if it does not exist.
- * @param EntityPrototype The metadata for the table
+ * @param prototype The metadata for the table. All of the attributes must
+ *  be defined.
  * @returns An sql statement that builds a table
- * @throws {InvalidEntityError} If there is not exactly one primary key
+ * @throws {InvalidEntityError} If the prototype has undefined values
  */
 function createTable(prototype: EntityPrototype): string {
     const tableName = prototype._tableName;
     
+    if (tableName == undefined) {
+        throw new InvalidEntityError(`No tablename defined in table: ${tableName}`);
+    }
+
     if (prototype._columns == undefined || prototype._columns.length == 0) {
         throw new InvalidEntityError(`No columns defined in table: ${tableName}`);
     }
