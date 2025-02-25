@@ -30,7 +30,7 @@ jobs:
       - name: Generate TypeDoc Documentation
         run: |
           cd sk-vaccine-app
-          npx typedoc --out ../docs --ignoreCompilerErrors --entryPointStrategy Expand app/ components/ controllers/ hooks/ interfaces/ myorm/ services/ utils/
+          npx typedoc --out ../docs --entryPointStrategy Expand app/ components/ controllers/ hooks/ interfaces/ myorm/ services/ utils/
 
       - name: Deploy to Github Pages
         uses: peaceiris/actions-gh-pages@v4
