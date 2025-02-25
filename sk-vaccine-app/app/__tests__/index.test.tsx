@@ -73,7 +73,9 @@ beforeEach(() => {
 
     
     // make useNavigation return the mock object
-    useNavigation.mockReturnValue(mockNavigation);
+=
+    //useNavigation.mockReturnValue(mockNavigation);
+
 
 });
 

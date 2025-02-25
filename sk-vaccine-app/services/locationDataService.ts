@@ -19,7 +19,8 @@ export default class LocationData implements iLocationData {
 
     /**
      * Get the user's last known location.
-     * @returns [latitude, longitude].
+     * @returns [latitude, longitude]. `latitude` must be from -90 to 90. 
+     *  `longitude` must be from -180 to 180.
      * @throws LocationAccessError if it cannot access the user's location.
      */
     async getLocation(): Promise<[number, number]>  {
