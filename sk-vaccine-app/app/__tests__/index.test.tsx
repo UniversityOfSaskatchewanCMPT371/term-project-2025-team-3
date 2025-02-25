@@ -73,7 +73,7 @@ beforeEach(() => {
 
     
     // make useNavigation return the mock object
-    useNavigation.mockReturnValue(mockNavigation);
+    (useNavigation as jest.Mock).mockReturnValue(mockNavigation);
 
 });
 
