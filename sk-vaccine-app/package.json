@@ -9,7 +9,25 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest",
+<<<<<<< Updated upstream
     "lint": "expo lint"
+=======
+    "lint": "expo lint",
+    "prepare": "cd .. && husky sk-vaccine-app/.husky"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!.*)"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.js?(x)",
+      "**/?(*.)+(spec|test).[tj]s?(x)"
+    ],
+    "setupFiles": [
+      "<rootDir>/jest-setup.ts"
+    ]
+>>>>>>> Stashed changes
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
