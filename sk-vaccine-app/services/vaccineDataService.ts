@@ -6,6 +6,12 @@ import tempJson from "@/services/__tests__/vaccineListService.data.json";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import VaccineEntity from "@/myorm/vaccine-entity";
 
+
+/**
+ * @class Implements `iVaccineService`, is used to apply logic to external APIs
+ * and internal databases/filestorage
+ * 
+ */
 export class VaccineDataService implements iVaccineDataService {
     
 
@@ -14,8 +20,14 @@ export class VaccineDataService implements iVaccineDataService {
     }
 
     /**
+     * Gets all of the SHA vaccine JSON ids as well as the ids for the language
+     * specific formats.
      * 
-     * @returns 
+     * 
+     * Pre Conditions:
+     *  - database must be initialized
+     * 
+     * @returns a list of all vaccine product ids and format ids.
      */
     private async getProductIDs(): Promise<VaccineProduct[]> {
         const productNumbers: VaccineProduct[] = await VaccineEntity.query(`SELECT productId, englishFormatId, frenchFormatId FROM $table`)
@@ -46,6 +58,15 @@ export class VaccineDataService implements iVaccineDataService {
     }
 
 
+    /**
+     * 
+     * Gets a list of VaccineSheet object which contain the local vaccine 
+     * information PDFs and other related info. Retrieves it in either 
+     * english or french
+     * 
+     * @param language must be `english` or `french`, this is required
+     * @returns A promise containing a list of `VaccineSheet` objects
+     */
     async getVaccineSheets(language: "english" | "french"): Promise<VaccineSheet[]> {
         return new Promise(async (resolve, reject) => {
             try {
@@ -101,6 +122,14 @@ export class VaccineDataService implements iVaccineDataService {
     }
 
 
+    /**
+     * Retrieves the remote vaccine list hosted as a JSON file
+     * 
+     * Pre Conditions:
+     *  - Internet connectivity must be present
+     * 
+     * @returns a promise containing the updated vaccine list
+     */
     async getVaccineListRemote(): Promise<VaccineListResponse> {
         return new Promise((resolve, reject) => {
             try {
@@ -161,12 +190,13 @@ export class VaccineDataService implements iVaccineDataService {
     }
     
      /**
-      * This will take the 
+      * This will take the provided ids and download the related pdf from the
+      * saskatchewn publications api
       * 
       * @param productId the Id of the vaccine being updated, used to build
-      * the path
+      * the path, cannot be zero, must exist in the database
       * @param formatId the format id, this refers to the id of the english
-      * or french PDF, used to build the path
+      * or french PDF, used to build the path cannot be 0 
       * @returns a promise containing a string, this string is the path to the
       * pdf within the mobile device
       */
@@ -182,6 +212,14 @@ export class VaccineDataService implements iVaccineDataService {
         }
     }
 
+    /**
+     * Compares the filenames of external and intneral PDFs to check for
+     * file changes/updates
+     * 
+     * @returns a promise containaing a list of data relating to externa, pdfs.
+     * This consists of the filenames of the external files as well as the
+     * local name comparisons
+     */
     async compareExternalPDFs(): Promise<VaccinePDFData[]> {
         const productIds = await this.getProductIDs();
         try {
@@ -220,6 +258,16 @@ export class VaccineDataService implements iVaccineDataService {
         }
     }
 
+    /**
+     * 
+     * Retrieves the names of the local PDFs of both the english and french
+     * versions
+     * 
+     * @param productId the vaccine to check, a number greater than 0 and
+     * existing in the database
+     * @returns an promise containing an object with the english and french
+     * PDF names, both in the form of strings
+     */
     async getLocalPDFFilenames(productId: number): Promise<{englishFilename: string, frenchFilename: string}> {
         return new Promise(async (resolve, reject) => {
             const filenames = await VaccineEntity.query(`SELECT englishPDFFilename, frenchPDFFilename FROM $table WHERE productId = ?`, productId)

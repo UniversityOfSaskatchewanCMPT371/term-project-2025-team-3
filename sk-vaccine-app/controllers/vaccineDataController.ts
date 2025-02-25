@@ -24,7 +24,6 @@ export class VaccineDataContoller implements iVaccineDataController {
      * 
      * This requires internet connectivity and a check WILL be in place
      * 
-     * TODO: Ensure a test for connectivity 
      * 
      * @returns 
      *     | true if the update was successful
@@ -67,6 +66,7 @@ export class VaccineDataContoller implements iVaccineDataController {
      *      - There must be internet connectivity.
      * Post Condiitons:
      *      This modifies the `vaccine` datatable, updating each altered row.
+     * 
      */
     private async updateVaccineList() {
         this.vaccineDataService.getVaccineListRemote().then(async (vaccineList: VaccineListResponse) => {
