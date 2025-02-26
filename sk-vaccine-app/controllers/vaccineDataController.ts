@@ -4,27 +4,26 @@ import { VaccineDataService } from "@/services/vaccineDataService";
 import logger from "@/utils/logger";
 
 class VaccineDataController implements iVaccineDataController {
-    private vaccineDataService: VaccineDataService;
+private vaccineDataService: VaccineDataService;
 
 
-    // Constructor to initialize VaccineDataService
-    constructor() {
-        this.vaccineDataService = new VaccineDataService();
-    }
+constructor(vaccineDataService: VaccineDataService) {
+    this.vaccineDataService = vaccineDataService;
+  }
 
     getVaccines(): VaccineSheet[] {
         throw new Error("Method not implemented.");
     }
 
     /**
-     * Checks the remote vaccine list with a call to a local private functio. 
+     * Checks the remote vaccine list with a call to a local private functio.
      * PDFs are also checked to ensure they are up to date. Depending on these
      * checks all are updated
-     * 
+     *
      * This requires internet connectivity and a check WILL be in place
-     * 
-     * 
-     * @returns 
+     *
+     *
+     * @returns
      *     | true if the update was successful
      *     | false if the update was unsuccesful
      */
@@ -50,14 +49,14 @@ class VaccineDataController implements iVaccineDataController {
                         await this.vaccineDataService.updateLocalPDFFilenames(vaccine.productId, vaccine.english?.filename, vaccine.french?.filename);
                     }
                 } catch (error) {
-                    logger.error(`Error updating pdfs in updateVaccines`);
+                    logger.error(Error updating pdfs in updateVaccines);
                     return false;
                 }
             })
         );
         return true; // Return success when all pdfs are updated.
     } catch (error) {
-        logger.error(`Error in updateVaccines: ${error.message}`);
+        logger.error(Error in updateVaccines: ${error.message});
         return false;
     }
 }
@@ -65,13 +64,13 @@ class VaccineDataController implements iVaccineDataController {
 
     /**
      * Gets the remote vaccine list, updates the local version and local list
-     * 
+     *
      * Pre Condiitons:
-     *      - The `vaccine` datatable must exist.
+     *      - The vaccine datatable must exist.
      *      - There must be internet connectivity.
      * Post Condiitons:
-     *      This modifies the `vaccine` datatable, updating each altered row.
-     * 
+     *      This modifies the vaccine datatable, updating each altered row.
+     *
      */
     private async updateVaccineList() {
         try {
@@ -79,7 +78,7 @@ class VaccineDataController implements iVaccineDataController {
             await this.vaccineDataService.storeVaccineListVersionLocal(vaccineList.version);
             await this.vaccineDataService.storeVaccineListLocal(vaccineList.vaccines);
         } catch (error) {
-            logger.error(`Error updating vaccine list: ${error.message}`);
+            logger.error(Error updating vaccine list: ${error.message});
         }
     }
 
