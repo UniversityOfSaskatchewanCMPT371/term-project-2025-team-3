@@ -1,4 +1,4 @@
-import VaccineDataService from "../vaccineDataService";
+import { VaccineDataService } from "@/services/vaccineDataService";
 import VaccineEntity from "@/myorm/vaccine-entity";
 import logger from "@/utils/logger";
 

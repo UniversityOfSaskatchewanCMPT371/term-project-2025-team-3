@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { Stack } from "expo-router";
 import { Image, View, Text } from "react-native";
 import { memo } from "react";
+import React from 'react';
 
 const CustomHeader = memo(() => {
     const TITLE_TEXT = "Sask\nImmunize";
