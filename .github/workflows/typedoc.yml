@@ -1,0 +1,40 @@
+name: Generate TypeDoc and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write  # Allows committing the generated docs
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.18'
+
+      - name: Install Dependencies
+        run: |
+          cd sk-vaccine-app
+          npm install
+          npm install typedoc
+
+      - name: Generate TypeDoc Documentation
+        run: |
+          cd sk-vaccine-app
+          npx typedoc --out ../docs --entryPointStrategy Expand app/ components/ controllers/ hooks/ interfaces/ myorm/ services/ utils/
+
+      - name: Deploy to Github Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs # Deploys the docs
+          publish_branch: gh-pages # Makes sure to deploy on the github pages branch

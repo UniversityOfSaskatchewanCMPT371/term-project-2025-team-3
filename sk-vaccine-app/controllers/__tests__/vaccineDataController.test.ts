@@ -1,4 +1,4 @@
-import VaccineDataController from "../VaccineDataController";
+import VaccineDataController from "../vaccineDataController";
 import VaccineDataService from "../../services/vaccineDataService";
 import VaccinePDFData  from "../interfaces/iVaccineData";
 import logger from "../../utils/logger";
@@ -19,7 +19,7 @@ jest.mock("../../services/vaccineDataService", () => {
   }));
 });
 
-// Mock the logger
+// Mocking the logger
 jest.mock("../../utils/logger", () => ({
   error: jest.fn(),
   info: jest.fn(),
@@ -31,21 +31,21 @@ describe("VaccineDataController", () => {
   let mockVaccineDataService: jest.Mocked<VaccineDataService>;
 
   beforeEach(() => {
-    // Initialize the VaccineDataController and automatically use the mocked VaccineDataService
+    // Initialize the VaccineDataController and use the mocked VaccineDataService
     vaccineDataController = new VaccineDataController();
     mockVaccineDataService = vaccineDataController["vaccineDataService"] as jest.Mocked<VaccineDataService>;
   });
 
   afterEach(() => {
-    jest.clearAllMocks(); // Clear any mock calls after each test
+    jest.clearAllMocks();
   });
 
   test("should return true if the vaccine list is updated", async () => {
     console.log("Calling updateVaccines...");
 
     // Mock the methods used in the updateVaccines method
-    mockVaccineDataService.vaccineListUpToDate.mockResolvedValue(false); // Simulating outdated list
-    mockVaccineDataService.updateVaccineList.mockResolvedValue(undefined); // Simulating success
+    mockVaccineDataService.vaccineListUpToDate.mockResolvedValue(false);
+    mockVaccineDataService.updateVaccineList.mockResolvedValue(undefined);
     mockVaccineDataService.compareExternalPDFs.mockResolvedValue([
       {
         productId: 1,
@@ -54,22 +54,22 @@ describe("VaccineDataController", () => {
       },
     ] as VaccinePDFData[]);
 
-    // Simulate the download and update of PDF
+    // downloading and updating the PDF
     mockVaccineDataService.downloadVaccinePDF.mockResolvedValue("path/to/file.pdf");
     mockVaccineDataService.updateLocalPDFFilenames.mockResolvedValue(undefined);
 
-    // Add a console log to see the flow
+    // Adding a console log
     console.log("Before calling updateVaccineList");
 
-    // Call the method
+
     const result = await vaccineDataController.updateVaccines();
 
-    // Check if updateVaccineList is being called
+
     console.log("Mock updateVaccineList call count:", mockVaccineDataService.updateVaccineList.mock.calls.length);
 
     console.log("Result of updateVaccines:", result);
 
-    // Ensure that the necessary methods were called
+
     expect(result).toBe(true);
     expect(mockVaccineDataService.vaccineListUpToDate).toHaveBeenCalled();
     expect(mockVaccineDataService.updateVaccineList).toHaveBeenCalled();
@@ -81,22 +81,22 @@ describe("VaccineDataController", () => {
     console.log("Calling updateVaccines (error handling)...");
 
     // Mock an error during the PDF download
-    mockVaccineDataService.vaccineListUpToDate.mockResolvedValue(false); // Simulate outdated list
+    mockVaccineDataService.vaccineListUpToDate.mockResolvedValue(false);
     mockVaccineDataService.compareExternalPDFs.mockResolvedValue([
       { productId: 1, english: { filename: "", formatId: 123 }, french: { filename: "", formatId: 456 } },
     ] as VaccinePDFData[]);
 
     mockVaccineDataService.downloadVaccinePDF.mockRejectedValue(new Error("Download error"));
 
-    // Add a console log to see the flow
+
     console.log("Before calling updateVaccines (error handling)");
 
-    // Call the method
+
     const result = await vaccineDataController.updateVaccines();
 
     console.log("Result of updateVaccines (error handling):", result);
 
-    // Ensure that the error was logged, and the return value is still true (as expected by the method)
+    // Ensure that the error was logged, and the return value is true
     expect(result).toBe(true);
     expect(mockVaccineDataService.downloadVaccinePDF).toHaveBeenCalled();
     expect(logger.error).toHaveBeenCalledWith("Error updating pdfs in updateVaccines");
