@@ -7,9 +7,10 @@ class VaccineDataController implements iVaccineDataController {
     private vaccineDataService: VaccineDataService;
 
 
-    constructor(vaccineDataService: VaccineDataService) {
-    this.vaccineDataService = vaccineDataService;
-  }
+    // Constructor to initialize VaccineDataService
+    constructor() {
+        this.vaccineDataService = new VaccineDataService();
+    }
 
     getVaccines(): VaccineSheet[] {
         throw new Error("Method not implemented.");
