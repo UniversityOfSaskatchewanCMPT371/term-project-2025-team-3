@@ -1,0 +1,90 @@
+Test Case
+**************************
+
+1. downloadVaccinePDF
+Description: Verifies the method that downloads a vaccine PDF.
+
+Test Case: should download a vaccine PDF
+
+Setup: Mock the method to return a file path.
+
+Execution: Call the method with sample parameters.
+
+Expected Outcome: The method should return the file path.
+
+2. compareExternalPDFs
+Description: Verifies the method that compares external PDFs.
+
+Test Case: should compare external PDFs
+
+Setup: Mock the method to return a comparison result.
+
+Execution: Call the method.
+
+Expected Outcome: The method should return the comparison result.
+
+3. updateLocalPDFFilenames
+Description: Verifies the method that updates local PDF filenames.
+
+Test Case: should update local PDF filenames
+
+Setup: Mock the method.
+
+Execution: Call the method with sample parameters.
+
+Expected Outcome: The method should be called with the correct parameters.
+
+4. storeVaccineListLocal
+Description: Verifies the method that stores the vaccine list locally.
+
+Test Case: should store vaccine list locally
+
+Setup: Mock the method.
+
+Execution: Call the method with a sample vaccine list.
+
+Expected Outcome: The method should be called with the correct vaccine list.
+
+5. storeVaccineListVersionLocal
+Description: Verifies the method that stores the vaccine list version locally.
+
+Test Case: should store vaccine list version locally
+
+Setup: Mock the method.
+
+Execution: Call the method with a version number.
+
+Expected Outcome: The method should be called with the correct version number.
+
+6. getVaccineListVersionLocal
+Description: Verifies the method that fetches the local version of the vaccine list.
+
+Test Case: should get the local version of the vaccine list
+
+Setup: Mock the method to return a version number.
+
+Execution: Call the method.
+
+Expected Outcome: The method should return the version number.
+
+7. getVaccineListRemote
+Description: Verifies the method that fetches the vaccine list from remote.
+
+Test Case: should get the vaccine list from remote
+
+Setup: Mock the method to return a vaccine list response.
+
+Execution: Call the method.
+
+Expected Outcome: The method should return the vaccine list response.
+
+8. vaccineQuery
+Description: Verifies the method that queries vaccines.
+
+Test Case: should query vaccines
+
+Setup: Mock the method to return a query result.
+
+Execution: Call the method with sample parameters.
+
+Expected Outcome: The method should return the query result.
