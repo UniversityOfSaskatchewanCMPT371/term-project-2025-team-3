@@ -1,12 +1,13 @@
 import { iVaccineDataController, VaccineListResponse, VaccinePDFData, VaccineSheet } from "@/interfaces/iVaccineData";
 import VaccineEntity from "@/myorm/vaccine-entity";
-import VaccineDataService from "@/services/vaccineDataService";
+import { VaccineDataService } from "@/services/vaccineDataService";
 import logger from "@/utils/logger";
 
 class VaccineDataController implements iVaccineDataController {
     private vaccineDataService: VaccineDataService;
 
-// Constructor to initialize VaccineDataService
+
+    // Constructor to initialize VaccineDataService
     constructor() {
         this.vaccineDataService = new VaccineDataService();
     }
@@ -16,8 +17,16 @@ class VaccineDataController implements iVaccineDataController {
     }
 
     /**
-     * Update vaccine list and associated PDFs.
-     * @returns A promise resolving to true if update is successful, false otherwise.
+     * Checks the remote vaccine list with a call to a local private functio. 
+     * PDFs are also checked to ensure they are up to date. Depending on these
+     * checks all are updated
+     * 
+     * This requires internet connectivity and a check WILL be in place
+     * 
+     * 
+     * @returns 
+     *     | true if the update was successful
+     *     | false if the update was unsuccesful
      */
     async updateVaccines(): Promise<boolean> {
     try {
@@ -54,6 +63,16 @@ class VaccineDataController implements iVaccineDataController {
 }
 
 
+    /**
+     * Gets the remote vaccine list, updates the local version and local list
+     * 
+     * Pre Condiitons:
+     *      - The `vaccine` datatable must exist.
+     *      - There must be internet connectivity.
+     * Post Condiitons:
+     *      This modifies the `vaccine` datatable, updating each altered row.
+     * 
+     */
     private async updateVaccineList() {
         try {
             const vaccineList: VaccineListResponse = await this.vaccineDataService.getVaccineListRemote();
@@ -66,7 +85,13 @@ class VaccineDataController implements iVaccineDataController {
 
     /**
      * Checks if the local vaccine list is up to date with the remote one.
-     * @returns A promise containing a boolean value. True if the list is up to date, false otherwise.
+     * 
+     * Pre Conditions:
+     *      - There must be interet connectivity
+     * 
+     * 
+     * @returns A promise containing a boolean value. True if the list is
+     * up to date, false otherwise
      */
     private async vaccineListUpToDate(): Promise<boolean> {
         const remoteVersion = await this.vaccineDataService.getVaccineListVersionRemote();
@@ -74,6 +99,16 @@ class VaccineDataController implements iVaccineDataController {
         return remoteVersion === localVersion;
     }
 
+    /**
+     * 
+     * Takes in an input string to search by and filter fields
+     * 
+     * @param input Must be a string
+     * @param field Does not need to be present, currently a string, should be
+     * a catagory in the future
+     * 
+     * @returns a list of vaccine sheets to be displayed
+     */
     searchVaccines(input: string, field?: string): VaccineSheet[] {
         throw new Error("Method not implemented.");
     }

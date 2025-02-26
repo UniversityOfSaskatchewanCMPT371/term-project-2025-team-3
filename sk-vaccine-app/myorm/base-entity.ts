@@ -1,6 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 import { ColumnMetadata, EntityConstructor, EntityPrototype } from './decorators';
 import { InvalidEntityError } from '@/utils/ErrorTypes';
+import assert from 'assert';
 
 
 // The function signatures is based off of the code in typeorm
@@ -11,7 +12,9 @@ import { InvalidEntityError } from '@/utils/ErrorTypes';
 // ): void {
     
 
-
+// NOTE: this is not an abstract class because i want the `db` attribute
+// to be taken from the `BaseEntity` class, so all entities share the same
+// database. If it is abstract i cannot do that
 /**
  * Core class for all db entities. Db entities
  * must extend this class.
@@ -26,6 +29,9 @@ export default class BaseEntity {
 
     /**
      * Finds and returns all records of the current entity.
+     * @preconditions This must be called from a class that extends `BaseEntity`,
+     * has one primary attribute, and the class has an `Entity` decorator. The mysql
+     * database must also be initialized using the hook `useInitDataSource`.
      * @template T The type of the entity.
      * @returns An array of entities.
      * @throws {InvalidEntityError} If the entity prototype is not properly defined.
@@ -35,7 +41,7 @@ export default class BaseEntity {
     ): Promise<T[]> {
 
         // ensure prototype is properly defined
-        this.verifyPrototype();
+        assert(this.verifyPrototype())
         
         const db = BaseEntity.db;
 
@@ -55,6 +61,11 @@ export default class BaseEntity {
     /**
      * A helper function that takes the object returned by sqlite's `SQLiteDatabase.getAllAsync` 
      * and turns it into an object of type `T`.
+     * @preconditions This must be called from a class that extends `BaseEntity`,
+     * has one primary attribute, and the class has an `Entity` decorator. The mysql
+     * database must also be initialized using the hook `useInitDataSource`.
+     * @param queryResult mysql query result that contains an array of objects that
+     *  correspond to the table defined in the class that calls this function
      * @template T The type of the entity.
      * @returns An array of entities.
      */
@@ -107,7 +118,9 @@ export default class BaseEntity {
      * Executes a query that returns a list of objects of the type this
      * is called with.
      * It automatically replaces `$table` with the entity’s table name.
-     *
+     * @preconditions This must be called from a class that extends `BaseEntity`,
+     * has one primary attribute, and the class has an `Entity` decorator. The mysql
+     * database must also be initialized using the hook `useInitDataSource`.
      * @template T The type of the entity.
      * @param query A valid SQL query string. Use `$table` within the query
      * to reference this entity's table name. Needs to return a list of objects
@@ -131,7 +144,7 @@ export default class BaseEntity {
     ): Promise<T[]> {
         const db = this.db;
         const prototype = this.prototype as EntityPrototype;
-        this.verifyPrototype();
+        assert(this.verifyPrototype())
     
         const tableName = prototype._tableName;
         const finalQuery = query.replace(/\$table/g, tableName!);
@@ -151,11 +164,12 @@ export default class BaseEntity {
      * @param query A valid SQL query string. Use `$table` within the query
      * to reference this entity's table name. Needs to return a list of objects
      * @param params Additional parameters for the query (optional).
-     * @returns An the result of the query the same way as the expo-sqlite dataabase does
+     * @returns An the result of the query the same way as the expo-sqlite database does
      * see @link https://docs.expo.dev/versions/latest/sdk/sqlite/. 
      * If, after reading the documentation, you are still unsure what kind of object will be 
      * returned, don't worry, that is normal. Their documentation is terrible.
      * @throws {InvalidEntityError} If the entity prototype is not properly defined.
+     * @effects modifys the sqlite database based on the given `query`
      *
      * @example
      * // The table name is "employees"
@@ -173,7 +187,7 @@ export default class BaseEntity {
     ): Promise<any>{
         const db = this.db;
         const prototype = this.prototype as EntityPrototype;
-        this.verifyPrototype();
+        assert(this.verifyPrototype())
     
         const tableName = prototype._tableName;
         const finalQuery = query.replace(/\$table/g, tableName!);
@@ -189,6 +203,9 @@ export default class BaseEntity {
 
     /**
      * Get the number of entities in the table.
+     * @preconditions This must be called from a class that extends `BaseEntity`,
+     * has one primary attribute, and the class has an `Entity` decorator. The mysql
+     * database must also be initialized using the hook `useInitDataSource`.
      * @template T The type of the entity.
      * @returns The number of entities in the table.
      * @throws {InvalidEntityError} If the entity prototype is not properly defined.
@@ -198,7 +215,7 @@ export default class BaseEntity {
     ): Promise<number> {
         const prototype = this.prototype as EntityPrototype;
         // ensure prototype is properly defined
-        this.verifyPrototype();
+        assert(this.verifyPrototype())
         const db = this.db;
         const result = await db.getFirstAsync(`SELECT COUNT(*) as count FROM ${prototype._tableName}`) as any;
         return result.count;
@@ -207,14 +224,18 @@ export default class BaseEntity {
 
     /**
      * Clears all entities from the table.
+     * @preconditions This must be called from a class that extends `BaseEntity`,
+     * has one primary attribute, and the class has an `Entity` decorator. The mysql
+     * database must also be initialized using the hook `useInitDataSource`.
      * @template T The type of the entity.
      * @throws {InvalidEntityError} If the entity prototype is not properly defined.
+     * @effects Deletes all of the rows in the database.
      */
     static async clear<T extends BaseEntity>(
         this: { new (): T } & typeof BaseEntity,
     ): Promise<void> {
         // ensure prototype is properly defined
-        this.verifyPrototype();
+        assert(this.verifyPrototype())
 
         const db = this.db;
         const prototype = this.prototype as EntityPrototype;
@@ -231,6 +252,9 @@ export default class BaseEntity {
 
     /**
      * Get a list of all database column names.
+     * @preconditions This must be called from a class that extends `BaseEntity`,
+     * has one primary attribute, and the class has an `Entity` decorator. The mysql
+     * database must also be initialized using the hook `useInitDataSource`.
      * @template T The type of the entity.
      * @returns A list of column data.
      * @throws {InvalidEntityError} If the entity prototype is not properly defined.
@@ -242,7 +266,7 @@ export default class BaseEntity {
 
 
         // ensure prototype is properly defined
-        this.verifyPrototype();
+        assert(this.verifyPrototype())
 
 
         return (this.prototype as any)._columns
@@ -251,12 +275,13 @@ export default class BaseEntity {
 
     /**
      * Checks if the prototype of the current class contains the information needed to
-     * set up a table
+     * set up a table. 
+     * @returns 1 on success
      * @throws {InvalidEntityError} If the entity prototype is not properly defined.
      */
     private static verifyPrototype<T extends BaseEntity>(
         this: { new (): T } & typeof BaseEntity,
-    ): void {
+    ): number {
         const prototype = this.prototype as EntityPrototype;
 
         const undefinedAttrs: string[] = []
@@ -280,19 +305,24 @@ export default class BaseEntity {
 
 
 
-        return;
+        return 1;
     }
 
     /**
      * Saves the current object to the database.
+     * @preconditions All columns that are not nullable must contain a value. 
+     * This must be called from a class that extends `BaseEntity`,
+     * has one primary attribute, and the class has an `Entity` decorator. The mysql
+     * database must also be initialized using the hook `useInitDataSource`.
      * @throws {InvalidEntityError} If a required field is empty or
      *      the entity prototype is not properly defined.
+     * @effects Adds a row to the database with the objects data.
      */
     async save(): Promise<void> {
 
 
         // ensure prototype is properly defined
-        (this.constructor as typeof BaseEntity).verifyPrototype();
+        assert((this.constructor as typeof BaseEntity).verifyPrototype());
 
 
 
