@@ -1,7 +1,7 @@
-import VaccineDataController from "../vaccineDataController";
-import { VaccineDataService } from "../../services/vaccineDataService";
-import { VaccinePDFData }  from "../interfaces/iVaccineData";
-import logger from "../../utils/logger";
+import VaccineDataController from "@/controllers/vaccineDataController";
+import { VaccineDataService } from "@/services/vaccineDataService";
+import { VaccinePDFData }  from "@/interfaces/iVaccineData";
+import logger from "@/utils/logger";
 
 // Mock the VaccineDataService class
 jest.mock("../../services/vaccineDataService", () => {
