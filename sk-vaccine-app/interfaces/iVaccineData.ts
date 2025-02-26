@@ -150,10 +150,10 @@ export interface iVaccineDataController {
 
     /**
     * Makes a request to update the vaccine PDFs
-    * @return true if the update was sucessfull, and false if 
-    * there was an error
+    * @returns a promise containing true if the update was sucessfull,
+    * and false if there was an error
     */
-    updateVaccines(): boolean;
+    updateVaccines(): Promise<boolean>;
 
     /**
     * Search for vaccine sheets that are stored on device.

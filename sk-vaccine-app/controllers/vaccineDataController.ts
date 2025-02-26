@@ -56,7 +56,7 @@ class VaccineDataController implements iVaccineDataController {
             })
         );
         return true; // Return success when all pdfs are updated.
-    } catch (error) {
+    } catch (error: any) {
         logger.error(`Error in updateVaccines: ${error.message}`);
         return false;
     }
@@ -78,7 +78,7 @@ class VaccineDataController implements iVaccineDataController {
             const vaccineList: VaccineListResponse = await this.vaccineDataService.getVaccineListRemote();
             await this.vaccineDataService.storeVaccineListVersionLocal(vaccineList.version);
             await this.vaccineDataService.storeVaccineListLocal(vaccineList.vaccines);
-        } catch (error) {
+        } catch (error: any) {
             logger.error(`Error updating vaccine list: ${error.message}`);
         }
     }
