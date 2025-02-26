@@ -49,14 +49,14 @@ constructor(vaccineDataService: VaccineDataService) {
                         await this.vaccineDataService.updateLocalPDFFilenames(vaccine.productId, vaccine.english?.filename, vaccine.french?.filename);
                     }
                 } catch (error) {
-                    logger.error(Error updating pdfs in updateVaccines);
+                    logger.error("Error updating pdfs in updateVaccines");
                     return false;
                 }
             })
         );
         return true; // Return success when all pdfs are updated.
     } catch (error) {
-        logger.error(Error in updateVaccines: ${error.message});
+        logger.error(`Error in updateVaccines: ${error.message}`);
         return false;
     }
 }
@@ -78,7 +78,7 @@ constructor(vaccineDataService: VaccineDataService) {
             await this.vaccineDataService.storeVaccineListVersionLocal(vaccineList.version);
             await this.vaccineDataService.storeVaccineListLocal(vaccineList.vaccines);
         } catch (error) {
-            logger.error(Error updating vaccine list: ${error.message});
+            logger.error(`Error updating vaccine list: ${error.message}`);
         }
     }
 
