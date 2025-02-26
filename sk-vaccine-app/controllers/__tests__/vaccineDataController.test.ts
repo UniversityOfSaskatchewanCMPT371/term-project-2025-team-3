@@ -1,4 +1,4 @@
-import VaccineDataController from "../VaccineDataController";
+import VaccineDataController from "../vaccineDataController";
 import VaccineDataService from "../../services/vaccineDataService";
 import VaccinePDFData  from "../interfaces/iVaccineData";
 import logger from "../../utils/logger";
