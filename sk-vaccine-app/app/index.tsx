@@ -10,6 +10,7 @@ import {
   CLINIC_INFO,
 } from '../utils/constPaths'
 import DatabaseInitializer from '@/components/db-init';
+import React from 'react';
 
 
 export const CLINIC_BTN_TEXT = "Clinic Information";

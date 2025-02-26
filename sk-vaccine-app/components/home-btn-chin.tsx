@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Link, LinkProps } from 'expo-router';
 import logger from '@/utils/logger';
+import React from 'react';
 
 interface ChinButtonProps {
   path: LinkProps['href'];
