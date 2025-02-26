@@ -1,6 +1,6 @@
 import logger from "@/utils/logger";
 import test1Data from "@/services/__tests__/vaccineDataServiceTest1.data.json"
-import { VaccineDataService } from "../vaccineDataService" 
+import { VaccineDataService } from "@/services/vaccineDataService" 
 
 
 
