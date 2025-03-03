@@ -51,7 +51,7 @@ class ClinicResults {
  * @param {string} [data.url] The URL to retrieve the json formatted clinic data from. 
  *   If null only retrieves files stored on device.
  * @param {string} [data.searchValue] Value to search for in the list of clinics. 
- *   If null it gets all of the clinics.
+ *   If null or an empty string it gets all of the clinics.
  * @param {string} [data.searchColumn] The column to search for `searchValue` in. 
  *   Ignored unless `searchValue` is set. If null, all columns are searched.
  *
