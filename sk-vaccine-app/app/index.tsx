@@ -9,7 +9,6 @@ import {
   PATH_VACCINE_INFO,
   CLINIC_INFO,
 } from '../utils/constPaths'
-import DatabaseInitializer from '@/components/db-init';
 import React from 'react';
 
 
@@ -35,7 +34,6 @@ export default function Index() {
     }, [navigation]);
 
     return (
-      <DatabaseInitializer>
         <View style={{ flex: 1 }}>
             <View style={styles.horizontalContainer}>
                 <View style={styles.btnContainer}>
@@ -74,7 +72,6 @@ export default function Index() {
                 <ChinButton path={"/vaccine-info"} text={RECORDS_BTN_TEXT} />
             </View>
         </View>
-      </DatabaseInitializer>
     );
 
 }

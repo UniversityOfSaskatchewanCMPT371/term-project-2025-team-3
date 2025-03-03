@@ -1,0 +1,4 @@
+appId: sk-vaccine-app   # Replace with your Expo app's bundle ID
+---
+- launchApp
+- assertVisible: "Clinic Information"      # Adjust to match an element on your home screen

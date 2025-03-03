@@ -6,6 +6,8 @@ import useClinicData from '@/hooks/clinicData';
 import ClinicData from '@/services/clinicDataService';
 import { ActivityIndicator } from 'react-native';
 import { DISPLAY_CLINIC } from '@/utils/constPaths';
+import logger from '@/utils/logger';
+
 
 
 
@@ -21,10 +23,20 @@ const COLORS = {
     SEARCHBAR_BG: '#EFE8EE',
 };
 
+
+
 const URL = undefined;
+
+
+
+// TODO make url an env variable
 
 export default function Page() {
     const [searchVal, setSearchVal]= useState('');
+
+    logger.debug("searchVal", searchVal);
+
+
 
     const {clinicArray, loading, serverAccessFailed, error} = useClinicData({
         clinicService: new ClinicData(),
@@ -64,23 +76,31 @@ export default function Page() {
                     <Text style={styles.clinicListSubheading}>
                         Clinics offering vaccinations intended for persons under 18 years of age
                     </Text>
-
+                    
+                    {/* display offline */}
                     {serverAccessFailed && (
                         <Text style={styles.offline}>Cannot connect to server</Text>
-                        )}
+                    )}
+
+                    {/* display error */}
                     {error && (
                         <Text style={styles.error}>{error}</Text>
                     )}
                     <View style={styles.searchBarWrapper}>
-                        <SearchBar />
+
+
+                        
+                        <SearchBar value={searchVal} onChangeText={setSearchVal} />
                     </View>
                 </View>
 
                 <ScrollView contentContainerStyle={styles.clinicCardsContainer}>
 
 
-
+                    {/* loading indicator */}
                     {loading && !error && <ActivityIndicator size="large" />}
+
+                    {/* display clinics */}
                     {clinicElements}
                 
                 </ScrollView>

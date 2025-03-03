@@ -2,6 +2,7 @@ import * as SQLite from 'expo-sqlite';
 import { ColumnMetadata, EntityConstructor, EntityPrototype } from './decorators';
 import { InvalidEntityError } from '@/utils/ErrorTypes';
 import assert from 'assert';
+import logger from '@/utils/logger';
 
 
 // The function signatures is based off of the code in typeorm
@@ -396,11 +397,6 @@ export default class BaseEntity {
 
         }
 
-    }
-
-
-
-
-    
+    } 
 
 }
