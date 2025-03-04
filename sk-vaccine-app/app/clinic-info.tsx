@@ -1,3 +1,4 @@
+import { SearchBar } from '@/components/search-bar';
 import React from 'react';
 import { Text, View } from 'react-native';
 
