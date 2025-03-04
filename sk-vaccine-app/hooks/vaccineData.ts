@@ -1,9 +1,7 @@
-import iClinicData from "@/interfaces/iClinicData";
 import {
   iVaccineDataController,
   VaccineSheet,
 } from "@/interfaces/iVaccineData";
-import { ClinicArray } from "@/services/clinicDataService";
 import logger from "@/utils/logger";
 import { useNetworkState } from "expo-network";
 import { useEffect, useState } from "react";
