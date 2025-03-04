@@ -1,4 +1,5 @@
 # file from: https://github.com/CodingItWrong/expo-maestro-sandbox/blob/main/.github/workflows/maestro-android.yaml
+# I had to modify it a bit tho
 
 name: "Smoke Tests"
 
@@ -13,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  maestro-android:
+  maestro:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -59,8 +60,8 @@ jobs:
           sudo udevadm trigger --name-match=kvm
 
       - name: Build locally via EAS
-        run: eas build --platform android --profile preview --local --non-interactive --output=build.apk
-        shell: bash
+        run: eas build --platform android --profile preview --local --non-interactive --output build.apk
+        shell: bash && ls
 
       - name: 🧪 Install and test app
         uses: reactivecircus/android-emulator-runner@v2
