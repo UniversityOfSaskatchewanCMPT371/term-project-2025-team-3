@@ -59,24 +59,6 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-########################################
-# temp
-########################################
-      - name: 🧪 Install and test app
-        uses: reactivecircus/android-emulator-runner@v2
-        env:
-          ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL: 60
-        with:
-          api-level: 30
-          arch: x86_64
-          ram-size: 2048M
-          target: google_apis
-          script: |
-            echo "checking directory" && pwd && cd sk-vaccine-app && eas build:run -p android --path build.apk && maestro test maestro/smoke-tests/*.yaml
-########################################
-
-
-
 
       - name: Build locally via EAS
         run: eas build --platform android --profile preview --local --non-interactive --output build.apk && ls
