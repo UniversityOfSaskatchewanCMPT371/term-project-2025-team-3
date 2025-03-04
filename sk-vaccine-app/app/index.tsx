@@ -64,7 +64,7 @@ export default function Index() {
               <SquareButton
                 path={"/vaccine-info"}
                 text={VACCINE_BTN_TEXT}
-                style={{ backgroundColor: "#f8e397" }}
+                style={{ backgroundColor: "#C2DAD0" }}
               />
             </View>
           </View>

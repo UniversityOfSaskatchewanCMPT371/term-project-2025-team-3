@@ -20,10 +20,27 @@ import VaccineEntity from "@/myorm/vaccine-entity";
  *
  */
 export class VaccineDataService implements iVaccineDataService {
+
+  /**
+   * 
+   * Builds and runs a query against the vaccine data table
+   * 
+   * @param {string | undefined} input if not given it will return all results, 
+   * @param {"english" | "french"} language if a default language is not provided it will 
+   * @param {string | undefined} searchColumn search by a specifif column
+   * @param order if not given the default orfer will be given
+   *    @property {boolean} ascending
+   *      Decides whether the data will be ordered ascending or descending
+   *    @property {"vaccineName", "associatedDiseases", "starting"} column
+   *      Three possible options to order the information by
+   *      This is required when changing the order.
+   * @returns 
+   */
   async vaccineQuery(
     input?: string,
     language: "english" | "french" = "english",
-    field?: string
+    searchColumn?: string,
+    order?: {ascending: true | false, column: "vaccineName" | "associatedDiseases" | "starting"}
   ): Promise<any[]> {
     let query = `SELECT vaccineName, assoiatedDiseases${
       language == "english" ? "English" : "French"
@@ -40,8 +57,8 @@ export class VaccineDataService implements iVaccineDataService {
         `starting`,
       ];
       query += ` WHERE `;
-      if (field) {
-        query += `${field} LIKE ?`;
+      if (searchColumn) {
+        query += `${searchColumn} LIKE ?`;
         params = [`%${input}%`];
       } else {
         query += columns
@@ -51,6 +68,10 @@ export class VaccineDataService implements iVaccineDataService {
           .join(" OR ");
         params = columns.map(() => `%${input}%`);
       }
+    }
+
+    if (order) {
+      query += ` ORDER BY ${order.column} ${order.ascending ? "ASC" : "DESC"}`
     }
 
     return new Promise(async (resolve, reject) => {
