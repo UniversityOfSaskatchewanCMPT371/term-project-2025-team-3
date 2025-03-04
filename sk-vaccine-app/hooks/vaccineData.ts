@@ -16,24 +16,20 @@ export type VaccineSheetStatus = {
 };
 
 /**
- * Retrieves clinic data.
+ * Retrieves the list of vaccine sheets.
  *
  * @param {Object} data The configuration for getting clinic information.
- * @param {iClinicData} data.clinicService The interface to use to access clinic data.
- * @param {string} [data.url] The URL to retrieve the json formatted clinic data from.
- *   If null only retrieves files stored on device.
+ * @param {iVaccineDataController} data.vaccineController The interface to use to access the vaccine data.
  * @param {string} [data.searchValue] Value to search for in the list of clinics.
  *   If null it gets all of the clinics.
  * @param {string} [data.searchColumn] The column to search for `searchValue` in.
  *   Ignored unless `searchValue` is set. If null, all columns are searched.
  *
- * @returns {ClinicResults} Object representing the current status of clinic data loading, containing:
- *   @property {ClinicArray | null} `clinicArray`
- *      The array of loaded clinics, or `null` if not loaded.
+ * @returns {VaccineSheetStatus} Object representing the current status of vaccine data loading, containing:
+ *   @property {VaccineSheet[]}
+ *      A list of vaccine sheets to be displayed
  *   @property {boolean} `loading`
- *      `true` if the clinic data is still loading, otherwise `false`.
- *   @property {boolean} `serverAccessFailed`
- *      `true` if there was a failure accessing the remote clinic data, otherwise `false`.
+ *      `true` if the data is still loading, otherwise `false`.
  *   @property {string | null} `error`
  *      An error message if an error occurred, or `null` if no error.
  */
@@ -56,7 +52,6 @@ export function getVaccineSheets(data: {
           await vaccineController.searchVaccines(searchValue, searchColumn)
         );
       } catch (error) {
-        // this catches errors thrown by clinicService methods (like EmptyStorageError or InvalidArgumentError)
         setError(String(error));
       } finally {
         setLoading(false);
@@ -74,3 +69,5 @@ export function getVaccineSheets(data: {
 
   return response;
 }
+
+export function getVaccinePDF(uri: string) {}
