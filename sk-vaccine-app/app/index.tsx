@@ -1,4 +1,4 @@
-import SquareButton from "@/components/home-btn-square";
+import SquareButton from "@/components/home-square-btn";
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 // eslint-disable-next-line
 import logger from "@/utils/logger";
@@ -8,6 +8,7 @@ import { PATH_VACCINE_INFO, CLINIC_INFO } from "../utils/constPaths";
 import DatabaseInitializer from "@/components/db-init";
 import React from "react";
 import ClosestClincButton from "@/components/closest-clinic-btn";
+import SettingsButton from "@/components/settings-btn";
 
 export const CLINIC_BTN_TEXT = "Clinic Info";
 export const BOOKING_BTN_TEXT = "Booking";
@@ -36,8 +37,8 @@ export default function Index() {
 
   return (
     <DatabaseInitializer>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        
+      <View style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.textContainer}>
             <Text style={{ fontSize: 22, fontWeight: "bold" }}>
               Good {timeOfDayText},
@@ -54,20 +55,22 @@ export default function Index() {
           <View style={styles.horizontalContainer}>
             <View style={styles.btnContainer}>
               <SquareButton
-                path={"/vaccine-info"}
+                path={"/clinic-info"}
                 text={CLINIC_BTN_TEXT}
-                style={{ backgroundColor: "#a3caba"}}
+                style={{ backgroundColor: "#a3caba" }}
               />
             </View>
             <View style={styles.btnContainer}>
               <SquareButton
-                path={"/clinic-info"}
+                path={"/vaccine-info"}
                 text={VACCINE_BTN_TEXT}
-                style={{ backgroundColor: "#f8e397"}}
+                style={{ backgroundColor: "#f8e397" }}
               />
             </View>
           </View>
-      </ScrollView>
+        </ScrollView>
+        <SettingsButton />
+      </View>
     </DatabaseInitializer>
   );
 }
@@ -77,16 +80,16 @@ const styles = StyleSheet.create({
     flexShrink: 1, // Ensures the ScrollView takes full height
     alignItems: "center",
     paddingBottom: 20, // Adds space at the bottom to prevent content from being cut off
-    gap: 20
+    gap: 25,
   },
-   textContainer: {
+  textContainer: {
     width: "100%",
     alignItems: "center",
     justifyContent: "center", // Centers text vertically in its container
     flex: 1, // Allows it to take up space to be centered
     paddingTop: "10%",
     paddingBottom: "2%",
-    alignSelf: "flex-start"
+    alignSelf: "flex-start",
   },
   fullWidthContainer: {
     width: "100%", // Make the rectangle button take full width
@@ -113,7 +116,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: "center",
     width: "100%",
-    alignSelf: "flex-start"
+    alignSelf: "flex-start",
   },
   btnContainer: {
     flex: 1,
