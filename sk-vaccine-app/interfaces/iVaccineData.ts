@@ -7,10 +7,6 @@ export type VaccineSheet = {
     vaccineName: string;
     associatedDiseases: string[];
     pdfPath: string;
-    /* Whether an update attempt was succesful
-       Might be no new version, but check succeeded
-    */
-    upToDate?: boolean,
     /**
      * @field starting: This could be age or grade
      */
@@ -131,10 +127,11 @@ export interface iVaccineDataService {
     * @param input The value to search for.
     * @param field The field to search in, might be removed might be
     * updated to reflect multiple options
-    * @param language The language to query for
+    * @param language The language to query for, defaults to "english" if no
+    * value is provided
     * @return A list of responses from the 
     */
-    vaccineQuery(input: string, language: string, field?: string): VaccineSheet[];
+    vaccineQuery(input: string, language: "english" | "french", field?: string): Promise<VaccineSheet[]>;
 
 }
 
@@ -145,7 +142,7 @@ export interface iVaccineDataController {
     * Gets a list of all vaccines stored on device.
     * @return a list of vaccine sheets
     */
-    getVaccines(): VaccineSheet[];
+    getVaccines(): Promise<VaccineSheet[]>;
 
 
     /**
@@ -162,7 +159,7 @@ export interface iVaccineDataController {
     * updated to reflect multiple options
     * @return A list of vaccine sheets filtered by the input
     */
-    searchVaccines(input:string, field?:string): VaccineSheet[];
+    searchVaccines(input:string, field?:string): Promise<VaccineSheet[]>;
 
 
 
