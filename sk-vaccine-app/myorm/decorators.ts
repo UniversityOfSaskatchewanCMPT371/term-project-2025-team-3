@@ -235,13 +235,23 @@ export function Entity(options?: {tableName?: string, immutable?: boolean}) {
             const tableColumns = result
                 .map(
                     (col: any) => {
-                        return { name: col.name, type: col.type}
+                        return { 
+                            name: col.name, 
+                            type: col.type, 
+                            isNullable: !col.notnull, 
+                            primaryKey: col.pk
+                        }
                     })
                 .sort();
                 
             const entityColumns = prototype._columns?.map(
                 (col: any) => {
-                    return { name: col.name, type: col.type}
+                    return { 
+                        name: col.name, 
+                        type: col.type, 
+                        isNullable: col.isNullable,
+                        isPrimary: col.isPrimary
+                    }
                 })
                 .sort();
             

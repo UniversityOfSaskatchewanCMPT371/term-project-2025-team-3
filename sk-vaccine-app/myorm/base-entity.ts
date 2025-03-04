@@ -366,8 +366,8 @@ export default class BaseEntity {
         
         }) as string[];
 
-
-        const {recordExists} = await db.getFirstAsync("SELECT EXISTS(SELECT 1 FROM myTable WHERE id = ?) as recordExists;") as any;
+        logger
+        const {recordExists} = await db.getFirstAsync(`SELECT EXISTS(SELECT 1 FROM ${tableName} WHERE id = ?) as recordExists;`, pkValue) as any;
         // INSERT
         if (!recordExists) {
             
@@ -382,6 +382,9 @@ export default class BaseEntity {
 
 
             const placeholders = cols.map(_ => '?').join(', ');
+
+
+            logger.debug(`table ${tableName} info`, await db.runAsync(`SELECT sql FROM sqlite_master WHERE type='table' AND name='${tableName}';');`));
             const sql = `INSERT INTO ${tableName} ( ${colNames.join(', ')} ) VALUES ( ${placeholders} )`;
             const result = await db.runAsync(sql, ...values);
             (this as any)[pk!] = result.lastInsertRowId;

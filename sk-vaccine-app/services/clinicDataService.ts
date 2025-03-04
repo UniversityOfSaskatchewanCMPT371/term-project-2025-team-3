@@ -2,6 +2,7 @@ import ClinicEntity from "@/myorm/clinic-entity";
 import iClinicData from "@/interfaces/iClinicData";
 import { EmptyStorageError, InvalidArgumentError } from "@/utils/ErrorTypes";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import logger from "@/utils/logger";
 
 export const CLINIC_TIMESTAMP_KEY='clinic-data-timestamp';
 
@@ -55,17 +56,18 @@ export default class ClinicData implements iClinicData {
      * @effects stores each clinic as a row in the dabase
      */
     async storeClinics(clinics: ClinicArray): Promise<void> {
+        logger.debug("storeClinics called")
 
 
-
-
+        ClinicEntity.clear();
+        await AsyncStorage.setItem(CLINIC_TIMESTAMP_KEY, clinics.timeStamp.toISOString());
 
         for (const clinic of clinics.clinics) {
             const clinicEntity = new ClinicEntity(clinic);
             await clinicEntity.save();
         }
 
-        await AsyncStorage.setItem(CLINIC_TIMESTAMP_KEY, clinics.timeStamp.toISOString());
+        
 
     }
 

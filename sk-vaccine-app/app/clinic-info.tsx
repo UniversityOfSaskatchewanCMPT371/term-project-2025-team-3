@@ -1,16 +1,18 @@
 import SearchBar from '@/components/search-bar';
 import ClinicCard from '@/components/card-link';
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, ScrollView, StyleSheet } from 'react-native';
+import {
+    SafeAreaView,
+    View,
+    Text,
+    StyleSheet,
+    FlatList,
+    ActivityIndicator
+} from 'react-native';
 import useClinicData from '@/hooks/clinicData';
 import ClinicData from '@/services/clinicDataService';
-import { ActivityIndicator } from 'react-native';
 import { DISPLAY_CLINIC } from '@/utils/constPaths';
 import logger from '@/utils/logger';
-
-
-
-
 
 const COLORS = {
     WHITE: '#FFFFFF',
@@ -23,50 +25,27 @@ const COLORS = {
     SEARCHBAR_BG: '#EFE8EE',
 };
 
-
-
-const URL = 'https://raw.githubusercontent.com/UniversityOfSaskatchewanCMPT371/term-project-2025-team-3/refs/heads/main/vaccine-data/clinic.json';
-
-
-
-// TODO make url an env variable
+const URL = process.env.EXPO_PUBLIC_CLINIC_LIST_URL;
 
 export default function Page() {
-    const [searchVal, setSearchVal]= useState('');
+    const [searchVal, setSearchVal] = useState('');
+    
+    logger.debug('searchVal', searchVal);
 
-    logger.debug("searchVal", searchVal);
-
-
-
-    const {clinicArray, loading, serverAccessFailed, error} = useClinicData({
+    const { clinicArray, loading, serverAccessFailed, error } = useClinicData({
         clinicService: new ClinicData(),
         url: URL,
-        searchValue: searchVal
+        searchValue: searchVal,
     });
 
-
-    const clinicElements = clinicArray?.clinics
-        // removes clinics that are not for children
-        .filter(
-            clinic =>
+    const filteredClinics =
+        clinicArray?.clinics.filter(
+            (clinic) =>
                 Array.isArray(clinic.services) &&
-                clinic.services.includes('children')
-        )
-        // builds a clinic link
-        .map((clinic, index) => {
-            const bgColor = index % 2 ? COLORS.ODD_CLINIC : COLORS.EVEN_CLINIC;
-            return (
-                <ClinicCard 
-                    key={index}
-                    title={clinic.serviceArea} 
-                    subtitle={clinic.name} 
-                    text={clinic.address} 
-                    bgColor={bgColor}
-                    pathname={DISPLAY_CLINIC}
-                    params={clinic}
-                />
-            );
-        });
+                clinic.services.some((service) =>
+                    service.toLowerCase().includes('child')
+                )
+        ) || [];
 
     return (
         <SafeAreaView style={styles.container}>
@@ -76,34 +55,40 @@ export default function Page() {
                     <Text style={styles.clinicListSubheading}>
                         Clinics offering vaccinations intended for persons under 18 years of age
                     </Text>
-                    
-                    {/* display offline */}
+
                     {serverAccessFailed && (
                         <Text style={styles.offline}>Cannot connect to server</Text>
                     )}
-
-                    {/* display error */}
-                    {error && (
-                        <Text style={styles.error}>{error}</Text>
-                    )}
+                    {error && <Text style={styles.error}>{error}</Text>}
                     <View style={styles.searchBarWrapper}>
-
-
-                        
-                        <SearchBar value={searchVal} onChangeText={setSearchVal} />
+                        <SearchBar  onSubmitEditing={setSearchVal} />
                     </View>
                 </View>
 
-                <ScrollView contentContainerStyle={styles.clinicCardsContainer}>
+                {loading && !error && <ActivityIndicator size="large" />}
 
-
-                    {/* loading indicator */}
-                    {loading && !error && <ActivityIndicator size="large" />}
-
-                    {/* display clinics */}
-                    {clinicElements}
-                
-                </ScrollView>
+                <FlatList
+                    data={filteredClinics}
+                    renderItem={({ item, index }) => {
+                        const bgColor =
+                            index % 2 ? COLORS.ODD_CLINIC : COLORS.EVEN_CLINIC;
+                        return (
+                            <View style={{marginTop: 16}}>
+                                <ClinicCard
+                                    key={index}
+                                    title={item.name || ''}
+                                    subtitle={item.serviceArea || ''}
+                                    text={item.address || ''}
+                                    bgColor={bgColor}
+                                    pathname={DISPLAY_CLINIC}
+                                    params={item}
+                                />
+                            </View>
+                        );
+                    }}
+                    keyExtractor={(item, index) => index.toString()}
+                    contentContainerStyle={styles.clinicCardsContainer}
+                />
             </View>
         </SafeAreaView>
     );
@@ -148,15 +133,6 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 12,
     },
-    searchBarContainer: {
-        backgroundColor: 'transparent',
-        borderTopWidth: 0,
-        borderBottomWidth: 0,
-    },
-    searchBarInputContainer: {
-        backgroundColor: 'transparent',
-        height: 32,
-    },
     clinicCardsContainer: {
         paddingBottom: 24,
     },
@@ -165,5 +141,5 @@ const styles = StyleSheet.create({
     },
     error: {
         color: COLORS.RED,
-    }
+    },
 });

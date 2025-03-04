@@ -1,6 +1,7 @@
 import { Link } from 'expo-router';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 const COLORS = {
     WHITE: '#FFFFFF',
@@ -29,18 +30,29 @@ type CardLinkProps = {
  * @param {string} props.params The `data` parameter for the href, is turned to json when passed to page
  * @param {string} props.bgColor The card's background color (optional)
  * @param {string} props.textColor The card's text color (optional)
- * @returns A clickable card with the title, subtitle, and text
+ * @returns A clickable card with the title, subtitle, text and an arrow icon
  */
 export default function CardLink({ title, subtitle, text, pathname, params, bgColor, textColor }: CardLinkProps) {
     return (
-        <Link href={{
-            pathname: pathname as any,
-            params: { data: JSON.stringify(params) },
-        }}>
-            <View style={[styles.clinicCard, {backgroundColor: bgColor}]}>
-                <Text style={[styles.clinicCardTitle, {color: textColor}]}>{title}</Text>
-                <Text style={[styles.clinicCardSubtitle, {color: textColor}]}>{subtitle}</Text>
-                <Text style={[styles.clinicCardAddress, {color: textColor}]}>{text}</Text>
+        <Link
+            href={{
+                pathname: pathname as any,
+                params: { data: JSON.stringify(params) },
+            }}
+        >
+            <View style={[styles.clinicCard, { backgroundColor: bgColor }]}>
+                <View style={styles.cardContent}>
+                    <View style={styles.textContainer}>
+                        <Text style={[styles.clinicCardTitle, { color: textColor }]}>{title}</Text>
+                        <Text style={[styles.clinicCardSubtitle, { color: textColor }]}>{subtitle}</Text>
+                        <Text style={[styles.clinicCardAddress, { color: textColor }]}>{text}</Text>
+                    </View>
+                    <Ionicons
+                        name="chevron-forward-outline"
+                        size={24}
+                        color={textColor || COLORS.DARK_GRAY}
+                    />
+                </View>
             </View>
         </Link>
     );
@@ -48,6 +60,8 @@ export default function CardLink({ title, subtitle, text, pathname, params, bgCo
 
 const styles = StyleSheet.create({
     clinicCard: {
+        width: '100%',
+        maxHeight: 200,
         backgroundColor: COLORS.WHITE,
         borderRadius: 8,
         paddingVertical: 12,
@@ -59,20 +73,30 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 2,
     },
+    cardContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    textContainer: {
+        flex: 1,
+        paddingRight: 8,
+    },
     clinicCardTitle: {
         margin: 0,
-        fontSize: 16,
+        fontSize: 27,
         fontWeight: 'bold',
         color: COLORS.DARK_GRAY,
     },
     clinicCardSubtitle: {
-        marginTop: 4,
-        fontSize: 14,
+        marginTop: 6,
+        fontSize: 22,
         color: COLORS.DARK_GRAY,
     },
     clinicCardAddress: {
-        marginTop: 4,
-        fontSize: 13,
+        marginTop: 6,
+        marginBottom: 6,
+        fontSize: 14,
         color: COLORS.LIGHT_GRAY,
     },
 });
