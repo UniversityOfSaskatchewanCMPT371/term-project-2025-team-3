@@ -72,7 +72,7 @@ jobs:
           ram-size: 2048M
           target: google_apis
           script: |
-            echo "checking directory" && pwd && ls && eas build:run -p android --path build.apk && maestro test maestro/smoke-tests/*.yaml
+            echo "checking directory" && pwd && cd sk-vaccine-app && eas build:run -p android --path build.apk && maestro test maestro/smoke-tests/*.yaml
 ########################################
 
 
