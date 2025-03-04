@@ -15,7 +15,7 @@ class VaccineDataController implements iVaccineDataController {
     this.vaccineDataService = vaccineDataService;
   }
 
-  
+
   /**
    * Checks the remote vaccine list with a call to a local private functio.
    * PDFs are also checked to ensure they are up to date. Depending on these
@@ -125,7 +125,7 @@ class VaccineDataController implements iVaccineDataController {
    *
    * @returns a list of vaccine sheets to be displayed
    */
-  async searchVaccines(input: string, field?: string): Promise<VaccineSheet[]> {
+  async searchVaccines(input?: string, field?: string): Promise<VaccineSheet[]> {
     // TODO implement checking of language with settings page;
 
     if (field) {

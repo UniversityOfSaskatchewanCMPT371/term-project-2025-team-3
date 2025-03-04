@@ -153,7 +153,7 @@ export interface iVaccineDataController {
     * updated to reflect multiple options
     * @return A list of vaccine sheets filtered by the input
     */
-    searchVaccines(input:string, field?:string): Promise<VaccineSheet[]>;
+    searchVaccines(input?:string, field?:string): Promise<VaccineSheet[]>;
 
 
 

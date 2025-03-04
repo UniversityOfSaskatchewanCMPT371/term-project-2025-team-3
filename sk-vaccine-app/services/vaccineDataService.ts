@@ -21,7 +21,7 @@ import VaccineEntity from "@/myorm/vaccine-entity";
  */
 export class VaccineDataService implements iVaccineDataService {
   async vaccineQuery(
-    input: string,
+    input?: string,
     language: "english" | "french" = "english",
     field?: string
   ): Promise<any[]> {
@@ -29,25 +29,28 @@ export class VaccineDataService implements iVaccineDataService {
       language == "english" ? "English" : "French"
     } AS associatedDiseases, ${
       language == "english" ? "english" : "french"
-    } AS pdfPath, starting FROM $table WHERE `;
+    } AS pdfPath, starting FROM $table`;
 
-    const columns = [
-      `vaccineName`,
-      `assoiatedDiseases${language == "english" ? "English" : "French"}`,
-      `starting`,
-    ];
     let params: string[];
 
-    if (field) {
-      query += `${field} LIKE ?`;
-      params = [`%${input}%`];
-    } else {
-      query += columns
-        .map((col) => {
-          return `${col} LIKE ?`;
-        })
-        .join(" OR ");
-      params = columns.map(() => `%${input}%`);
+    if (input) {
+      const columns = [
+        `vaccineName`,
+        `assoiatedDiseases${language == "english" ? "English" : "French"}`,
+        `starting`,
+      ];
+      query += ` WHERE `;
+      if (field) {
+        query += `${field} LIKE ?`;
+        params = [`%${input}%`];
+      } else {
+        query += columns
+          .map((col) => {
+            return `${col} LIKE ?`;
+          })
+          .join(" OR ");
+        params = columns.map(() => `%${input}%`);
+      }
     }
 
     return new Promise(async (resolve, reject) => {
