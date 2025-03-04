@@ -4,7 +4,16 @@ import {
   VaccineSheet,
 } from "@/interfaces/iVaccineData";
 import { ClinicArray } from "@/services/clinicDataService";
+import logger from "@/utils/logger";
+import { useNetworkState } from "expo-network";
 import { useEffect, useState } from "react";
+
+class NoInternetError extends Error {
+  constructor(message = "No internet connection. Please try again later.") {
+    super(message);
+    this.name = "NoInternetError";
+  }
+}
 
 export type VaccineSheetStatus = {
   /** holds the list of vaccines */
@@ -70,28 +79,39 @@ export function useVaccineSheets(data: {
 }
 
 export function updateVaccineSheets(vaccineController: iVaccineDataController) {
-
   const [success, setSuccess] = useState(false);
- 
-  const tryUpdate = async () => {
-    try {
-      await vaccineController.updateVaccines();
-    } catch (error) {}
-  };
+  const [updated, setUpdated] = useState(false);
+  const networkState = useNetworkState(); // Store network state in a variable
+  const [result, setResult] = useState<{
+    success: boolean;
+    updated: number;
+    failed: number;
+    error?: Error;
+  }>({
+    success: false,
+    updated: 0,
+    failed: 0,
+  });
+
   useEffect(() => {
-    try {
-      tryUpdate();
-      setSuccess(true);
-    } catch (error) {
+    const tryUpdate = async () => {
+      if (!networkState.isConnected) {
+        throw new NoInternetError();
+      }
 
-    }
-  }, [vaccineController]);
+      try {
+        const updateResult = await vaccineController.updateVaccines();
+        setResult(updateResult);
+      } catch (error: any) {
+        logger.error(error);
+        setResult({ success: false, updated: 0, failed: 0, error });
+      }
+    };
 
-  const response = {
-    success: success
-  }
+    tryUpdate().catch((error) => console.error(error));
+  }, [vaccineController, networkState.isConnected]);
 
-  return response;
+  return result;
 }
 
 export function useVaccinePDF(uri: string) {}

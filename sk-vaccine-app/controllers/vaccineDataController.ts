@@ -8,6 +8,23 @@ import VaccineEntity from "@/myorm/vaccine-entity";
 import { VaccineDataService } from "@/services/vaccineDataService";
 import logger from "@/utils/logger";
 
+class PDFUpdateError extends Error {
+  product_id: number;
+
+  constructor(product_id: number, message = "Unable to update PDF.") {
+    super(message);
+    this.name = "NoInternetError";
+    this.product_id = product_id;
+  }
+}
+
+class VaccineUpdateError extends Error {
+  constructor(message = "Unable to update PDF.") {
+    super(message);
+    this.name = "NoInternetError";
+  }
+}
+
 class VaccineDataController implements iVaccineDataController {
   private vaccineDataService: VaccineDataService;
 
@@ -27,7 +44,11 @@ class VaccineDataController implements iVaccineDataController {
    *     | true if the update was successful
    *     | false if the update was unsuccesful
    */
-  async updateVaccines(): Promise<boolean> {
+  async updateVaccines(): Promise<{
+    success: boolean;
+    updated: number;
+    failed: number;
+  }> {
     try {
       const upToDate = await this.vaccineListUpToDate();
       console.log("vaccineListUpToDate returned:", upToDate); // Log the value of upToDate
@@ -36,7 +57,8 @@ class VaccineDataController implements iVaccineDataController {
         await this.updateVaccineList();
       }
 
-      const pdfsToUpdate = await Promise.all(
+      // Promise.allSettled will wait for all promises to finish even if some error
+      const pdfsToUpdate = await Promise.allSettled(
         (
           await this.vaccineDataService.compareExternalPDFs()
         ).map(async (vaccine: VaccinePDFData) => {
@@ -62,14 +84,36 @@ class VaccineDataController implements iVaccineDataController {
             }
           } catch (error) {
             logger.error("Error updating pdfs in updateVaccines");
-            return false;
+            throw new PDFUpdateError(vaccine.productId);
           }
         })
       );
-      return true; // Return success when all pdfs are updated.
+
+      // Errors are hanndled separately from the promises
+      const errors = pdfsToUpdate.filter(
+        (result) => result.status === "rejected"
+      );
+      errors.forEach((err) =>
+        logger.error(`PDF update failed: ${err.reason.message}`)
+      );
+
+      if (errors.length > 0) {
+        return {
+          success: false,
+          updated: pdfsToUpdate.length,
+          failed: errors.length
+        }; 
+      } else {
+        return {
+          success: true,
+          updated: pdfsToUpdate.length,
+          failed: 0
+        }; 
+      }
+      // Return success when all pdfs are updated.
     } catch (error: any) {
       logger.error(`Error in updateVaccines: ${error.message}`);
-      return false;
+      throw new VaccineUpdateError(error);
     }
   }
 
@@ -124,7 +168,10 @@ class VaccineDataController implements iVaccineDataController {
    *
    * @returns a list of vaccine sheets to be displayed
    */
-  async searchVaccines(input?: string, field?: string): Promise<VaccineSheet[]> {
+  async searchVaccines(
+    input?: string,
+    field?: string
+  ): Promise<VaccineSheet[]> {
     // TODO implement checking of language with settings page;
 
     if (field) {
