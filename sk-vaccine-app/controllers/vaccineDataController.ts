@@ -118,7 +118,7 @@ class VaccineDataController implements iVaccineDataController {
    *
    * Takes in an input string to search by and filter fields
    *
-   * @param input Must be a string
+   * @param input Must be a string, if it does not exist then will get all rows
    * @param field Does not need to be present, currently a string, should be
    * a catagory in the future
    *

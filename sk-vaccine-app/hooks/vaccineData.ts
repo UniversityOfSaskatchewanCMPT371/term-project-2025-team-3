@@ -42,7 +42,6 @@ export function getVaccineSheets(data: {
 
   const [vaccinesSheets, setVaccineSheets] = useState<VaccineSheet[]>([]);
   const [loading, setLoading] = useState(true);
-  const [accessFailed, setAccessFailed] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -66,6 +65,31 @@ export function getVaccineSheets(data: {
     loading: loading,
     error: error,
   };
+
+  return response;
+}
+
+export function updateVaccineSheets(vaccineController: iVaccineDataController) {
+
+  const [success, setSuccess] = useState(false);
+ 
+  const tryUpdate = async () => {
+    try {
+      await vaccineController.updateVaccines();
+    } catch (error) {}
+  };
+  useEffect(() => {
+    try {
+      tryUpdate();
+      setSuccess(true);
+    } catch (error) {
+
+    }
+  }, [vaccineController]);
+
+  const response = {
+    success: success
+  }
 
   return response;
 }

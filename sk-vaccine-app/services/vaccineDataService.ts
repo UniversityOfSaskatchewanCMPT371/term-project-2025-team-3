@@ -23,11 +23,13 @@ export class VaccineDataService implements iVaccineDataService {
 
   /**
    * 
-   * Builds and runs a query against the vaccine data table
+   * Builds and runs a query against the vaccine data table returning the
+   * filtered rows
    * 
-   * @param {string | undefined} input if not given it will return all results, 
-   * @param {"english" | "french"} language if a default language is not provided it will 
-   * @param {string | undefined} searchColumn search by a specifif column
+   * @param {string | undefined} input if not given it will return all results,
+   * @param {"english" | "french"} language if a default language is not 
+   *  provided it will use english
+   * @param {string | undefined} searchColumn search by a specific column
    * @param order if not given the default orfer will be given
    *    @property {boolean} ascending
    *      Decides whether the data will be ordered ascending or descending
