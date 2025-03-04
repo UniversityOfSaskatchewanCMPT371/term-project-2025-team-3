@@ -115,14 +115,14 @@ const styles = StyleSheet.create({
     },
     clinicListHeading: {
         margin: 0,
-        fontSize: 22,
+        fontSize: 32,
         textDecorationLine: 'underline',
         fontWeight: 'bold',
         color: COLORS.PRIMARY_TEXT,
     },
     clinicListSubheading: {
         marginTop: 8,
-        fontSize: 16,
+        fontSize: 18,
         lineHeight: 22,
         color: COLORS.PRIMARY_TEXT,
     },
