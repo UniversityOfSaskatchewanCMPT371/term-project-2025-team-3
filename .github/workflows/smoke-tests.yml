@@ -60,8 +60,8 @@ jobs:
           sudo udevadm trigger --name-match=kvm
 
       - name: Build locally via EAS
-        run: eas build --platform android --profile preview --local --non-interactive --output build.apk
-        shell: bash && ls
+        run: eas build --platform android --profile preview --local --non-interactive --output build.apk && ls
+        shell: bash
 
       - name: 🧪 Install and test app
         uses: reactivecircus/android-emulator-runner@v2
