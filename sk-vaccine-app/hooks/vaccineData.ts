@@ -33,7 +33,7 @@ export type VaccineSheetStatus = {
  *   @property {string | null} `error`
  *      An error message if an error occurred, or `null` if no error.
  */
-export function getVaccineSheets(data: {
+export function useVaccineSheets(data: {
   vaccineController: iVaccineDataController;
   searchValue?: string;
   searchColumn?: string;
@@ -94,4 +94,4 @@ export function updateVaccineSheets(vaccineController: iVaccineDataController) {
   return response;
 }
 
-export function getVaccinePDF(uri: string) {}
+export function useVaccinePDF(uri: string) {}
