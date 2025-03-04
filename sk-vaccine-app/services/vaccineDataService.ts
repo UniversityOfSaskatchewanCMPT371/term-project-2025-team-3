@@ -29,25 +29,30 @@ export class VaccineDataService implements iVaccineDataService {
       language == "english" ? "English" : "French"
     } AS associatedDiseases, ${
       language == "english" ? "english" : "french"
-    } AS pdfPath, starting FROM $table WHERE`;
+    } AS pdfPath, starting FROM $table WHERE `;
 
-    const columns = await VaccineEntity.getColumns();
+    const columns = [
+      `vaccineName`,
+      `assoiatedDiseases${language == "english" ? "English" : "French"}`,
+      `starting`,
+    ];
+    let params: string[];
 
     if (field) {
       query += `${field} LIKE ?`;
+      params = [`%${input}%`];
     } else {
       query += columns
         .map((col) => {
           return `${col} LIKE ?`;
         })
-        .join("OR");
+        .join(" OR ");
+      params = columns.map(() => `%${input}%`);
     }
 
     return new Promise(async (resolve, reject) => {
       try {
-        resolve(
-          await VaccineEntity.query(query, ...columns.map(() => `%${input}`))
-        );
+        resolve(await VaccineEntity.query(query, ...params));
       } catch (error) {
         reject(error);
       }

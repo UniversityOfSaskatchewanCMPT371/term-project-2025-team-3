@@ -138,13 +138,7 @@ export interface iVaccineDataService {
 
 export interface iVaccineDataController {
 
-    /**
-    * Gets a list of all vaccines stored on device.
-    * @return a list of vaccine sheets
-    */
-    getVaccines(): Promise<VaccineSheet[]>;
-
-
+   
     /**
     * Makes a request to update the vaccine PDFs
     * @returns a promise containing true if the update was sucessfull,

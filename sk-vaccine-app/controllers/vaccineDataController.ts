@@ -15,10 +15,7 @@ class VaccineDataController implements iVaccineDataController {
     this.vaccineDataService = vaccineDataService;
   }
 
-  getVaccines(): Promise<VaccineSheet[]> {
-    throw new Error("Method not implemented.");
-  }
-
+  
   /**
    * Checks the remote vaccine list with a call to a local private functio.
    * PDFs are also checked to ensure they are up to date. Depending on these
