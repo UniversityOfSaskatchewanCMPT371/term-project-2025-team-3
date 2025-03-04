@@ -66,7 +66,9 @@ export default class BaseEntity {
      * has one primary attribute, and the class has an `Entity` decorator. The mysql
      * database must also be initialized using the hook `useInitDataSource`.
      * @param queryResult mysql query result that contains an array of objects that
-     *  correspond to the table defined in the class that calls this function
+     * correspond to the table defined in the class that calls this function. Only nullable fields
+     * can be null. All of the rows must match the columns for the table that represents the calling
+     * class in the database
      * @template T The type of the entity.
      * @returns An array of entities.
      */
@@ -313,8 +315,8 @@ export default class BaseEntity {
      * Saves the current object to the database.
      * @preconditions All columns that are not nullable must contain a value. 
      * This must be called from a class that extends `BaseEntity`,
-     * has one primary attribute, and the class has an `Entity` decorator. The mysql
-     * database must also be initialized using the hook `useInitDataSource`.
+     * has one primary attribute, and the class has an `Entity` decorator (this
+     * also initializes the database).
      * @throws {InvalidEntityError} If a required field is empty or
      *      the entity prototype is not properly defined.
      * @effects Adds a row to the database with the objects data.

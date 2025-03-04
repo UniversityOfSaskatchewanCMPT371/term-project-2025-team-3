@@ -25,7 +25,7 @@ const COLORS = {
 
 
 
-const URL = undefined;
+const URL = 'https://raw.githubusercontent.com/UniversityOfSaskatchewanCMPT371/term-project-2025-team-3/refs/heads/main/vaccine-data/clinic.json';
 
 
 
