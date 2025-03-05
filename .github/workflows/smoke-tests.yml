@@ -4,8 +4,6 @@
 name: "Smoke Tests"
 
 on:
-  push:
-    branches: [ tests/smoke-tests ]
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -77,8 +75,8 @@ jobs:
           ram-size: 2048M
           target: google_apis
           script: |
-            cd sk-vaccine-app && eas build:run -p android --path build.apk && maestro test maestro/smoke-tests/*.yaml
-
+            cd /home/runner/work/term-project-2025-team-3/term-project-2025-team-3/sk-vaccine-app && pwd && ls && eas build:run -p android --path build.apk && maestro test maestro/smoke-tests/*.yaml
+      
       - name: Upload Maestro output
         uses: actions/upload-artifact@v4
         if: always()
