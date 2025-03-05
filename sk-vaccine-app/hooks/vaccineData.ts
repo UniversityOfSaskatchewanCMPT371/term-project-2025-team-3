@@ -76,9 +76,22 @@ export function useVaccineSheets(data: {
   return response;
 }
 
+/**
+ *
+ *
+ *
+ * @param {iVaccineDataController} vaccineController The interface to use to access the vaccine data.
+ * @returns {Object}
+ *    @property {boolean} success if the update was a success this will be true
+ *    Even if no files are updated, if there are no errors this will be true
+ *    @property {number} updated the number of files updated.
+ *    @property {failed} number  the number of files attempted to be updated
+ *    that failed.
+ *    @property {error | undefined} Error if there is an error in the update 
+ *    it is shown here.
+ *
+ */
 export function updateVaccineSheets(vaccineController: iVaccineDataController) {
-  const [success, setSuccess] = useState(false);
-  const [updated, setUpdated] = useState(false);
   const networkState = useNetworkState(); // Store network state in a variable
   const [result, setResult] = useState<{
     success: boolean;
