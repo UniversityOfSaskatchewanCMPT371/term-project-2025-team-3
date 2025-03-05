@@ -29,10 +29,10 @@ jobs:
         with:
           node-version: 22
           cache: "npm"
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: sk-vaccine-app/package-lock.json
 
       - name: Install dependencies
-        run: echo "install depenencies" && pwd  && ls && npm ci
+        run: npm ci
 
       - name: 🏗 Install Java
         uses: actions/setup-java@v4
@@ -72,7 +72,7 @@ jobs:
         env:
           ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL: 60
         with:
-          api-level: 33
+          api-level: 30
           arch: x86_64
           ram-size: 2048M
           target: google_apis
