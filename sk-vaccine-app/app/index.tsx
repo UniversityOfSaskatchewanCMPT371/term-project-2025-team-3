@@ -10,6 +10,7 @@ import React from "react";
 import ClosestClincButton from "@/components/closest-clinic-btn";
 import SettingsButton from "@/components/settings-btn";
 
+
 export const CLINIC_BTN_TEXT = "Clinic Info";
 export const BOOKING_BTN_TEXT = "Booking";
 export const RECORDS_BTN_TEXT = "My Records";
@@ -30,13 +31,11 @@ export default function Index() {
   useEffect(() => {
     navigation.setOptions({ headerShown: true });
   }, [navigation]);
-
   const welcomeText =
     "This is filler text, we could put a fact or something here";
   const timeOfDayText = "Morning";
 
   return (
-    <DatabaseInitializer>
       <View style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.textContainer}>
@@ -71,7 +70,6 @@ export default function Index() {
         </ScrollView>
         <SettingsButton />
       </View>
-    </DatabaseInitializer>
   );
 }
 
