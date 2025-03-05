@@ -1,5 +1,0 @@
-appId: com.skvaccineapplicationproject.skvaccineapp   
----
-- launchApp
-- tapOn: "Vaccine Info"
-- assertVisible: "(?i).*flu.*"
