@@ -5,11 +5,12 @@ import logger from "@/utils/logger";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { PATH_VACCINE_INFO, CLINIC_INFO } from "../utils/constPaths";
-import DatabaseInitializer from "@/components/db-init";
 import React from "react";
 import ClosestClincButton from "@/components/closest-clinic-btn";
 import SettingsButton from "@/components/settings-btn";
-
+import { updateVaccineSheets } from "@/hooks/vaccineData";
+import VaccineDataController from "@/controllers/vaccineDataController";
+import { VaccineDataService } from "@/services/vaccineDataService";
 
 export const CLINIC_BTN_TEXT = "Clinic Info";
 export const BOOKING_BTN_TEXT = "Booking";
@@ -36,40 +37,40 @@ export default function Index() {
   const timeOfDayText = "Morning";
 
   return (
-      <View style={{ flex: 1 }}>
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          <View style={styles.textContainer}>
-            <Text style={{ fontSize: 22, fontWeight: "bold" }}>
-              Good {timeOfDayText},
-            </Text>
-            <Text
-              style={{ fontSize: 22, alignSelf: "center", textAlign: "center" }}
-            >
-              {welcomeText}
-            </Text>
+    <View style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.textContainer}>
+          <Text style={{ fontSize: 22, fontWeight: "bold" }}>
+            Good {timeOfDayText},
+          </Text>
+          <Text
+            style={{ fontSize: 22, alignSelf: "center", textAlign: "center" }}
+          >
+            {welcomeText}
+          </Text>
+        </View>
+        <View style={styles.horizontalContainer}>
+          <ClosestClincButton path={PATH_VACCINE_INFO} />
+        </View>
+        <View style={styles.horizontalContainer}>
+          <View style={styles.btnContainer}>
+            <SquareButton
+              path={"/clinic-info"}
+              text={CLINIC_BTN_TEXT}
+              style={{ backgroundColor: "#a3caba" }}
+            />
           </View>
-          <View style={styles.horizontalContainer}>
-            <ClosestClincButton path={PATH_VACCINE_INFO} />
+          <View style={styles.btnContainer}>
+            <SquareButton
+              path={"/vaccine-info"}
+              text={VACCINE_BTN_TEXT}
+              style={{ backgroundColor: "#C2DAD0" }}
+            />
           </View>
-          <View style={styles.horizontalContainer}>
-            <View style={styles.btnContainer}>
-              <SquareButton
-                path={"/clinic-info"}
-                text={CLINIC_BTN_TEXT}
-                style={{ backgroundColor: "#a3caba" }}
-              />
-            </View>
-            <View style={styles.btnContainer}>
-              <SquareButton
-                path={"/vaccine-info"}
-                text={VACCINE_BTN_TEXT}
-                style={{ backgroundColor: "#C2DAD0" }}
-              />
-            </View>
-          </View>
-        </ScrollView>
-        <SettingsButton />
-      </View>
+        </View>
+      </ScrollView>
+      <SettingsButton />
+    </View>
   );
 }
 

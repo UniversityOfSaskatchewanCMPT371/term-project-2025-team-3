@@ -10,7 +10,7 @@ import {
 import logger from "@/utils/logger";
 import * as FileSystem from "expo-file-system";
 import assert from "assert";
-import tempJson from "@/services/__tests__/vaccineListService.data.json";
+import tempJson from "@/services/vaccineListService.data.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import VaccineEntity from "@/myorm/vaccine-entity";
 
@@ -20,14 +20,13 @@ import VaccineEntity from "@/myorm/vaccine-entity";
  *
  */
 export class VaccineDataService implements iVaccineDataService {
-
   /**
-   * 
+   *
    * Builds and runs a query against the vaccine data table returning the
    * filtered rows
-   * 
+   *
    * @param {string | undefined} input if not given it will return all results,
-   * @param {"english" | "french"} language if a default language is not 
+   * @param {"english" | "french"} language if a default language is not
    *  provided it will use english
    * @param {string | undefined} searchColumn search by a specific column
    * @param order if not given the default orfer will be given
@@ -36,21 +35,24 @@ export class VaccineDataService implements iVaccineDataService {
    *    @property {"vaccineName", "associatedDiseases", "starting"} column
    *      Three possible options to order the information by
    *      This is required when changing the order.
-   * @returns 
+   * @returns
    */
   async vaccineQuery(
     input?: string,
     language: "english" | "french" = "english",
     searchColumn?: string,
-    order?: {ascending: true | false, column: "vaccineName" | "associatedDiseases" | "starting"}
+    order?: {
+      ascending: true | false;
+      column: "vaccineName" | "associatedDiseases" | "starting";
+    }
   ): Promise<any[]> {
-    let query = `SELECT vaccineName, assoiatedDiseases${
+    let query = `SELECT vaccineName, associatedDiseases${
       language == "english" ? "English" : "French"
     } AS associatedDiseases, ${
       language == "english" ? "english" : "french"
-    } AS pdfPath, starting FROM $table`;
+    }PDFFilename AS pdfPath, starting FROM $table`;
 
-    let params: string[];
+    let params: string[] = [];
 
     if (input) {
       const columns = [
@@ -73,16 +75,17 @@ export class VaccineDataService implements iVaccineDataService {
     }
 
     if (order) {
-      query += ` ORDER BY ${order.column} ${order.ascending ? "ASC" : "DESC"}`
+      query += ` ORDER BY ${order.column} ${order.ascending ? "ASC" : "DESC"}`;
     }
-
-    return new Promise(async (resolve, reject) => {
-      try {
-        resolve(await VaccineEntity.query(query, ...params));
-      } catch (error) {
-        reject(error);
-      }
-    });
+    logger.debug(`Vaccine query ${query}`);
+    try {
+      const result = await VaccineEntity.query(query, ...params);
+      logger.debug(`Vaccine query result ${result}`);
+      return result;
+    } catch (error) {
+      logger.error(`Error running vaccineQuery ${error}`);
+      throw error;
+    }
   }
 
   /**
@@ -116,6 +119,7 @@ export class VaccineDataService implements iVaccineDataService {
         // TODO: Put in an actual fetch wen there is somewhere to fetch from
         //const response = await fetch();
         const response = tempJson;
+        logger.debug(`Remote vaccine list version: ${response.version}`);
         resolve(response.version);
       } catch (error) {
         logger.error("Error getting remote vaccine list version\nError", error);
@@ -183,6 +187,7 @@ export class VaccineDataService implements iVaccineDataService {
     return new Promise(async (resolve, reject) => {
       try {
         const version = await AsyncStorage.getItem("vaccine_list_version");
+        logger.debug(`Local list version: ${version}`);
         if (version === null) {
           resolve(-1);
         } else {
@@ -218,6 +223,7 @@ export class VaccineDataService implements iVaccineDataService {
                 }
                 const data = await response.json();
                 */
+        logger.debug(`Remote list version :${response.version}`);
         const data = response;
         resolve(data as VaccineListResponse);
       } catch (error) {
@@ -237,28 +243,22 @@ export class VaccineDataService implements iVaccineDataService {
   async storeVaccineListLocal(vaccineList: VaccineInfoJSON[]): Promise<void> {
     try {
       assert(vaccineList.length > 0, "Vaccine list should not be empty");
-      const insertPromises = vaccineList.map(async (vaccine) => {
+      const insertPromises = vaccineList.forEach(async (vaccine) => {
         try {
-          VaccineEntity.query(
-            `INSERT OR REPLACE INTO $table
-                        (
-                        vaccineName, 
-                        productId, 
-                        starting, 
-                        associatedDiseasesEnglish,
-                        associatedDiseasesFrench,
-                        ) VALUES (?, ?, ?, ?, ?)`,
-            vaccine.vaccineName,
-            vaccine.productId,
-            vaccine.starting,
-            vaccine.associatedDiseases.english,
-            vaccine.associatedDiseases.french
-          );
+          const vaccineEntry = new VaccineEntity({
+            vaccineName: vaccine.vaccineName,
+            productId: vaccine.productId,
+            starting: vaccine.starting,
+            associatedDiseasesEnglish: vaccine.associatedDiseases.english,
+            associatedDiseasesFrench: vaccine.associatedDiseases.french,
+          });
+          vaccineEntry.save();
+          logger.debug(`Vaccine stored in DB ${vaccineEntry}`);
         } catch (error) {
           logger.error("Error storing vaccine list\nError", error);
         }
       });
-      await Promise.all(insertPromises);
+      logger.debug(insertPromises);
     } catch (error) {
       logger.error("Error in store vaccine\nError", error);
     }
@@ -286,6 +286,7 @@ export class VaccineDataService implements iVaccineDataService {
         `https://publications.saskatchewan.ca/api/v1/products/${productId}/formats/${formatId}`,
         fileUri
       );
+      logger.info(`PDF Downloaded, uri: ${uri}`);
       return uri;
     } catch (error) {
       logger.error(
@@ -322,6 +323,7 @@ export class VaccineDataService implements iVaccineDataService {
           const localFilenames = await this.getLocalPDFFilenames(
             product.productId
           );
+          logger.debug(`CompareExternalPDFs localFileNames: ${localFilenames}`);
 
           return {
             productId: product.productId,
@@ -403,7 +405,12 @@ export class VaccineDataService implements iVaccineDataService {
                   frenchFilename ? "frenchPDFFilename = ?" : ""
                 } WHERE productId = ?`;
     return new Promise(async (resolve, reject) => {
-      VaccineEntity.query(statment, englishFilename, frenchFilename, productId);
+      const vaccine = new VaccineEntity({
+        productId: productId,
+        englishPDFFilename: englishFilename,
+        frenchPDFFilename: frenchFilename,
+      });
+      vaccine.save();
     });
   }
 

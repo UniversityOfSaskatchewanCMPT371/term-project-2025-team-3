@@ -51,9 +51,9 @@ class VaccineDataController implements iVaccineDataController {
   }> {
     try {
       const upToDate = await this.vaccineListUpToDate();
-      console.log("vaccineListUpToDate returned:", upToDate); // Log the value of upToDate
+      logger.info(`vaccineListUpToDate returned: ${upToDate}`); // Log the value of upToDate
       if (!upToDate) {
-        console.log("Updating vaccine list..."); // Log that updateVaccineList will be called
+        logger.info("Updating vaccine list..."); // Log that updateVaccineList will be called
         await this.updateVaccineList();
       }
 
@@ -88,6 +88,7 @@ class VaccineDataController implements iVaccineDataController {
           }
         })
       );
+      logger.debug(`PDFs to update ${pdfsToUpdate}`)
 
       // Errors are hanndled separately from the promises
       const errors = pdfsToUpdate.filter(
@@ -101,14 +102,14 @@ class VaccineDataController implements iVaccineDataController {
         return {
           success: false,
           updated: pdfsToUpdate.length,
-          failed: errors.length
-        }; 
+          failed: errors.length,
+        };
       } else {
         return {
           success: true,
           updated: pdfsToUpdate.length,
-          failed: 0
-        }; 
+          failed: 0,
+        };
       }
       // Return success when all pdfs are updated.
     } catch (error: any) {
@@ -173,17 +174,23 @@ class VaccineDataController implements iVaccineDataController {
     field?: string
   ): Promise<VaccineSheet[]> {
     // TODO implement checking of language with settings page;
-
-    if (field) {
-      return (await this.vaccineDataService.vaccineQuery(
-        input,
-        "english",
-        field
-      )) as VaccineSheet[];
-    } else {
-      return (await this.vaccineDataService.vaccineQuery(
-        input
-      )) as VaccineSheet[];
+    try {
+      if (field) {
+        return (await this.vaccineDataService.vaccineQuery(
+          input,
+          "english",
+          field
+        )) as VaccineSheet[];
+      } else {
+        return (await this.vaccineDataService.vaccineQuery(
+          input
+        )) as VaccineSheet[];
+      }
+    } catch (error) {
+      logger.error(
+        `Error in searchVaccines in the VaccineDataController: ${error}`
+      );
+      throw error;
     }
   }
 }

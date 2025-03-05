@@ -40,28 +40,18 @@ export default class VaccineEntity extends BaseEntity implements Vaccine {
   @Column({ tsType: String, isList: true })
   associatedDiseasesFrench!: string[];
   
-  constructor(data?: Partial<Vaccine> & {
-    vaccineName: string;
-    productId: number;
-    englishFormatId: number;
-    frenchFormatId: number;
-    englishPDFFilename: string;
-    frenchPDFFilename: string;
-    starting: string;
-    associatedDiseasesEnglish: string[];
-    associatedDiseasesFrench: string[];
-  }) {
+  constructor(data?: Partial<Vaccine>) {
     super();
     if (data) {
-      this.vaccineName = data.vaccineName,
-      this.productId = data.productId,
-      this.englishFormatId = data.englishFormatId,
-      this.frenchFormatId = data.frenchFormatId,
-      this.englishPDFFilename = data.englishPDFFilename,
-      this.frenchPDFFilename = data.frenchPDFFilename,
-      this.starting = data.starting,
-      this.associatedDiseasesEnglish = data.associatedDiseasesEnglish,
-      this.associatedDiseasesFrench = data.associatedDiseasesFrench
+      this.vaccineName = data.vaccineName ?? '',
+      this.productId = data.productId ?? 0,
+      this.englishFormatId = data.englishFormatId ?? 0,
+      this.frenchFormatId = data.frenchFormatId ?? 0,
+      this.englishPDFFilename = data.englishPDFFilename ?? '',
+      this.frenchPDFFilename = data.frenchPDFFilename ?? '',
+      this.starting = data.starting ?? '',
+      this.associatedDiseasesEnglish = data.associatedDiseasesEnglish ?? [],
+      this.associatedDiseasesFrench = data.associatedDiseasesFrench ?? []
     }
     
   }
