@@ -77,7 +77,10 @@ jobs:
           ram-size: 2048M
           target: google_apis
           script: |
-            cd sk-vaccine-app && pwd && ls && eas build:run -p android --path build.apk && maestro test maestro/smoke-tests/*.yaml
+            if [ "$(basename "$PWD")" != "sk-vaccine-app" ]; then
+              cd sk-vaccine-app
+            fi
+            pwd && ls && eas build:run -p android --path build.apk && maestro test maestro/smoke-tests/*.yaml
 
       - name: Upload Maestro output
         uses: actions/upload-artifact@v4
