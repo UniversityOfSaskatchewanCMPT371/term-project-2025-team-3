@@ -32,7 +32,7 @@ jobs:
           cache-dependency-path: sk-vaccine-app/package-lock.json
 
       - name: Install dependencies
-        run: echo "install depenencies" && pwd && npm ci
+        run: echo "install depenencies" && pwd  && ls && npm ci
 
       - name: 🏗 Install Java
         uses: actions/setup-java@v4
