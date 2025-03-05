@@ -1,0 +1,97 @@
+# file from: https://github.com/CodingItWrong/expo-maestro-sandbox/blob/main/.github/workflows/maestro-android.yaml
+# I had to modify it a bit tho
+
+name: "Smoke Tests"
+
+on:
+  push:
+    branches: [ tests/smoke-tests ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  maestro:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sk-vaccine-app
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 🏗 Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+          cache-dependency-path: sk-vaccine-app/package-lock.json
+
+      - name: Install dependencies
+        run: echo "install depenencies" && pwd  && ls && npm ci
+
+      - name: 🏗 Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 17
+          cache: "gradle"
+
+      - name: Install Android SDK with adb
+        uses: android-actions/setup-android@v3
+
+      - name: 🏗 Configure Maestro
+        uses: dniHze/maestro-test-action@v1
+
+      - name: 🏗 Set up EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: ⚙️ Add runner user to KVM group to allow hardware acceleration support
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+
+
+
+
+      - name: Build locally via EAS
+        run: eas build --platform android --profile preview --local --non-interactive --output build.apk && ls
+        shell: bash
+
+      - name: 🧪 Install and test app
+        uses: reactivecircus/android-emulator-runner@v2
+        env:
+          ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL: 60
+        with:
+          api-level: 33
+          arch: x86_64
+          ram-size: 2048M
+          target: google_apis
+          script: |
+            cd sk-vaccine-app && eas build:run -p android --path build.apk && maestro test maestro/smoke-tests/*.yaml
+
+      - name: Upload Maestro output
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maestro-output
+          path: /home/runner/maestro/
+          if-no-files-found: ignore
+
+      - name: Upload recordings
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: maestro-recordings
+          path: /home/runner/work/**/*.mp4
+          if-no-files-found: ignore
+          retention-days: 5
