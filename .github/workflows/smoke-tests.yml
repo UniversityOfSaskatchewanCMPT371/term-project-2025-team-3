@@ -4,8 +4,6 @@
 name: "Smoke Tests"
 
 on:
-  push:
-    branches: [ tests/smoke-tests ]
   pull_request:
     types: [opened, synchronize, reopened]
 
