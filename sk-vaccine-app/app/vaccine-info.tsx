@@ -1,94 +1,135 @@
-import React, { useState } from 'react';
-import { Text, View, TextInput, ScrollView, StyleSheet } from 'react-native';
+import SearchBar from "@/components/search-bar";
+import ClinicCard from "@/components/card-link";
+import React, { useState } from "react";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
+import { updateVaccineSheets, useVaccineSheets } from "@/hooks/vaccineData";
+import VaccineDataController from "@/controllers/vaccineDataController";
+import { DISPLAY_VACCINE } from "@/utils/constPaths";
+import logger from "@/utils/logger";
+import { VaccineDataService } from "@/services/vaccineDataService";
 
-// hard code vaccine name(mack) will update and load vaccine name from a folder
+const COLORS = {
+  WHITE: "#FFFFFF",
+  GREY: "#808080",
+  RED: "#FF0000",
+  ODD_VACCINE: "#C2DAD0",
+  EVEN_VACCINE: "#E7F0EC",
+  PRIMARY_TEXT: "#333333",
+  BANNER_BG: "#B7D4CB",
+  SEARCHBAR_BG: "#EFE8EE",
+};
+
 export default function Page() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [pdfFiles, setPdfFiles] = useState([
-    'FluShield Plus',
-    'ImmuGuard',
-    'ViraSafe',
-    'ProVax',
-    'HealthGuard',
-    'DefendVax',
-    'InfanShield',
-    'MediProtect',
-    'Safeguard',
-    'LifeShield',
-    'FluShield Plus',
-    'ImmuGuard',
-    'ViraSafe',
-    'ProVax',
-    'HealthGuard',
-    'DefendVax',
-    'InfanShield',
-    'MediProtect',
-    'Safeguard',
-    'LifeShield',
+  const [searchVal, setSearchVal] = useState("");
 
+  logger.debug("searchVal", searchVal);
+  updateVaccineSheets(new VaccineDataController(new VaccineDataService))
 
-  ]);
-
-  // filter the PDF files based on the search query
-  const filteredFile = pdfFiles.filter(file =>
-      // convert both file name and search query to lowercase for case-insensitive comparsion
-      file.toLowerCase().includes(searchQuery.toLowerCase() )
-  );
+  const { vaccineSheets, loading, error, fetchResults } = useVaccineSheets({
+    vaccineController: new VaccineDataController(new VaccineDataService()),
+  });
 
   return (
-    <View style={{ flex: 1 }}>
-      {/* Search Area */}
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search..."
-          value={searchQuery}
-          onChangeText={(text) => setSearchQuery(text)}
+    <SafeAreaView style={styles.container}>
+      <View style={styles.clinicListSection}>
+        <View style={styles.clinicListBanner}>
+          <Text style={styles.clinicListHeading}>Vaccine List</Text>
+          <Text style={styles.clinicListSubheading}>
+            Vaccinations intended for persons under 18 years of age
+          </Text>
+
+          {error && <Text style={styles.error}>{error}</Text>}
+          <View style={styles.searchBarWrapper}>
+            <SearchBar
+              value={searchVal}
+              onChangeText={setSearchVal}
+              onSubmitEditing={() => fetchResults(searchVal)}
+            />
+          </View>
+        </View>
+
+        {loading && !error && <ActivityIndicator size="large" />}
+
+        <FlatList
+          data={vaccineSheets}
+          renderItem={({ item, index }) => {
+            const bgColor =
+              index % 2 ? COLORS.ODD_VACCINE : COLORS.EVEN_VACCINE;
+            return (
+              <View style={{ marginTop: 16 }}>
+                <ClinicCard
+                  key={index}
+                  title={item.vaccineName}
+                  subtitle={item.starting}
+                  bgColor={bgColor}
+                  pathname={DISPLAY_VACCINE}
+                  params={item}
+                  text={""}
+                />
+              </View>
+            );
+          }}
+          keyExtractor={(item, index) => index.toString()}
+          contentContainerStyle={styles.clinicCardsContainer}
         />
       </View>
-
-      {/* PDF List */}
-      <View style={styles.listContainer}>
-        <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          {filteredFile.map((file, index) => (
-            <View key={index} style={styles.fileItem}>
-              <Text style={styles.fileText}>{file}</Text>
-            </View>
-          ))}
-        </ScrollView>
-      </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  searchContainer: {
-    width: '100%',
-    padding: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  searchInput: {
-    height: 40,
-    width: '90%',
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-  },
-  listContainer: {
+  container: {
     flex: 1,
-    padding: 10,
+    backgroundColor: COLORS.WHITE,
   },
-  scrollViewContent: {
-    flexGrow: 1,
+  clinicListSection: {
+    flex: 1,
+    marginHorizontal: 3,
+    paddingHorizontal: 16,
+    fontFamily: "Arial",
+    color: COLORS.PRIMARY_TEXT,
+    boxSizing: "border-box",
   },
-  fileItem: {
-    padding: 15,
-    borderBottomColor: '#ccc',
-    borderBottomWidth: 1,
+  clinicListBanner: {
+    backgroundColor: COLORS.BANNER_BG,
+    padding: 16,
+    borderRadius: 4,
+    marginTop: 16,
   },
-  fileText: {
+  clinicListHeading: {
+    margin: 0,
+    fontSize: 32,
+    textDecorationLine: "underline",
+    fontWeight: "bold",
+    color: COLORS.PRIMARY_TEXT,
+  },
+  clinicListSubheading: {
+    marginTop: 8,
     fontSize: 18,
+    lineHeight: 22,
+    color: COLORS.PRIMARY_TEXT,
+  },
+  searchBarWrapper: {
+    backgroundColor: COLORS.SEARCHBAR_BG,
+    borderRadius: 24,
+    marginVertical: 16,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  clinicCardsContainer: {
+    paddingBottom: 24,
+  },
+  offline: {
+    color: COLORS.GREY,
+  },
+  error: {
+    color: COLORS.RED,
   },
 });

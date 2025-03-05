@@ -5,6 +5,9 @@ import BaseEntity from "./base-entity";
 import * as SQLite from 'expo-sqlite';
 
 
+const DB_NAME = "sk-vaccine-app.db"
+
+
 export interface ColumnOptions {
     /** The name of the row in the db */
     name?: string;
@@ -185,9 +188,7 @@ export function mapTsTypeToSql(jsType: any, isList?: boolean): string {
  */
 export function Entity(options?: {tableName?: string, immutable?: boolean}) {
     options = options || {};
-    return function (constructor: Function) {
-        logger.info("Entity initialization starting, should run after db initialization unless this is a test")
-        
+    return function (constructor: Function) {        
 
         // set up a mock database if being tested
         // this might look like bad practice, but you haven't tried to
@@ -208,7 +209,19 @@ export function Entity(options?: {tableName?: string, immutable?: boolean}) {
         
         
         
+        
+        if (BaseEntity.db == undefined) {    
+            BaseEntity.db = SQLite.openDatabaseSync(DB_NAME);
+            logger.debug("Database initialized successfully:");
+        }
+
         const db = BaseEntity.db;
+
+        
+
+        logger.info("Entity initialization starting, should run after db initialization unless this is a test")
+
+
         let sql: string;
     
         const prototype = constructor.prototype;
@@ -222,13 +235,23 @@ export function Entity(options?: {tableName?: string, immutable?: boolean}) {
             const tableColumns = result
                 .map(
                     (col: any) => {
-                        return { name: col.name, type: col.type}
+                        return { 
+                            name: col.name, 
+                            type: col.type, 
+                            isNullable: !col.notnull, 
+                            primaryKey: col.pk
+                        }
                     })
                 .sort();
                 
             const entityColumns = prototype._columns?.map(
                 (col: any) => {
-                    return { name: col.name, type: col.type}
+                    return { 
+                        name: col.name, 
+                        type: col.type, 
+                        isNullable: col.isNullable,
+                        isPrimary: col.isPrimary
+                    }
                 })
                 .sort();
             
@@ -240,15 +263,14 @@ export function Entity(options?: {tableName?: string, immutable?: boolean}) {
         }
         // generate sql table.
 
-
         sql = createTable(constructor.prototype);
-
+        logger.debug(sql);
 
         
         
         db.execSync(sql);
 
-        logger.info(`creating table for entity ${constructor.name}:`);
+        logger.info(`created table for entity ${constructor.name}:`);
 
     };
 }
@@ -301,7 +323,7 @@ function createTable(prototype: EntityPrototype): string {
         if (col.isNullable) {
             sql += `  ${col.name} ${col.type} NULL,\n`;
         }
-        if (col.isUnique) {
+        else if (col.isUnique) {
             sql += `  ${col.name} ${col.type} UNIQUE, \n`;
         }
         else {

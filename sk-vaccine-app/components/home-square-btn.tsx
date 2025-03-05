@@ -5,19 +5,19 @@ import {
   ViewStyle,
   View,
   TextStyle,
-} from 'react-native';
-import { Link, LinkProps } from 'expo-router';
-import logger from '@/utils/logger';
-import React from 'react';
+} from "react-native";
+import { Link, LinkProps } from "expo-router";
+import logger from "@/utils/logger";
+import React from "react";
+import { Feather } from "@expo/vector-icons";
 
 interface SquareButtonProps {
-  path: LinkProps['href'];
+  path: LinkProps["href"];
   text: string;
   //onPress?: () => void; // Optional callback for additional actions
   style?: ViewStyle;
   textStyle?: TextStyle;
 }
-
 
 /**
  * A square button with rounded edges for the home page.
@@ -37,16 +37,17 @@ export default function SquareButton({
   textStyle,
 }: SquareButtonProps): JSX.Element {
   const logPress = () => {
-    logger.info('Square button pressed.');
+    logger.info("Square button pressed.");
   };
 
   return (
-    <Link href={path as LinkProps['href']} asChild>
-      <Pressable onPress={logPress}>
+    <Link href={path as LinkProps["href"]} asChild>
+      <Pressable onPress={logPress} hitSlop={0}>
         <View style={[styles.container, style]}>
           <Text style={[styles.text, textStyle]}>
-            {text.replace(' ', '\n')}
+            {text.replace(" ", "\n")}
           </Text>
+          <Feather name="chevron-right" size={45} color="black" style={styles.chevron}/>
         </View>
       </Pressable>
     </Link>
@@ -55,15 +56,31 @@ export default function SquareButton({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#3E6BFF',
-    justifyContent: 'center', // Center the text vertically
-    alignItems: 'center', // Center the text horizontally
+    backgroundColor: "#3E6BFF",
+    //padding: 20,
     borderRadius: 35,
+    overflow: "hidden",
+    aspectRatio: 1,
+    justifyContent: "space-between", // Spaces text and arrow
+    //flex: 1,
+    alignItems: "flex-start",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3, // For Android shadow
   },
   text: {
-    color: 'white',
-    fontSize: 35,
-    fontWeight: 'semibold',
-    textAlign: 'left',
+    color: "black",
+    marginHorizontal: 20,
+    marginTop: 15,
+    fontSize: 40,
+    fontWeight: "semibold",
+    textAlign: "left",
+  },
+  chevron: {
+    marginRight: 10,
+    marginBottom: 20,
+    alignSelf: "flex-end", // Moves icon to bottom-right
   },
 });
