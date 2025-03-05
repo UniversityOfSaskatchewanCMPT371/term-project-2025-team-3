@@ -4,6 +4,8 @@
 name: "Smoke Tests"
 
 on:
+  push:
+    branches: [ tests/smoke-tests ]
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -30,7 +32,7 @@ jobs:
           cache-dependency-path: sk-vaccine-app/package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: echo "install depenencies" && pwd && npm ci
 
       - name: 🏗 Install Java
         uses: actions/setup-java@v4
