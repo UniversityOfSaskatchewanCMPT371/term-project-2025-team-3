@@ -1,3 +1,4 @@
+import VaccineDataController from "@/controllers/vaccineDataController";
 import {
   iVaccineDataController,
   VaccineSheet,
@@ -19,7 +20,8 @@ export type VaccineSheetStatus = {
   /** true if the vaccine list is still loading, otherwise false */
   loading: boolean;
   /** if an error occures a string representing the error is stored */
-  error: string | null;
+  error?: string;
+  fetchResults: (searchValue?: string, searchColumn?: string) => Promise<void>;
 };
 
 /**
@@ -47,30 +49,37 @@ export function useVaccineSheets(data: {
 }): VaccineSheetStatus {
   const { vaccineController, searchValue, searchColumn } = data;
 
-  const [vaccinesSheets, setVaccineSheets] = useState<VaccineSheet[]>([]);
+  const [vaccineSheets, setVaccineSheets] = useState<VaccineSheet[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchResults = async () => {
+    try {
+      setVaccineSheets(
+        await vaccineController.searchVaccines(searchValue, searchColumn)
+      );
+    } catch (error) {
+      logger.error(error);
+      setError(String(error));
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   useEffect(() => {
-    const fetchResults = async () => {
-      try {
-        setVaccineSheets(
-          await vaccineController.searchVaccines(searchValue, searchColumn)
-        );
-      } catch (error) {
-        setError(String(error));
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchResults();
-  }, [vaccineController, searchValue, searchColumn]);
+  }, [searchValue]);
+
+  logger.debug("useVaccineSheets -> vaccineSheets:", vaccineSheets);
+  logger.debug("useVaccineSheets -> loading:", loading);
+  logger.debug("useVaccineSheets -> error:", error);
+  logger.debug("useVaccineSheets -> fetchResults:", fetchResults);
 
   const response = {
-    vaccineSheets: vaccinesSheets,
+    vaccineSheets: vaccineSheets,
     loading: loading,
-    error: error,
+    error: error ?? undefined,
+    fetchResults,
   };
 
   return response;
@@ -87,12 +96,12 @@ export function useVaccineSheets(data: {
  *    @property {number} updated the number of files updated.
  *    @property {failed} number  the number of files attempted to be updated
  *    that failed.
- *    @property {error | undefined} Error if there is an error in the update 
+ *    @property {error | undefined} Error if there is an error in the update
  *    it is shown here.
  *
  */
 export function updateVaccineSheets(vaccineController: iVaccineDataController) {
-  const networkState = useNetworkState(); // Store network state in a variable
+  const networkState = useNetworkState();
   const [result, setResult] = useState<{
     success: boolean;
     updated: number;
@@ -105,22 +114,27 @@ export function updateVaccineSheets(vaccineController: iVaccineDataController) {
   });
 
   useEffect(() => {
+    let isMounted = true; // Prevent updates after unmount
+
     const tryUpdate = async () => {
-      if (!networkState.isConnected) {
-        throw new NoInternetError();
-      }
+      if (!networkState.isConnected) return; // Don't run if offline
 
       try {
         const updateResult = await vaccineController.updateVaccines();
-        setResult(updateResult);
+        if (isMounted) setResult(updateResult);
       } catch (error: any) {
         logger.error(error);
-        setResult({ success: false, updated: 0, failed: 0, error });
+        if (isMounted)
+          setResult({ success: false, updated: 0, failed: 0, error });
       }
     };
 
-    tryUpdate().catch((error) => console.error(error));
-  }, [vaccineController, networkState.isConnected]);
+    tryUpdate();
+
+    return () => {
+      isMounted = false; // Cleanup function to prevent memory leaks
+    };
+  }, []); // Empty dependency array → Runs once when app starts
 
   return result;
 }
