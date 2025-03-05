@@ -72,7 +72,7 @@ jobs:
         env:
           ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL: 60
         with:
-          api-level: 30
+          api-level: 33
           arch: x86_64
           ram-size: 2048M
           target: google_apis

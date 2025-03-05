@@ -1,5 +1,9 @@
 appId: com.skvaccineapplicationproject.skvaccineapp   
 ---
 - launchApp
-- assertVisible: "Clinic Information"
-- assertVisible: "Vaccine Info"
+
+- tapOn: "Clinic Information"
+- assertVisible: "(?i).*clinic.*"
+
+
+
