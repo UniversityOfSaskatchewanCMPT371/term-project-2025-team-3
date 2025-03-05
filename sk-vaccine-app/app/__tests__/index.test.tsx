@@ -9,7 +9,6 @@ import {
     PATH_VACCINE_INFO,
     CLINIC_INFO,
 } from '../../utils/constPaths'
-import SquareButton from '@/components/home-btn-square';
 
 
 

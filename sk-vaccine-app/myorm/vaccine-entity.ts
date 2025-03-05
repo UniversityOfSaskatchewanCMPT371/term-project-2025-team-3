@@ -3,8 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from './decorators';
 import BaseEntity from './base-entity';
 import { Vaccine } from '@/interfaces/iVaccineData';
 
-// TODO make sure that the table is deleted and rebuilt if
-// the fields do not match
+
 
 
 

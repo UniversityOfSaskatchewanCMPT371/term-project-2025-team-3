@@ -1,10 +1,6 @@
 import iClinicData from "@/interfaces/iClinicData";
 import { ClinicArray } from "@/services/clinicDataService";
-import { useEffect, useState } from "react";
-
-
-
-
+import { useEffect, useState, useRef } from "react";
 
 export const JSON_TIMESTAMP_KEY = "time-created"
 
@@ -18,7 +14,7 @@ class ClinicResults {
     loading: boolean;
     /** true if the remote storage of the clinic data cannot be accessed, false otherwise */
     serverAccessFailed: boolean;
-    /** if an error occures a string representing the error is stored */
+    /** if an error occurs a string representing the error is stored */
     error: string | null;
 
     /**
@@ -39,19 +35,15 @@ class ClinicResults {
     }
 }
 
-
-
-
-
 /**
  * Retrieves clinic data.
  *
  * @param {Object} data The configuration for getting clinic information.
  * @param {iClinicData} data.clinicService The interface to use to access clinic data.
- * @param {string} [data.url] The URL to retrieve the json formatted clinic data from. 
- *   If null only retrieves files stored on device.
+ * @param {string} [data.url] The URL to retrieve the JSON formatted clinic data from. 
+ *   If null, only retrieves files stored on device.
  * @param {string} [data.searchValue] Value to search for in the list of clinics. 
- *   If null it gets all of the clinics.
+ *   If null or an empty string, it gets all of the clinics.
  * @param {string} [data.searchColumn] The column to search for `searchValue` in. 
  *   Ignored unless `searchValue` is set. If null, all columns are searched.
  *
@@ -66,22 +58,25 @@ class ClinicResults {
  *      An error message if an error occurred, or `null` if no error.
  */
 export default function useClinicData(
-    data: {clinicService: iClinicData, url?:string, searchValue?:string, searchColumn?:string}
+    data: { clinicService: iClinicData, url?: string, searchValue?: string, searchColumn?: string }
 ): ClinicResults {
-    const {clinicService, url, searchValue, searchColumn} = data;
+    const { clinicService, url, searchValue, searchColumn } = data;
     
-    const [clinics, setClinics] = useState<ClinicArray|null>(null);
+    const [clinics, setClinics] = useState<ClinicArray | null>(null);
     const [loading, setLoading] = useState(true);
     const [accessFailed, setAccessFailed] = useState(false);
-    const [error, setError] = useState<string|null>(null);
+    const [error, setError] = useState<string | null>(null);
 
-
+    // store clinicService in a ref so its reference does not change
+    const clinicServiceRef = useRef(clinicService);
 
     useEffect(() => {
         const fetchResults = async () => {
             try {
-                // If a url is provided get remote data
-                if (url) {
+
+
+                // if a url is provided get remote data
+                if (url && loading) {
                     try {
                         const response = await fetch(url);
                         if (!response.ok) {
@@ -90,10 +85,16 @@ export default function useClinicData(
                         } else {
                             const jsonResponse = await response.json();
                             
-                            const remoteClinics = new ClinicArray(jsonResponse.clinics, new Date(jsonResponse[JSON_TIMESTAMP_KEY]));
+                            const remoteClinics = new ClinicArray(
+                                jsonResponse.clinics,
+                                new Date(jsonResponse[JSON_TIMESTAMP_KEY])
+                            );
                             // only store remote clinics if they are more recent
-                            if ( await clinicService.isStorageEmpty() || remoteClinics.timeStamp > (await clinicService.getTimeStamp())) {
-                                await clinicService.storeClinics(remoteClinics);
+                            if (
+                                (await clinicServiceRef.current.isStorageEmpty()) ||
+                                remoteClinics.timeStamp > (await clinicServiceRef.current.getTimeStamp())
+                            ) {
+                                await clinicServiceRef.current.storeClinics(remoteClinics);
                             }
                         }
                     } catch (fetchError) {
@@ -105,28 +106,23 @@ export default function useClinicData(
                 // retrieve clinics from storage
                 let storedClinics: ClinicArray | null;
                 if (searchValue && searchColumn) {
-                    storedClinics = await clinicService.searchClinics(searchValue, searchColumn);
+                    storedClinics = await clinicServiceRef.current.searchClinics(searchValue, searchColumn);
                 } else if (searchValue) {
-                    storedClinics = await clinicService.searchClinics(searchValue);
+                    storedClinics = await clinicServiceRef.current.searchClinics(searchValue);
                 } else {
-                    storedClinics = await clinicService.getClinics();
+                    storedClinics = await clinicServiceRef.current.getClinics();
                 }
 
                 setClinics(storedClinics);
             } catch (error) {
-                // this catches errors thrown by clinicService methods (like EmptyStorageError or InvalidArgumentError)
                 setError(String(error));
             } finally {
                 setLoading(false);
             }
         };
 
-
         fetchResults();
-
-    }, [clinicService, url, searchValue, searchColumn]);
-
-    
+    }, [url, searchValue, searchColumn]);
 
     const response = {
         clinicArray: clinics,
