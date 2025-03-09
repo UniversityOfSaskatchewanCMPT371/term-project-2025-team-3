@@ -342,3 +342,50 @@ describe("VaccineDataController Tests", () => {
     });
   });
 });
+
+
+// New test by @Marzi 
+import {VaccineSheet} from "@/interfaces/iVaccineData";
+const mockVaccineDataService: jest.Mocked<VaccineDataService> = {
+  updateVaccines: jest.fn(),
+  searchVaccines: jest.fn()
+};
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
+describe("Unit Test for VaccineDataController", () => {
+  const mockData : VaccineSheet[] =[
+      {vaccineName:"DTaP-IPV-Hib", associatedDiseases: ["Diphtheria", "Tetanus", "Pertussis", "Polio", "Hib"], pdfPath: "DtaP/path.pdf", starting: "2 months"},
+      {vaccineName:"Rota", associatedDiseases: ["Rota"], pdfPath: "Rota/path.pdf", starting: "2 months"},
+      {vaccineName:"MMRV", associatedDiseases: ["Measles", "Mumps", "Rubella", "Varicella"], pdfPath: "Measles/path.pdf", starting: "1 year"},
+  ];
+  // this part will make sure that the function can fund the information based the name of vaccine
+  it('should return vaccine data based on vaccineName', () => {
+      const result = mockVaccineDataService.searchVaccines("Rota", "vaccineName")
+      expect(result).toEqual([mockData[1]]);
+  });
+  // this part will make sure that the function can fund the information based the particular disease
+  it('should return vaccine data based on associatedDisease', () => {
+      const result = mockVaccineDataService.searchVaccines("Rubella", "associatedDiseases")
+      expect(result).toEqual([mockData[2]]);
+  });
+  // this part will make sure that the function will return empty arry if there isn't any match to input
+  it('should return empty when could not find any match', () => {
+      const result = mockVaccineDataService.searchVaccines("Covid19", "vaccineName")
+      expect(result).toEqual([]);
+  });
+  // this part will make sure that the function return all the information when input is null
+  it('should return all data if input was empty', () => {
+      const result = mockVaccineDataService.searchVaccines("", "associatedDiseases")
+      expect(result).toEqual(mockData);
+  });
+  // // this part will make sure that the function is working with both capitilized and lowercase letters
+  it('should not be sensitive to capital or not capital letter', () => {
+      const result = mockVaccineDataService.searchVaccines("rubella", "associatedDiseases")
+      expect(result).toEqual([mockData[2]]);
+  });
+
+});
+
