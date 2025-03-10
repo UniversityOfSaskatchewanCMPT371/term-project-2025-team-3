@@ -264,7 +264,7 @@ export function Entity(options?: {tableName?: string, immutable?: boolean}) {
         // generate sql table.
 
         sql = createTable(constructor.prototype);
-        logger.debug(sql);
+        //logger.debug(sql);
 
         
         

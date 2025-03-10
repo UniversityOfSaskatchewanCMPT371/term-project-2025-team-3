@@ -13,6 +13,9 @@ import assert from "assert";
 import tempJson from "@/services/vaccineListService.data.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import VaccineEntity from "@/myorm/vaccine-entity";
+import { PDFDownloadError } from "@/utils/ErrorTypes";
+
+
 
 /**
  * @class Implements `iVaccineService`, is used to apply logic to external APIs
@@ -293,7 +296,7 @@ export class VaccineDataService implements iVaccineDataService {
         `Error downloading vaccind PDF for productId: ${productId}\nError: `,
         error
       );
-      return "";
+      throw new PDFDownloadError(productId)
     }
   }
 

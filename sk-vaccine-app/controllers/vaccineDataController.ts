@@ -5,25 +5,13 @@ import {
   VaccineSheet,
 } from "@/interfaces/iVaccineData";
 import VaccineEntity from "@/myorm/vaccine-entity";
+import {
+  PDFUpdateError,
+  VaccineListVersionError,
+  VaccineUpdateError,
+} from "@/utils/ErrorTypes";
 import { VaccineDataService } from "@/services/vaccineDataService";
 import logger from "@/utils/logger";
-
-class PDFUpdateError extends Error {
-  product_id: number;
-
-  constructor(product_id: number, message = "Unable to update PDF.") {
-    super(message);
-    this.name = "NoInternetError";
-    this.product_id = product_id;
-  }
-}
-
-class VaccineUpdateError extends Error {
-  constructor(message = "Unable to update PDF.") {
-    super(message);
-    this.name = "NoInternetError";
-  }
-}
 
 class VaccineDataController implements iVaccineDataController {
   private vaccineDataService: VaccineDataService;
@@ -88,29 +76,25 @@ class VaccineDataController implements iVaccineDataController {
           }
         })
       );
-      logger.debug(`PDFs to update ${pdfsToUpdate}`)
+      //logger.debug(`PDFs to update ${pdfsToUpdate}`)
 
       // Errors are hanndled separately from the promises
       const errors = pdfsToUpdate.filter(
         (result) => result.status === "rejected"
       );
+      const successes = pdfsToUpdate.filter(
+        (result) => result.status === "fulfilled"
+      );
       errors.forEach((err) =>
         logger.error(`PDF update failed: ${err.reason.message}`)
       );
 
-      if (errors.length > 0) {
-        return {
-          success: false,
-          updated: pdfsToUpdate.length,
-          failed: errors.length,
-        };
-      } else {
-        return {
-          success: true,
-          updated: pdfsToUpdate.length,
-          failed: 0,
-        };
-      }
+      return {
+        success: errors.length > 0 ? false : true,
+        updated: successes.length,
+        failed: errors.length,
+      };
+
       // Return success when all pdfs are updated.
     } catch (error: any) {
       logger.error(`Error in updateVaccines: ${error.message}`);
@@ -128,7 +112,7 @@ class VaccineDataController implements iVaccineDataController {
    *      This modifies the vaccine datatable, updating each altered row.
    *
    */
-  private async updateVaccineList() {
+  protected async updateVaccineList() {
     try {
       const vaccineList: VaccineListResponse =
         await this.vaccineDataService.getVaccineListRemote();
@@ -150,13 +134,19 @@ class VaccineDataController implements iVaccineDataController {
    *
    * @returns A promise containing a boolean value. True if the list is
    * up to date, false otherwise
+   * @throws {VaccineListVersionError} Remote version should never be less
+   * than the local version
    */
-  private async vaccineListUpToDate(): Promise<boolean> {
+  protected async vaccineListUpToDate(): Promise<boolean> {
     const remoteVersion =
       await this.vaccineDataService.getVaccineListVersionRemote();
     const localVersion =
       await this.vaccineDataService.getVaccineListVersionLocal();
-    return remoteVersion === localVersion;
+    if (remoteVersion < localVersion) {
+      throw new VaccineListVersionError();
+    } else {
+      return remoteVersion === localVersion;
+    }
   }
 
   /**
