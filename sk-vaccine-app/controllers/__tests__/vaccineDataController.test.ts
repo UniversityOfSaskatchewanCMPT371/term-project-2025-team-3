@@ -9,6 +9,7 @@ jest.mock("../../utils/logger", () => ({
   error: jest.fn(),
   info: jest.fn(),
   warn: jest.fn(),
+  debug: jest.fn(),
 }));
 
 // This class allows for testing protected functions
