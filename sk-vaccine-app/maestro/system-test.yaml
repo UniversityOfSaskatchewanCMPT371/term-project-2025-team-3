@@ -1,0 +1,26 @@
+appId: com.skvaccineapplicationproject.skvaccineapp
+---
+- launchApp
+- assertVisible: "Clinic Info"
+- assertVisible: "Vaccine Info"
+- assertVisible: "Your Closest Clinic"
+- assertVisible: "Our Neighbourhood Health Centre"
+- tapOn: "Clinic Info"
+- assertVisible: "Search"
+- tapOn: "Search"
+- inputText: "Balcarres"
+- pressKey: Enter
+- assertVisible: "Balcarres Integrated Care Centre"
+- assertNotVisible: "Beauval Health Centre"
+- assertNotVisible: "Beechy Health Care"
+- tapOn: "Search"
+- eraseText
+- pressKey: Enter
+- assertVisible: "Balcarres Integrated Care Centre"
+- assertVisible: "Beauval Health Centre"
+- assertVisible: "Beechy Health Care"
+- assertVisible: "100 Elgin St Balcarres SK S0G 0C0"
+- assertVisible: "Lavoie St."
+- back
+
+- tapOn: "Vaccine Info"
