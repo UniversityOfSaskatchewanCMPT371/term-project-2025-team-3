@@ -7,13 +7,6 @@ import logger from "@/utils/logger";
 import { useNetworkState } from "expo-network";
 import { useEffect, useState } from "react";
 
-class NoInternetError extends Error {
-  constructor(message = "No internet connection. Please try again later.") {
-    super(message);
-    this.name = "NoInternetError";
-  }
-}
-
 export type VaccineSheetStatus = {
   /** holds the list of vaccines */
   vaccineSheets: VaccineSheet[];
@@ -65,7 +58,7 @@ export function useVaccineSheets(data: {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     fetchResults();
   }, [searchValue]);
