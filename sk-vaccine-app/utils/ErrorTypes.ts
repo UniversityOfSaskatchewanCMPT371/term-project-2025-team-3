@@ -20,6 +20,7 @@ export class InvalidArgumentError extends MyError {
   }
 }
 
+
 export class EmptyStorageError extends MyError {
   constructor(message: string) {
     super(message, "EmptyStorageError");
