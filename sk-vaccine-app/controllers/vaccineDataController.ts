@@ -38,66 +38,74 @@ class VaccineDataController implements iVaccineDataController {
     failed: number;
   }> {
     try {
-      const upToDate = await this.vaccineListUpToDate();
-      logger.info(`vaccineListUpToDate returned: ${upToDate}`); // Log the value of upToDate
-      if (!upToDate) {
-        logger.info("Updating vaccine list..."); // Log that updateVaccineList will be called
-        await this.updateVaccineList();
-      }
-
-      // Promise.allSettled will wait for all promises to finish even if some error
-      const pdfsToUpdate = await Promise.allSettled(
-        (
-          await this.vaccineDataService.compareExternalPDFs()
-        ).map(async (vaccine: VaccinePDFData) => {
-          try {
-            if (vaccine.english?.formatId) {
-              await this.vaccineDataService.downloadVaccinePDF(
-                vaccine.productId,
-                vaccine.english.formatId
-              );
-            }
-            if (vaccine.french?.formatId) {
-              await this.vaccineDataService.downloadVaccinePDF(
-                vaccine.productId,
-                vaccine.french.formatId
-              );
-            }
-            if (vaccine.english || vaccine.french) {
-              await this.vaccineDataService.updateLocalPDFFilenames(
-                vaccine.productId,
-                vaccine.english?.filename,
-                vaccine.french?.filename
-              );
-            }
-          } catch (error) {
-            logger.error("Error updating pdfs in updateVaccines");
-            throw new PDFUpdateError(vaccine.productId);
+      return this.vaccineListUpToDate()
+        .then((upToDate) => {
+          logger.info(`vaccineListUpToDate returned: ${upToDate}`);
+          if (!upToDate) {
+            logger.info("Updating vaccine list...");
+            return this.updateVaccineList().then(() => true); // Ensure update completes
           }
+          return false; // No update needed
         })
-      );
-      //logger.debug(`PDFs to update ${pdfsToUpdate}`)
+        .then(() => this.vaccineDataService.compareExternalPDFs()) // Ensure updated list is used
+        .then((pdfs) =>
+          Promise.allSettled(
+            pdfs.map((vaccine: VaccinePDFData) =>
+              (async () => {
+                try {
+                  if (vaccine.english?.formatId) {
+                    await this.vaccineDataService.downloadVaccinePDF(
+                      vaccine.productId,
+                      vaccine.english.formatId
+                    );
+                  }
+                  if (vaccine.french?.formatId) {
+                    await this.vaccineDataService.downloadVaccinePDF(
+                      vaccine.productId,
+                      vaccine.french.formatId
+                    );
+                  }
+                  if (vaccine.english || vaccine.french) {
+                    await this.vaccineDataService.updateLocalPDFFilenames(
+                      vaccine.productId,
+                      vaccine.english?.filename,
+                      vaccine.french?.filename
+                    );
+                  }
+                } catch (error) {
+                  logger.error(
+                    `Error updating PDFs for product ${vaccine.productId}`
+                  );
+                  throw new PDFUpdateError(vaccine.productId);
+                }
+              })()
+            )
+          )
+        )
+        .then((pdfsToUpdate) => {
+          const errors = pdfsToUpdate.filter(
+            (result) => result.status === "rejected"
+          );
+          const successes = pdfsToUpdate.filter(
+            (result) => result.status === "fulfilled"
+          );
 
-      // Errors are hanndled separately from the promises
-      const errors = pdfsToUpdate.filter(
-        (result) => result.status === "rejected"
-      );
-      const successes = pdfsToUpdate.filter(
-        (result) => result.status === "fulfilled"
-      );
-      errors.forEach((err) =>
-        logger.error(`PDF update failed: ${err.reason.message}`)
-      );
+          errors.forEach((err) =>
+            logger.error(`PDF update failed: ${err.reason.message}`)
+          );
 
-      return {
-        success: errors.length > 0 ? false : true,
-        updated: successes.length,
-        failed: errors.length,
-      };
-
-      // Return success when all pdfs are updated.
+          return {
+            success: errors.length === 0,
+            updated: successes.length,
+            failed: errors.length,
+          };
+        })
+        .catch((error) => {
+          logger.error(`Error in updateVaccines: ${error.message}`);
+          throw new VaccineUpdateError(error);
+        });
     } catch (error: any) {
-      logger.error(`Error in updateVaccines: ${error.message}`);
+      logger.error(`Unexpected error in updateVaccines: ${error.message}`);
       throw new VaccineUpdateError(error);
     }
   }
