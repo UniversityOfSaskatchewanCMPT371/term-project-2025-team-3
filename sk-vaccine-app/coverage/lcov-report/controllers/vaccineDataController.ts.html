@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.28% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/42</span>
+                <span class='fraction'>30/48</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.25% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>9/16</span>
+                <span class='fraction'>7/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.77% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/9</span>
+                <span class='fraction'>12/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.28% </span>
+                <span class="strong">63.82% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>27/42</span>
+                <span class='fraction'>30/47</span>
             </div>
         
             
@@ -251,7 +251,15 @@
 <a name='L186'></a><a href='#L186'>186</a>
 <a name='L187'></a><a href='#L187'>187</a>
 <a name='L188'></a><a href='#L188'>188</a>
-<a name='L189'></a><a href='#L189'>189</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -270,7 +278,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">19x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -292,17 +300,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-yes">35x</span>
@@ -325,6 +335,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -338,6 +350,7 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -348,6 +361,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -479,66 +495,74 @@ class VaccineDataController implements iVaccineDataController {
     failed: number;
   }&gt; {
     try {
-      const upToDate = await this.vaccineListUpToDate();
-      logger.info(`vaccineListUpToDate returned: ${upToDate}`); // Log the value of upToDate
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (!upToDate) {
-<span class="cstat-no" title="statement not covered" >        logger.info("Updating vaccine list..."); </span>// Log that updateVaccineList will be called
-<span class="cstat-no" title="statement not covered" >        await this.updateVaccineList();</span>
-      }
-&nbsp;
-      // Promise.allSettled will wait for all promises to finish even if some error
-      const pdfsToUpdate = await Promise.allSettled(
-        (
-          await this.vaccineDataService.compareExternalPDFs()
-        ).map(async (vaccine: VaccinePDFData) =&gt; {
-          try {
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (vaccine.english?.formatId) {
-              await this.vaccineDataService.downloadVaccinePDF(
-                vaccine.productId,
-                vaccine.english.formatId
-              );
-            }
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (vaccine.french?.formatId) {
-              await this.vaccineDataService.downloadVaccinePDF(
-                vaccine.productId,
-                vaccine.french.formatId
-              );
-            }
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (vaccine.english || <span class="branch-1 cbranch-no" title="branch not covered" >vaccine.french)</span> {
-              await this.vaccineDataService.updateLocalPDFFilenames(
-                vaccine.productId,
-                vaccine.english?.filename,
-                vaccine.french?.filename
-              );
-            }
-          } catch (error) {
-            logger.error("Error updating pdfs in updateVaccines");
-            throw new PDFUpdateError(vaccine.productId);
+      return this.vaccineListUpToDate()
+        .then((upToDate) =&gt; {
+          logger.info(`vaccineListUpToDate returned: ${upToDate}`);
+          <span class="missing-if-branch" title="if path not taken" >I</span>if (!upToDate) {
+<span class="cstat-no" title="statement not covered" >            logger.info("Updating vaccine list...");</span>
+<span class="cstat-no" title="statement not covered" >            return this.updateVaccineList().then(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >true)</span>; </span>// Ensure update completes
           }
+          return false; // No update needed
         })
-      );
-      //logger.debug(`PDFs to update ${pdfsToUpdate}`)
+        .then(() =&gt; this.vaccineDataService.compareExternalPDFs()) // Ensure updated list is used
+        .then((pdfs) =&gt;
+          Promise.allSettled(
+            pdfs.map((vaccine: VaccinePDFData) =&gt;
+              (async () =&gt; {
+                try {
+                  <span class="missing-if-branch" title="else path not taken" >E</span>if (vaccine.english?.formatId) {
+                    await this.vaccineDataService.downloadVaccinePDF(
+                      vaccine.productId,
+                      vaccine.english.formatId
+                    );
+                  }
+                  <span class="missing-if-branch" title="else path not taken" >E</span>if (vaccine.french?.formatId) {
+                    await this.vaccineDataService.downloadVaccinePDF(
+                      vaccine.productId,
+                      vaccine.french.formatId
+                    );
+                  }
+                  <span class="missing-if-branch" title="else path not taken" >E</span>if (vaccine.english || <span class="branch-1 cbranch-no" title="branch not covered" >vaccine.french)</span> {
+                    await this.vaccineDataService.updateLocalPDFFilenames(
+                      vaccine.productId,
+                      vaccine.english?.filename,
+                      vaccine.french?.filename
+                    );
+                  }
+                } catch (error) {
+                  logger.error(
+                    `Error updating PDFs for product ${vaccine.productId}`
+                  );
+                  throw new PDFUpdateError(vaccine.productId);
+                }
+              })()
+            )
+          )
+        )
+        .then((pdfsToUpdate) =&gt; {
+          const errors = pdfsToUpdate.filter(
+            (result) =&gt; result.status === "rejected"
+          );
+          const successes = pdfsToUpdate.filter(
+            (result) =&gt; result.status === "fulfilled"
+          );
 &nbsp;
-      // Errors are hanndled separately from the promises
-      const errors = pdfsToUpdate.filter(
-        (result) =&gt; result.status === "rejected"
-      );
-      const successes = pdfsToUpdate.filter(
-        (result) =&gt; result.status === "fulfilled"
-      );
-      errors.forEach((err) =&gt;
-        logger.error(`PDF update failed: ${err.reason.message}`)
-      );
+          errors.forEach((err) =&gt;
+            logger.error(`PDF update failed: ${err.reason.message}`)
+          );
 &nbsp;
-      return {
-        success: errors.length &gt; 0 ? false : true,
-        updated: successes.length,
-        failed: errors.length,
-      };
-&nbsp;
-      // Return success when all pdfs are updated.
+          return {
+            success: errors.length === 0,
+            updated: successes.length,
+            failed: errors.length,
+          };
+        })
+        .catch(<span class="fstat-no" title="function not covered" >(e</span>rror) =&gt; {
+<span class="cstat-no" title="statement not covered" >          logger.error(`Error in updateVaccines: ${error.message}`);</span>
+<span class="cstat-no" title="statement not covered" >          throw new VaccineUpdateError(error);</span>
+        });
     } catch (error: any) {
-<span class="cstat-no" title="statement not covered" >      logger.error(`Error in updateVaccines: ${error.message}`);</span>
+<span class="cstat-no" title="statement not covered" >      logger.error(`Unexpected error in updateVaccines: ${error.message}`);</span>
 <span class="cstat-no" title="statement not covered" >      throw new VaccineUpdateError(error);</span>
     }
   }
@@ -634,7 +658,7 @@ export default VaccineDataController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-11T19:24:03.164Z
+                at 2025-03-17T17:31:34.430Z
             </div>
         <script src="../prettify.js"></script>
         <script>

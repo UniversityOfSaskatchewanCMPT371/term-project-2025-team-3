@@ -8,9 +8,7 @@ import { PATH_VACCINE_INFO, CLINIC_INFO } from "../utils/constPaths";
 import React from "react";
 import ClosestClincButton from "@/components/closest-clinic-btn";
 import SettingsButton from "@/components/settings-btn";
-import { updateVaccineSheets } from "@/hooks/vaccineData";
-import VaccineDataController from "@/controllers/vaccineDataController";
-import { VaccineDataService } from "@/services/vaccineDataService";
+
 
 export const CLINIC_BTN_TEXT = "Clinic Info";
 export const BOOKING_BTN_TEXT = "Booking";

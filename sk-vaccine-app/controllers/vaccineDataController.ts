@@ -48,8 +48,9 @@ class VaccineDataController implements iVaccineDataController {
           return false; // No update needed
         })
         .then(() => this.vaccineDataService.compareExternalPDFs()) // Ensure updated list is used
-        .then((pdfs) =>
-          Promise.allSettled(
+        .then((pdfs) => {
+          //logger.debug( "VaccineDataController, updateVaccines: pdfs to check",pdf );
+          return Promise.allSettled(
             pdfs.map((vaccine: VaccinePDFData) =>
               (async () => {
                 try {
@@ -80,8 +81,8 @@ class VaccineDataController implements iVaccineDataController {
                 }
               })()
             )
-          )
-        )
+          );
+        })
         .then((pdfsToUpdate) => {
           const errors = pdfsToUpdate.filter(
             (result) => result.status === "rejected"

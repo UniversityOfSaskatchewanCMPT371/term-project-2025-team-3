@@ -319,14 +319,16 @@ export class VaccineDataService implements iVaccineDataService {
             )
           ).json();
 
+          //logger.debug(productJSON.productFormats[0]);
+
           const englishPDFFilename: string =
-            productJSON.productFormats[0].digitalAttributes.fileaName;
+            productJSON.productFormats[0].digitalAttributes.fileName;
           const frenchPDFFilename: string =
-            productJSON.productFormats[1].digitalAttributes.fileaName;
+            productJSON.productFormats[1].digitalAttributes.fileName;
           const localFilenames = await this.getLocalPDFFilenames(
             product.productId
           );
-          logger.debug(`CompareExternalPDFs localFileNames: ${localFilenames}`);
+          logger.debug(`CompareExternalPDFs localFileNames: ${localFilenames.englishFilename}, ${localFilenames.frenchFilename} remoteFilenames: ${englishPDFFilename}, ${frenchPDFFilename}`);
 
           return {
             productId: product.productId,
@@ -413,6 +415,7 @@ export class VaccineDataService implements iVaccineDataService {
         englishPDFFilename: englishFilename,
         frenchPDFFilename: frenchFilename,
       });
+      //logger.debug(englishFilename, frenchFilename)
       vaccine.save();
     });
   }
