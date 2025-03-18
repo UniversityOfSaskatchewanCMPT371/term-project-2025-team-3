@@ -36,7 +36,7 @@ export class LocationAccessError extends MyError {
 export class PDFDownloadError extends Error {
   product_id: number;
 
-  constructor(product_id: number, message = "Unable to download PDF.") {
+  constructor(product_id: number, message = "Unable to download PDF. ") {
     super(message);
     this.name = "PDFDownloadError";
     this.product_id = product_id;

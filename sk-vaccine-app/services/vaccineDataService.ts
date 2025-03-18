@@ -5,6 +5,7 @@ import {
   VaccineListResponse,
   VaccinePDFData,
   VaccineProduct,
+  VaccineQueryResult,
   VaccineSheet,
 } from "@/interfaces/iVaccineData";
 import logger from "@/utils/logger";
@@ -13,9 +14,7 @@ import assert from "assert";
 import tempJson from "@/services/vaccineListService.data.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import VaccineEntity from "@/myorm/vaccine-entity";
-import { PDFDownloadError } from "@/utils/ErrorTypes";
-
-
+import { PDFDownloadError, PDFUpdateError } from "@/utils/ErrorTypes";
 
 /**
  * @class Implements `iVaccineService`, is used to apply logic to external APIs
@@ -48,12 +47,12 @@ export class VaccineDataService implements iVaccineDataService {
       ascending: true | false;
       column: "vaccineName" | "associatedDiseases" | "starting";
     }
-  ): Promise<any[]> {
+  ): Promise<VaccineQueryResult[]> {
     let query = `SELECT vaccineName, associatedDiseases${
       language == "english" ? "English" : "French"
     } AS associatedDiseases, ${
       language == "english" ? "english" : "french"
-    }PDFFilename AS pdfPath, starting FROM $table`;
+    }FormatId AS formatId, productId, starting FROM $table`;
 
     let params: string[] = [];
 
@@ -82,7 +81,10 @@ export class VaccineDataService implements iVaccineDataService {
     }
     logger.debug(`Vaccine query ${query}`);
     try {
-      const result = await VaccineEntity.query(query, ...params);
+      const result: VaccineQueryResult[] = await VaccineEntity.query(
+        query,
+        ...params
+      );
       logger.debug(`Vaccine query result ${result}`);
       return result;
     } catch (error) {
@@ -284,19 +286,30 @@ export class VaccineDataService implements iVaccineDataService {
   ): Promise<string> {
     assert(productId != null && formatId != null);
     try {
-      const fileUri = `${FileSystem.documentDirectory}vaccinePdfs/${productId}/${formatId}.pdf`;
+      // Define the directory and file path
+      const dirPath = `${FileSystem.documentDirectory}vaccinePdfs/${productId}/`;
+      const fileUri = `${dirPath}${formatId}.pdf`;
+
+      // Ensure the directory exists
+      const dirInfo = await FileSystem.getInfoAsync(dirPath);
+      if (!dirInfo.exists) {
+        await FileSystem.makeDirectoryAsync(dirPath, { intermediates: true });
+      }
+      logger.debug(`Attempting to download ${productId} with ${formatId}`);
+      // Download the PDF
       const { uri } = await FileSystem.downloadAsync(
         `https://publications.saskatchewan.ca/api/v1/products/${productId}/formats/${formatId}`,
         fileUri
       );
+
       logger.info(`PDF Downloaded, uri: ${uri}`);
       return uri;
     } catch (error) {
       logger.error(
-        `Error downloading vaccind PDF for productId: ${productId}\nError: `,
+        `Error downloading vaccine PDF for productId: ${productId}\nError: `,
         error
       );
-      throw new PDFDownloadError(productId)
+      throw new PDFDownloadError(productId);
     }
   }
 
@@ -325,26 +338,26 @@ export class VaccineDataService implements iVaccineDataService {
             productJSON.productFormats[0].digitalAttributes.fileName;
           const frenchPDFFilename: string =
             productJSON.productFormats[1].digitalAttributes.fileName;
+          const englishRemoteProductID =
+            productJSON.productFormats[0].digitalAttributes.productFormatId;
+          const frenchRemoteProductID =
+            productJSON.productFormats[1].digitalAttributes.productFormatId;
           const localFilenames = await this.getLocalPDFFilenames(
             product.productId
           );
-          logger.debug(`CompareExternalPDFs localFileNames: ${localFilenames.englishFilename}, ${localFilenames.frenchFilename} remoteFilenames: ${englishPDFFilename}, ${frenchPDFFilename}`);
+          logger.debug(
+            `CompareExternalPDFs localFileNames: ${localFilenames.englishFilename}, ${localFilenames.frenchFilename} remoteFilenames: ${englishPDFFilename}, ${frenchPDFFilename}`
+          );
 
           return {
             productId: product.productId,
             english: {
               filename: englishPDFFilename,
-              formatId:
-                englishPDFFilename === localFilenames.englishFilename
-                  ? undefined
-                  : product.englishFormatId,
+              formatId: englishRemoteProductID,
             },
             french: {
               filename: frenchPDFFilename,
-              formatId:
-                frenchPDFFilename === localFilenames.frenchFilename
-                  ? undefined
-                  : product.frenchFormatId,
+              formatId: frenchRemoteProductID,
             },
           };
         } catch (error) {
@@ -402,22 +415,52 @@ export class VaccineDataService implements iVaccineDataService {
   async updateLocalPDFFilenames(
     productId: number,
     englishFilename?: string,
-    frenchFilename?: string
+    frenchFilename?: string,
+    englishFormatId?: number,
+    frenchFormatId?: number
   ): Promise<void> {
-    let statment = `UPDATE $table SET 
-                ${englishFilename ? "englishPDFFilename = ?," : ""} 
-                ${
-                  frenchFilename ? "frenchPDFFilename = ?" : ""
-                } WHERE productId = ?`;
-    return new Promise(async (resolve, reject) => {
+    let updates: string[] = [];
+    let params: (string | number)[] = [];
+
+    if (englishFilename !== undefined) {
+      updates.push("englishPDFFilename = ?");
+      params.push(englishFilename);
+    }
+    if (frenchFilename !== undefined) {
+      updates.push("frenchPDFFilename = ?");
+      params.push(frenchFilename);
+    }
+    if (englishFormatId !== undefined) {
+      updates.push("englishFormatId = ?");
+      params.push(englishFormatId);
+    }
+    if (frenchFormatId !== undefined) {
+      updates.push("frenchFormatId = ?");
+      params.push(frenchFormatId);
+    }
+
+    if (updates.length === 0) {
+      throw new Error("No valid fields provided for update.");
+    }
+
+    let statement = `UPDATE $table SET ${updates.join(
+      ", "
+    )} WHERE productId = ?`;
+    params.push(productId);
+    try {
       const vaccine = new VaccineEntity({
         productId: productId,
         englishPDFFilename: englishFilename,
         frenchPDFFilename: frenchFilename,
+        englishFormatId: englishFormatId,
+        frenchFormatId: frenchFormatId,
       });
-      //logger.debug(englishFilename, frenchFilename)
-      vaccine.save();
-    });
+      logger.debug(englishFilename, frenchFilename);
+      await VaccineEntity.query(statement, ...params);
+    } catch (error) {
+      logger.error(error);
+      throw new PDFUpdateError(productId, "Unable to update local filenames");
+    }
   }
 
   /**

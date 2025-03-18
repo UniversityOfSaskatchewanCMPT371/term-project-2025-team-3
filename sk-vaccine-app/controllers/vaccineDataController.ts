@@ -3,8 +3,10 @@ import {
   VaccineListResponse,
   VaccinePDFData,
   VaccineSheet,
+  VaccineQueryResult,
 } from "@/interfaces/iVaccineData";
 import VaccineEntity from "@/myorm/vaccine-entity";
+import * as FileSystem from "expo-file-system";
 import {
   PDFUpdateError,
   VaccineListVersionError,
@@ -49,7 +51,10 @@ class VaccineDataController implements iVaccineDataController {
         })
         .then(() => this.vaccineDataService.compareExternalPDFs()) // Ensure updated list is used
         .then((pdfs) => {
-          //logger.debug( "VaccineDataController, updateVaccines: pdfs to check",pdf );
+          logger.debug(
+            "VaccineDataController, updateVaccines: pdfs to check",
+            pdfs
+          );
           return Promise.allSettled(
             pdfs.map((vaccine: VaccinePDFData) =>
               (async () => {
@@ -70,12 +75,14 @@ class VaccineDataController implements iVaccineDataController {
                     await this.vaccineDataService.updateLocalPDFFilenames(
                       vaccine.productId,
                       vaccine.english?.filename,
-                      vaccine.french?.filename
+                      vaccine.french?.filename,
+                      vaccine.english?.formatId,
+                      vaccine.french?.formatId
                     );
                   }
                 } catch (error) {
                   logger.error(
-                    `Error updating PDFs for product ${vaccine.productId}`
+                    `Error updating PDFs for product ${vaccine.productId} Error ${error}`
                   );
                   throw new PDFUpdateError(vaccine.productId);
                 }
@@ -91,10 +98,11 @@ class VaccineDataController implements iVaccineDataController {
             (result) => result.status === "fulfilled"
           );
 
+          /*
           errors.forEach((err) =>
             logger.error(`PDF update failed: ${err.reason.message}`)
           );
-
+          */
           return {
             success: errors.length === 0,
             updated: successes.length,
@@ -175,15 +183,23 @@ class VaccineDataController implements iVaccineDataController {
     // TODO implement checking of language with settings page;
     try {
       if (field) {
-        return (await this.vaccineDataService.vaccineQuery(
-          input,
-          "english",
-          field
-        )) as VaccineSheet[];
+        return (
+          await this.vaccineDataService.vaccineQuery(input, "english", field)
+        ).map((element: VaccineQueryResult) => {
+          return {
+            pdfPath: `${FileSystem.documentDirectory}vaccinePdfs/${element.productId}/${element.formatId}.pdf`, // Properly assigning formatId
+            ...element, // Spreading other properties
+          };
+        }) as VaccineSheet[];
       } else {
-        return (await this.vaccineDataService.vaccineQuery(
-          input
-        )) as VaccineSheet[];
+        return (
+          await this.vaccineDataService.vaccineQuery(input, "english", field)
+        ).map((element: VaccineQueryResult) => {
+          return {
+            pdfPath: `${FileSystem.documentDirectory}vaccinePdfs/${element.productId}/${element.formatId}.pdf`, // Properly assigning formatId
+            ...element, // Spreading other properties
+          };
+        }) as VaccineSheet[];
       }
     } catch (error) {
       logger.error(
