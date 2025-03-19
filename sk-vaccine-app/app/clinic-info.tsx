@@ -46,7 +46,6 @@ export default function Page() {
             Clinics offering vaccinations intended for persons under 18 years of
             age
           </Text>
-
           {serverAccessFailed && (
             <Text style={styles.offline}>Cannot connect to server</Text>
           )}
@@ -55,6 +54,7 @@ export default function Page() {
             <SearchBar onSubmitEditing={setSearchVal} />
           </View>
         </View>
+
 
         {loading && !error && <ActivityIndicator size="large" />}
 

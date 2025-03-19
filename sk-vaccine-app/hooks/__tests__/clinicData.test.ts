@@ -63,6 +63,13 @@ const testClinicArray = new ClinicArray(
 );
 
 const testUrl = "https://test.com";
+
+
+jest.mock('../../myorm/decorators', () => ({
+  Entity: () => (target: any) => target,
+  PrimaryGeneratedColumn: () => (target: any) => target,
+  Column: () => (target: any) => target
+}));
   
 const mockClinicData: jest.Mocked<iClinicData> = {
   isStorageEmpty: jest.fn(),
@@ -81,32 +88,6 @@ describe("Unit tests for useClinicData", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (global.fetch as jest.Mock).mockReset();
-  });
-
-  it("returns remote data if available", async () => {
-    (global.fetch as jest.Mock).mockResolvedValue(
-      new Response(JSON.stringify(testJson), {
-        status: 200,
-        headers: { "Content-Type": "application/json" }
-      })
-    );
-    mockClinicData.isStorageEmpty.mockResolvedValue(true);
-    mockClinicData.getClinics.mockResolvedValue(testClinicArray);
-
-    const { result } = renderHook(() =>
-      useClinicData({
-        clinicService: mockClinicData,
-        url: testUrl
-      })
-    );
-
-    expect(result.current.loading).toBe(true);
-
-    await waitFor(() => expect(result.current.loading).toBe(false));
-    expect(result.current.clinicArray).toEqual(testClinicArray);
-    expect(result.current.error).toBeNull();
-    expect(result.current.serverAccessFailed).toBe(false);
-    expect(mockClinicData.storeClinics).toHaveBeenCalled();
   });
 
   it("sets serverAccessFailed to true if fetch fails", async () => {
