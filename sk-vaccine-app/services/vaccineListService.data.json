@@ -1,50 +1,125 @@
 {
-	"version": 6,
-	"vaccines": [
-		{
-			"vaccineName": "DTaP-IPV-Hib",
-		    "productId": 11766,
-			"starting": "2 Mo",
-		    "associatedDiseases": {
-				"english": [
-				    "Diphtheria",
-					"Tetanus",
-					"Pertussis",
-					"Polio",
-				    "Haemophilus Influenzae Type b"
-				],
-				"french": [
-					"La Diphtérie",
-					"Le Tétanos",
-				    "La Coqueluche",
-					"La Poliomyélite",
-					"l’Haemophilus Influenzae de Type b"
-                ]
-            }
-        },
-		{
-			"vaccineName": "DTaP-IPV-Hib",
-		    "productId": 11766,
-			"starting": "2 Mo",
-		    "associatedDiseases": {
-				"english": [
-				    "Diphtheria",
-					"Tetanus",
-					"Pertussis",
-					"Polio",
-				    "Haemophilus Influenzae Type b"
-				],
-				"french": [
-					"La Diphtérie",
-					"Le Tétanos",
-				    "La Coqueluche",
-					"La Poliomyélite",
-					"l’Haemophilus Influenzae de Type b"
-                ]
-            }
-        }
-    ]
+  "version": 10,
+  "vaccines": [
+    {
+      "vaccineName": "DTaP-IPV-Hib",
+      "productId": 11766,
+      "starting": "2 months",
+      "associatedDiseases": {
+        "english": [
+          "Diphtheria",
+          "Tetanus",
+          "Pertussis",
+          "Polio",
+          "Haemophilus Influenzae Type b"
+        ],
+        "french": [
+          "La Diphtérie",
+          "Le Tétanos",
+          "La Coqueluche",
+          "La Poliomyélite",
+          "l’Haemophilus Influenzae de Type b"
+        ]
+      }
+    },
+    {
+      "vaccineName": "Pneumococcal Conjugate 15",
+      "productId": 123844,
+      "starting": "2 months",
+      "associatedDiseases": {
+        "english": ["Pneumococcal Disease"],
+        "french": ["La Maladie Pneumococcique"]
+      }
+    },
+    {
+      "vaccineName": "Rotavirus",
+      "productId": 66690,
+      "starting": "2 months",
+      "associatedDiseases": {
+        "english": ["Rotavirus Gastroenteritis"],
+        "french": ["La Gastro-entérite à Rotavirus"]
+      }
+    },
+    {
+      "vaccineName": "MMRV",
+      "productId": 31975,
+      "starting": "12 months",
+      "associatedDiseases": {
+        "english": ["Measles", "Mumps", "Rubella, Varicella (Chicken Pox"],
+        "french": ["La Rougeole", "Les Oreillons", "La Rubéole", "La Varicelle"]
+      }
+    },
+    {
+      "vaccineName": "Meningococcal Conjugate C",
+      "productId": 11773,
+      "starting": "12 months",
+      "associatedDiseases": {
+        "english": [
+          "Meningococcal Disease caused by Neisseria meningitidis serogroup C"
+        ],
+        "french": [
+          "La Maladie Méningococcique causée par Neisseria meningitidis sérogroupe C"
+        ]
+      }
+    },
+    {
+      "vaccineName": "Hepatitis A",
+      "productId": 11767,
+      "starting": "12 months",
+      "associatedDiseases": {
+        "english": ["Hepatitis A"],
+        "french": ["Hépatite A"]
+      }
+    },
+    {
+      "vaccineName": "Tdap-IPV",
+      "productId": 66929,
+      "starting": "4 to 6 years",
+      "associatedDiseases": {
+        "english": ["Tetanus", "Diphtheria", "Pertussis", "Polio"],
+        "french": [
+          "Le Tétanos",
+          "La Diphtérie",
+          "La Coqueluche",
+          "La Poliomyélite"
+        ]
+      }
+    },
+    {
+      "vaccineName": "HPV-9",
+      "productId": 11773,
+      "starting": "Grade 6",
+      "associatedDiseases": {
+        "english": ["Human Papillomavirus Infections"],
+        "french": ["Les Infections à Papillomavirus Humain"]
+      }
+    },
+    {
+      "vaccineName": "Hepatitis B",
+      "productId": 11785,
+      "starting": "Grade 6",
+      "associatedDiseases": {
+        "english": ["Hepatitis B"],
+        "french": ["Hépatite B"]
+      }
+    },
+    {
+      "vaccineName": "Tdap",
+      "productId": 11776,
+      "starting": "Grade 8",
+      "associatedDiseases": {
+        "english": ["Tetanus", "Diphtheria", "Pertussis"],
+        "french": ["Le Tétanos", "La Diphtérie", "La Coqueluche"]
+      }
+    },
+    {
+      "vaccineName": "Influenza",
+      "productId": 82503,
+      "starting": "6 months and older (annually)",
+      "associatedDiseases": {
+        "english": ["Seasonal Influenza"],
+        "french": ["La Grippe Saisonnière"]
+      }
+    }
+  ]
 }
-
-
-

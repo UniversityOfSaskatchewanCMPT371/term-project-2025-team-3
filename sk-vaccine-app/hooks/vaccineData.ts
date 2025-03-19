@@ -4,15 +4,8 @@ import {
   VaccineSheet,
 } from "@/interfaces/iVaccineData";
 import logger from "@/utils/logger";
-import { useNetworkState } from "expo-network";
+import * as Network from "expo-network";
 import { useEffect, useState } from "react";
-
-class NoInternetError extends Error {
-  constructor(message = "No internet connection. Please try again later.") {
-    super(message);
-    this.name = "NoInternetError";
-  }
-}
 
 export type VaccineSheetStatus = {
   /** holds the list of vaccines */
@@ -65,7 +58,7 @@ export function useVaccineSheets(data: {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     fetchResults();
   }, [searchValue]);
@@ -100,8 +93,8 @@ export function useVaccineSheets(data: {
  *    it is shown here.
  *
  */
-export function updateVaccineSheets(vaccineController: iVaccineDataController) {
-  const networkState = useNetworkState();
+export function useUpdateVaccineSheets(vaccineController: iVaccineDataController) {
+  const [isConnected, setIsConnected] = useState<boolean | undefined>(undefined);
   const [result, setResult] = useState<{
     success: boolean;
     updated: number;
@@ -117,7 +110,14 @@ export function updateVaccineSheets(vaccineController: iVaccineDataController) {
     let isMounted = true; // Prevent updates after unmount
 
     const tryUpdate = async () => {
-      if (!networkState.isConnected) return; // Don't run if offline
+      const state = await Network.getNetworkStateAsync();
+      setIsConnected(state.isConnected);
+
+      if (!state.isConnected) {
+        logger.debug(state.isConnected);
+        logger.error("No network connection");
+        return; // Don't run if offline
+      }
 
       try {
         const updateResult = await vaccineController.updateVaccines();

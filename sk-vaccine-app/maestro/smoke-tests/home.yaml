@@ -1,0 +1,5 @@
+appId: com.skvaccineapplicationproject.skvaccineapp   
+---
+- launchApp
+- assertVisible: "(?i).*clinic info.*"
+- assertVisible: "(?i).*vaccine info.*"

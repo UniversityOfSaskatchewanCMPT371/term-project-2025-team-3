@@ -1,6 +1,7 @@
 ---
 name: Feature
 title: "[Feature] "
+about: This template is intended to detail features which can be assigned amongst the team
 description: This template is intended to detail features which can be assigned amongst the team
 labels: [ "Feature", "Deliverable 2" ]
 ---

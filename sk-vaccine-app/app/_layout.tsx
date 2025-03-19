@@ -6,15 +6,13 @@ import React from "react";
 import SettingsButton from "@/components/settings-btn";
 import VaccineDataController from "@/controllers/vaccineDataController";
 import { VaccineDataService } from "@/services/vaccineDataService";
-import { updateVaccineSheets } from "@/hooks/vaccineData";
+import { useUpdateVaccineSheets } from "@/hooks/vaccineData";
+import logger from "@/utils/logger";
 
 const CustomHeader = memo(() => {
   const TITLE_TEXT = "Sask\nImmunize";
   const saskLogo = require("@/assets/images/sasklogo-tra.png");
 
-  const vaccineController = updateVaccineSheets(
-    new VaccineDataController(new VaccineDataService())
-  );
   return (
     <View
       style={{
@@ -39,6 +37,9 @@ const CustomHeader = memo(() => {
 });
 
 export default function RootLayout() {
+  const vaccineController = new VaccineDataController(new VaccineDataService());
+  const updateResult = useUpdateVaccineSheets(vaccineController);
+  logger.info(updateResult);
   return (
     <Stack
       screenOptions={{
