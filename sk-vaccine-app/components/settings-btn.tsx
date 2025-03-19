@@ -10,7 +10,7 @@ export default function SettingsButton() {
         style={styles.settingsButton}
         onPress={() => console.log("Settings Pressed")}
       >
-        <FontAwesome name="gear" size={45} color="gray" />
+        <FontAwesome name="gear" size={30} color="black" />
       </Pressable>
     </Link>
   );
@@ -18,11 +18,13 @@ export default function SettingsButton() {
 
 const styles = {
   settingsButton: {
-    position: "absolute" as "absolute",
-    bottom: 20,
-    right: 20, 
+    //position: "absolute" as "absolute",
+    //bottom: 20,
+    //right: 20, 
     backgroundColor: "white",
-    margin: 10,
+    marginRight: 10,
+    //margin: 10,
     borderRadius: 50,
+    padding:10,
   },
 };
