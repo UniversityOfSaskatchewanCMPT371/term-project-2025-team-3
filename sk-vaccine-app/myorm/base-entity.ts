@@ -58,6 +58,30 @@ export default class BaseEntity {
         return this.convertToObj<T>(result);;
     }
 
+    static async findOne<T extends BaseEntity>(
+        this: new () => T,
+        where: { [key: string]: any }
+      ): Promise<T | null> {
+        const keys = Object.keys(where);
+        const values = Object.values(where);
+        const db = BaseEntity.db;
+        const prototype = this.prototype as EntityPrototype;
+    
+        if (keys.length === 0) {
+          throw new Error("findOne requires at least one condition");
+        }
+    
+        const conditionString = keys.map((key) => `${key} = ?`).join(" AND ");
+        const queryString = `SELECT * FROM ${prototype._tableName} WHERE ${conditionString} LIMIT 1`;
+    
+        const results = (await db.getFirstAsync(queryString, values)) as any[];
+    
+        const entity = new this(); // Create an instance of the subclass
+        Object.assign(entity, results); // Copy DB data into the entity
+        //logger.debug(entity);
+        return entity;
+      }
+
 
     /**
      * A helper function that takes the object returned by sqlite's `SQLiteDatabase.getAllAsync` 

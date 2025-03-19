@@ -51,10 +51,7 @@ class VaccineDataController implements iVaccineDataController {
         })
         .then(() => this.vaccineDataService.compareExternalPDFs()) // Ensure updated list is used
         .then((pdfs) => {
-          logger.debug(
-            "VaccineDataController, updateVaccines: pdfs to check",
-            pdfs
-          );
+          //logger.debug("VaccineDataController, updateVaccines: pdfs to check",pdfs);
           return Promise.allSettled(
             pdfs.map((vaccine: VaccinePDFData) =>
               (async () => {

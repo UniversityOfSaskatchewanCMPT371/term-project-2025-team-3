@@ -346,18 +346,24 @@ export class VaccineDataService implements iVaccineDataService {
             product.productId
           );
           logger.debug(
-            `CompareExternalPDFs localFileNames: ${localFilenames.englishFilename}, ${localFilenames.frenchFilename} remoteFilenames: ${englishPDFFilename}, ${frenchPDFFilename}`
+            `CompareExternalPDFs localFileNames: ${localFilenames.englishPDFFilename}, ${localFilenames.frenchPDFFilename} remoteFilenames: ${englishPDFFilename}, ${frenchPDFFilename}`
           );
 
           return {
             productId: product.productId,
             english: {
               filename: englishPDFFilename,
-              formatId: englishRemoteProductID,
+              formatId:
+                englishPDFFilename === localFilenames.englishPDFFilename
+                  ? undefined
+                  : product.englishFormatId,
             },
             french: {
               filename: frenchPDFFilename,
-              formatId: frenchRemoteProductID,
+              formatId:
+                frenchPDFFilename === localFilenames.frenchPDFFilename
+                  ? undefined
+                  : product.frenchFormatId,
             },
           };
         } catch (error) {
@@ -388,16 +394,20 @@ export class VaccineDataService implements iVaccineDataService {
    * @returns an promise containing an object with the english and french
    * PDF names, both in the form of strings
    */
-  async getLocalPDFFilenames(
-    productId: number
-  ): Promise<{ englishFilename: string; frenchFilename: string }> {
-    return new Promise(async (resolve, reject) => {
-      const filenames = await VaccineEntity.query(
-        `SELECT englishPDFFilename, frenchPDFFilename FROM $table WHERE productId = ?`,
-        productId
+  async getLocalPDFFilenames(productId: number): Promise<VaccineEntity> {
+    try {
+      const vaccine = await VaccineEntity.findOne({ productId });
+
+      if (!vaccine) {
+        throw new Error(`Vaccine with productId ${productId} not found`);
+      }
+      logger.debug(
+        `Current local filenames ${vaccine.englishPDFFilename} ${vaccine.frenchPDFFilename}`
       );
-      resolve(filenames);
-    });
+      return vaccine;
+    } catch (error) {
+      throw error;
+    }
   }
 
   /**
@@ -419,44 +429,33 @@ export class VaccineDataService implements iVaccineDataService {
     englishFormatId?: number,
     frenchFormatId?: number
   ): Promise<void> {
-    let updates: string[] = [];
-    let params: (string | number)[] = [];
-
-    if (englishFilename !== undefined) {
-      updates.push("englishPDFFilename = ?");
-      params.push(englishFilename);
-    }
-    if (frenchFilename !== undefined) {
-      updates.push("frenchPDFFilename = ?");
-      params.push(frenchFilename);
-    }
-    if (englishFormatId !== undefined) {
-      updates.push("englishFormatId = ?");
-      params.push(englishFormatId);
-    }
-    if (frenchFormatId !== undefined) {
-      updates.push("frenchFormatId = ?");
-      params.push(frenchFormatId);
-    }
-
-    if (updates.length === 0) {
-      throw new Error("No valid fields provided for update.");
-    }
-
-    let statement = `UPDATE $table SET ${updates.join(
-      ", "
-    )} WHERE productId = ?`;
-    params.push(productId);
     try {
-      const vaccine = new VaccineEntity({
-        productId: productId,
-        englishPDFFilename: englishFilename,
-        frenchPDFFilename: frenchFilename,
-        englishFormatId: englishFormatId,
-        frenchFormatId: frenchFormatId,
-      });
-      logger.debug(englishFilename, frenchFilename);
-      await VaccineEntity.query(statement, ...params);
+      // Fetch the entity from the database
+      const vaccine = await VaccineEntity.findOne({ productId });
+
+      if (!vaccine) {
+        throw new Error(`Vaccine with productId ${productId} not found`);
+      }
+      logger.debug(
+        `When updating local filenames ${vaccine.id}, ${vaccine.productId}`
+      );
+
+      // Update only the provided fields
+      if (englishFilename !== undefined) {
+        vaccine.englishPDFFilename = englishFilename;
+      }
+      if (frenchFilename !== undefined) {
+        vaccine.frenchPDFFilename = frenchFilename;
+      }
+      if (englishFormatId !== undefined) {
+        vaccine.englishFormatId = englishFormatId;
+      }
+      if (frenchFormatId !== undefined) {
+        vaccine.frenchFormatId = frenchFormatId;
+      }
+
+      // Save the updated entity back to the database
+      await vaccine.save();
     } catch (error) {
       logger.error(error);
       throw new PDFUpdateError(productId, "Unable to update local filenames");
