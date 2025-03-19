@@ -63,7 +63,7 @@ export function useVaccineSheets(data: {
     fetchResults();
   }, [searchValue]);
 
-  logger.debug("useVaccineSheets -> vaccineSheets:", vaccineSheets);
+  //logger.debug("useVaccineSheets -> vaccineSheets:", vaccineSheets[0].associatedDiseases);
   logger.debug("useVaccineSheets -> loading:", loading);
   logger.debug("useVaccineSheets -> error:", error);
   logger.debug("useVaccineSheets -> fetchResults:", fetchResults);

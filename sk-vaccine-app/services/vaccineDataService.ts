@@ -85,7 +85,7 @@ export class VaccineDataService implements iVaccineDataService {
         query,
         ...params
       );
-      logger.debug(`Vaccine query result ${result}`);
+      logger.debug(`Vaccine query result ${result[0]}`);
       return result;
     } catch (error) {
       logger.error(`Error running vaccineQuery ${error}`);
@@ -103,7 +103,7 @@ export class VaccineDataService implements iVaccineDataService {
    *
    * @returns a list of all vaccine product ids and format ids.
    */
-  private async getProductIDs(): Promise<VaccineProduct[]> {
+  async getProductIDs(): Promise<VaccineProduct[]> {
     const productNumbers: VaccineProduct[] = await VaccineEntity.query(
       `SELECT productId, englishFormatId, frenchFormatId FROM $table`
     );
@@ -298,7 +298,7 @@ export class VaccineDataService implements iVaccineDataService {
       logger.debug(`Attempting to download ${productId} with ${formatId}`);
       // Download the PDF
       const { uri } = await FileSystem.downloadAsync(
-        `https://publications.saskatchewan.ca/api/v1/products/${productId}/formats/${formatId}`,
+        `https://publications.saskatchewan.ca/api/v1/products/${productId}/formats/${formatId}/download`,
         fileUri
       );
 
@@ -323,6 +323,7 @@ export class VaccineDataService implements iVaccineDataService {
    */
   async compareExternalPDFs(): Promise<VaccinePDFData[]> {
     const productIds = await this.getProductIDs();
+    logger.debug(`Compare PDF productIds ${productIds}`)
     try {
       const comparePromises = productIds.map(async (product) => {
         try {
@@ -348,22 +349,27 @@ export class VaccineDataService implements iVaccineDataService {
           logger.debug(
             `CompareExternalPDFs localFileNames: ${localFilenames.englishPDFFilename}, ${localFilenames.frenchPDFFilename} remoteFilenames: ${englishPDFFilename}, ${frenchPDFFilename}`
           );
+          logger.debug(
+            `CompareExternalPDFs productIDs passed: ${product.englishFormatId} ${product.frenchFormatId}`
+          )
+
 
           return {
             productId: product.productId,
             english: {
               filename: englishPDFFilename,
               formatId:
+                
                 englishPDFFilename === localFilenames.englishPDFFilename
                   ? undefined
-                  : product.englishFormatId,
+                  : englishRemoteProductID
             },
             french: {
               filename: frenchPDFFilename,
               formatId:
                 frenchPDFFilename === localFilenames.frenchPDFFilename
                   ? undefined
-                  : product.frenchFormatId,
+                  : frenchRemoteProductID
             },
           };
         } catch (error) {

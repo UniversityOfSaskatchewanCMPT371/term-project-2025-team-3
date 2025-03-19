@@ -41,17 +41,21 @@ class VaccineDataController implements iVaccineDataController {
   }> {
     try {
       return this.vaccineListUpToDate()
-        .then((upToDate) => {
-          logger.info(`vaccineListUpToDate returned: ${upToDate}`);
-          if (!upToDate) {
-            logger.info("Updating vaccine list...");
-            return this.updateVaccineList().then(() => true); // Ensure update completes
-          }
-          return false; // No update needed
-        })
+      .then(async (upToDate) => {
+        logger.info(`vaccineListUpToDate returned: ${upToDate}`);
+        if (!upToDate) {
+          logger.info("Updating vaccine list...");
+          await this.updateVaccineList();
+          logger.info("Vaccine list update completed.");
+    
+          // Check if product IDs exist before proceeding
+          const productIds = await this.vaccineDataService.getProductIDs();
+          logger.debug(`Product IDs after update: ${productIds.length}`);
+        }
+      })
         .then(() => this.vaccineDataService.compareExternalPDFs()) // Ensure updated list is used
         .then((pdfs) => {
-          //logger.debug("VaccineDataController, updateVaccines: pdfs to check",pdfs);
+          logger.debug("VaccineDataController, updateVaccines: pdfs to check",pdfs);
           return Promise.allSettled(
             pdfs.map((vaccine: VaccinePDFData) =>
               (async () => {
@@ -185,16 +189,21 @@ class VaccineDataController implements iVaccineDataController {
         ).map((element: VaccineQueryResult) => {
           return {
             pdfPath: `${FileSystem.documentDirectory}vaccinePdfs/${element.productId}/${element.formatId}.pdf`, // Properly assigning formatId
-            ...element, // Spreading other properties
+            associatedDiseases: element.associatedDiseases,
+            starting: element.starting,
+            vaccineName: element.vaccineName
           };
         }) as VaccineSheet[];
       } else {
         return (
-          await this.vaccineDataService.vaccineQuery(input, "english", field)
+          await this.vaccineDataService.vaccineQuery(input, "english")
         ).map((element: VaccineQueryResult) => {
           return {
             pdfPath: `${FileSystem.documentDirectory}vaccinePdfs/${element.productId}/${element.formatId}.pdf`, // Properly assigning formatId
-            ...element, // Spreading other properties
+            associatedDiseases: element.associatedDiseases,
+            starting: element.starting,
+            vaccineName: element.vaccineName
+            
           };
         }) as VaccineSheet[];
       }
