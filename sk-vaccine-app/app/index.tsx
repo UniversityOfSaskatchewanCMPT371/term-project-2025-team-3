@@ -69,7 +69,7 @@ export default function Index() {
           </View>
         </View>
       </ScrollView>
-      <SettingsButton />
+
     </View>
   );
 }
