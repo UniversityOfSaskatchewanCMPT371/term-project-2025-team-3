@@ -1,5 +1,6 @@
 import iClinicData from "@/interfaces/iClinicData";
 import { ClinicArray } from "@/services/clinicDataService";
+import assert from "assert";
 import { useEffect, useState, useRef } from "react";
 
 export const JSON_TIMESTAMP_KEY = "time-created"
@@ -67,12 +68,35 @@ export default function useClinicData(
     const [accessFailed, setAccessFailed] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+
+    assert(!(searchColumn && !searchValue), "there should be a search value if their is a search column");
+
     // store clinicService in a ref so its reference does not change
     const clinicServiceRef = useRef(clinicService);
 
     useEffect(() => {
         const fetchResults = async () => {
+            let clinicArray: ClinicArray | null = null;
             try {
+                
+
+                // if there is no url and local storage is empty fail
+                if (!url && loading && await clinicServiceRef.current.isStorageEmpty()) {
+                    setError("No clinic data available locally");
+                    setLoading(false);
+                    return;
+                }
+                // retrieve from local storage
+                if (loading && !(await clinicServiceRef.current.isStorageEmpty())) {
+                    if (searchValue && searchColumn) {
+                        clinicArray = await clinicServiceRef.current.searchClinics(searchValue, searchColumn);
+                    } else if (searchValue) {
+                        clinicArray = await clinicServiceRef.current.searchClinics(searchValue);
+                    } else {
+                        clinicArray = await clinicServiceRef.current.getClinics();
+                    }
+                }
+
 
 
                 // if a url is provided get remote data
@@ -85,38 +109,64 @@ export default function useClinicData(
                         } else {
                             const jsonResponse = await response.json();
                             
+                            
+
+
                             const remoteClinics = new ClinicArray(
                                 jsonResponse.clinics,
                                 new Date(jsonResponse[JSON_TIMESTAMP_KEY])
                             );
+
+                            assert(
+                                !isNaN(remoteClinics.timeStamp.getTime()), 
+                                `time retrieved from server is not a valid time, the time: ${jsonResponse[JSON_TIMESTAMP_KEY]}`
+                            );
+
                             // only store remote clinics if they are more recent
                             if (
                                 (await clinicServiceRef.current.isStorageEmpty()) ||
                                 remoteClinics.timeStamp > (await clinicServiceRef.current.getTimeStamp())
                             ) {
-                                await clinicServiceRef.current.storeClinics(remoteClinics);
+
+                                
+                                // get clinics based on search values
+                                if (searchValue && searchColumn) {
+                                    await clinicServiceRef.current.storeClinics(remoteClinics);
+                                    clinicArray = await clinicServiceRef.current.searchClinics(searchValue, searchColumn);
+
+                                } else if (searchValue) {
+                                    await clinicServiceRef.current.storeClinics(remoteClinics);
+                                    clinicArray = await clinicServiceRef.current.searchClinics(searchValue);
+                        
+                                } else {
+                                    // because no search is needed we can display the clinics we got from the server
+                                    // without storing them first, this change should make the program much faster, at least I hope it will
+                                    // Update: it worked
+                                    clinicServiceRef.current.storeClinics(remoteClinics); // no await is needed
+
+                                    clinicArray = remoteClinics;
+
+                                }
                             }
                         }
                     } catch (fetchError) {
                         setAccessFailed(true);
                         setError(String(fetchError));
+
+                        
                     }
                 }
-                
-                // retrieve clinics from storage
-                let storedClinics: ClinicArray | null;
-                if (searchValue && searchColumn) {
-                    storedClinics = await clinicServiceRef.current.searchClinics(searchValue, searchColumn);
-                } else if (searchValue) {
-                    storedClinics = await clinicServiceRef.current.searchClinics(searchValue);
-                } else {
-                    storedClinics = await clinicServiceRef.current.getClinics();
-                }
 
-                setClinics(storedClinics);
+                
+
+                setClinics(clinicArray);
+
+
+
             } catch (error) {
                 setError(String(error));
             } finally {
+                assert(error || clinicArray, "when done loading their should be clinics or an error")
                 setLoading(false);
             }
         };
@@ -129,7 +179,7 @@ export default function useClinicData(
         loading: loading,
         serverAccessFailed: accessFailed,
         error: error,
-    };
+    } as ClinicResults;
 
     return response;
 }
