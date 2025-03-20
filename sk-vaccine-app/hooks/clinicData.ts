@@ -87,7 +87,7 @@ export default function useClinicData(
                     return;
                 }
                 // retrieve from local storage
-                if (loading && !(await clinicServiceRef.current.isStorageEmpty())) {
+                if (!(await clinicServiceRef.current.isStorageEmpty())) {
                     if (searchValue && searchColumn) {
                         clinicArray = await clinicServiceRef.current.searchClinics(searchValue, searchColumn);
                     } else if (searchValue) {

@@ -51,7 +51,7 @@ export default function Page() {
           )}
           {error && <Text style={styles.error}>{error}</Text>}
           <View style={styles.searchBarWrapper}>
-            <SearchBar onSubmitEditing={setSearchVal} />
+            <SearchBar onChangeText={setSearchVal} />
           </View>
         </View>
 
