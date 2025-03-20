@@ -402,7 +402,7 @@ export class VaccineDataService implements iVaccineDataService {
    */
   async getLocalPDFFilenames(productId: number): Promise<VaccineEntity> {
     try {
-      const vaccine = await VaccineEntity.findOne({ productId });
+      const vaccine = await VaccineEntity.findOne({ where: {productId} });
 
       if (!vaccine) {
         throw new Error(`Vaccine with productId ${productId} not found`);
@@ -437,7 +437,7 @@ export class VaccineDataService implements iVaccineDataService {
   ): Promise<void> {
     try {
       // Fetch the entity from the database
-      const vaccine = await VaccineEntity.findOne({ productId });
+      const vaccine = await VaccineEntity.findOne({ where: {productId} });
 
       if (!vaccine) {
         throw new Error(`Vaccine with productId ${productId} not found`);

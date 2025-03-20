@@ -41,54 +41,59 @@ class VaccineDataController implements iVaccineDataController {
   }> {
     try {
       return this.vaccineListUpToDate()
-      .then(async (upToDate) => {
-        logger.info(`vaccineListUpToDate returned: ${upToDate}`);
-        if (!upToDate) {
-          logger.info("Updating vaccine list...");
-          await this.updateVaccineList();
-          logger.info("Vaccine list update completed.");
-    
-          // Check if product IDs exist before proceeding
+        .then(async (upToDate) => {
+          logger.info(`vaccineListUpToDate returned: ${upToDate}`);
+          if (!upToDate) {
+            logger.info("Updating vaccine list...");
+            await this.updateVaccineList(); // Ensure update completes
+            logger.info("Vaccine list update completed.");
+          }
+
+          // Ensure updated list is used
           const productIds = await this.vaccineDataService.getProductIDs();
           logger.debug(`Product IDs after update: ${productIds.length}`);
-        }
-      })
-        .then(() => this.vaccineDataService.compareExternalPDFs()) // Ensure updated list is used
+
+          return productIds; // Return updated product IDs
+        })
+        .then(async (productIds) => {
+          if (productIds.length === 0) {
+            throw new Error("No product IDs found after update.");
+          }
+          return this.vaccineDataService.compareExternalPDFs();
+        })
         .then((pdfs) => {
-          logger.debug("VaccineDataController, updateVaccines: pdfs to check",pdfs);
+          //logger.debug("VaccineDataController, updateVaccines: pdfs to check",pdfs);
           return Promise.allSettled(
-            pdfs.map((vaccine: VaccinePDFData) =>
-              (async () => {
-                try {
-                  if (vaccine.english?.formatId) {
-                    await this.vaccineDataService.downloadVaccinePDF(
-                      vaccine.productId,
-                      vaccine.english.formatId
-                    );
-                  }
-                  if (vaccine.french?.formatId) {
-                    await this.vaccineDataService.downloadVaccinePDF(
-                      vaccine.productId,
-                      vaccine.french.formatId
-                    );
-                  }
-                  if (vaccine.english || vaccine.french) {
-                    await this.vaccineDataService.updateLocalPDFFilenames(
-                      vaccine.productId,
-                      vaccine.english?.filename,
-                      vaccine.french?.filename,
-                      vaccine.english?.formatId,
-                      vaccine.french?.formatId
-                    );
-                  }
-                } catch (error) {
-                  logger.error(
-                    `Error updating PDFs for product ${vaccine.productId} Error ${error}`
+            pdfs.map(async (vaccine: VaccinePDFData) => {
+              try {
+                if (vaccine.english?.formatId) {
+                  await this.vaccineDataService.downloadVaccinePDF(
+                    vaccine.productId,
+                    vaccine.english.formatId
                   );
-                  throw new PDFUpdateError(vaccine.productId);
                 }
-              })()
-            )
+                if (vaccine.french?.formatId) {
+                  await this.vaccineDataService.downloadVaccinePDF(
+                    vaccine.productId,
+                    vaccine.french.formatId
+                  );
+                }
+                if (vaccine.english || vaccine.french) {
+                  await this.vaccineDataService.updateLocalPDFFilenames(
+                    vaccine.productId,
+                    vaccine.english?.filename,
+                    vaccine.french?.filename,
+                    vaccine.english?.formatId,
+                    vaccine.french?.formatId
+                  );
+                }
+              } catch (error) {
+                logger.error(
+                  `Error updating PDFs for product ${vaccine.productId}: ${error}`
+                );
+                throw new PDFUpdateError(vaccine.productId);
+              }
+            })
           );
         })
         .then((pdfsToUpdate) => {
@@ -99,11 +104,6 @@ class VaccineDataController implements iVaccineDataController {
             (result) => result.status === "fulfilled"
           );
 
-          /*
-          errors.forEach((err) =>
-            logger.error(`PDF update failed: ${err.reason.message}`)
-          );
-          */
           return {
             success: errors.length === 0,
             updated: successes.length,
@@ -137,7 +137,9 @@ class VaccineDataController implements iVaccineDataController {
       await this.vaccineDataService.storeVaccineListVersionLocal(
         vaccineList.version
       );
-      await this.vaccineDataService.storeVaccineListLocal(vaccineList.vaccines);
+      return await this.vaccineDataService.storeVaccineListLocal(
+        vaccineList.vaccines
+      );
     } catch (error: any) {
       logger.error(`Error updating vaccine list: ${error.message}`);
     }
@@ -191,7 +193,7 @@ class VaccineDataController implements iVaccineDataController {
             pdfPath: `${FileSystem.documentDirectory}vaccinePdfs/${element.productId}/${element.formatId}.pdf`, // Properly assigning formatId
             associatedDiseases: element.associatedDiseases,
             starting: element.starting,
-            vaccineName: element.vaccineName
+            vaccineName: element.vaccineName,
           };
         }) as VaccineSheet[];
       } else {
@@ -202,8 +204,7 @@ class VaccineDataController implements iVaccineDataController {
             pdfPath: `${FileSystem.documentDirectory}vaccinePdfs/${element.productId}/${element.formatId}.pdf`, // Properly assigning formatId
             associatedDiseases: element.associatedDiseases,
             starting: element.starting,
-            vaccineName: element.vaccineName
-            
+            vaccineName: element.vaccineName,
           };
         }) as VaccineSheet[];
       }
