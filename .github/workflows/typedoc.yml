@@ -39,7 +39,10 @@ jobs:
           npm run coverage
           mkdir -p ../docs/coverage
           mv coverage/* ../docs/coverage/
-  
+
+      - name: Debug Docs Structure
+        run: ls -R docs
+        
       - name: Deploy to Github Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
