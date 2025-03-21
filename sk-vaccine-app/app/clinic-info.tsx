@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     fontFamily: "Arial",
     color: COLOURS.BLACK,
-    boxSizing: "border-box",
   },
   clinicListBanner: {
     backgroundColor: COLOURS.WHITE,
