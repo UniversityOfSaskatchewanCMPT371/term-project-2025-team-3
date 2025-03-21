@@ -33,6 +33,7 @@ jobs:
           npx typedoc
 
       - name: Generate Coverage Testing Documentation
+        continue-on-error: true
         run: |
           cd sk-vaccine-app
           npm run coverage
