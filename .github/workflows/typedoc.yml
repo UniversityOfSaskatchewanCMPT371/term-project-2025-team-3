@@ -37,7 +37,8 @@ jobs:
         run: |
           cd sk-vaccine-app
           npm run coverage
-          mv coverage ../docs/coverage
+          mkdir -p ../docs/coverage
+          mv coverage/* ../docs/coverage/
   
       - name: Deploy to Github Pages
         uses: peaceiris/actions-gh-pages@v4
