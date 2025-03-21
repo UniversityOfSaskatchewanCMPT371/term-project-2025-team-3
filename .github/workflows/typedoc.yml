@@ -37,6 +37,9 @@ jobs:
         run: |
           cd sk-vaccine-app
           npm run coverage
+
+      - name: Move coverage files
+        run: |
           mkdir -p ../docs/coverage
           mv coverage/* ../docs/coverage/
 
