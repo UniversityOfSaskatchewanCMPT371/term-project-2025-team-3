@@ -2,7 +2,17 @@ import "reflect-metadata";
 import { Column, Entity, PrimaryGeneratedColumn } from './decorators';
 import BaseEntity from './base-entity';
 import { Vaccine } from '@/interfaces/iVaccineData';
+/*
+const decorators = process.env.NODE_ENV === "test"
+  ? require("./decorators-sqlite") // for testing environment
+  : require("./decorators"); // for production environment
 
+const { Column, Entity, PrimaryGeneratedColumn } = decorators;
+const BaseEntity =
+  process.env.NODE_ENV === "test"
+    ? require("./base-entity-sqlite").default
+    : require("./base-entity").default;
+  */
 
 
 

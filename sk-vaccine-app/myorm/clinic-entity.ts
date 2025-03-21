@@ -1,7 +1,7 @@
 import { Clinic } from '@/services/clinicDataService';
 import "reflect-metadata";
-import { Column, Entity, PrimaryGeneratedColumn } from './decorators';
-import BaseEntity from './base-entity';
+import { Column, Entity, PrimaryGeneratedColumn } from './decorators-sqlite';
+import BaseEntity from './base-entity-sqlite';
 
 
 

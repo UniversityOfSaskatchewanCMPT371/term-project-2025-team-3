@@ -2,6 +2,8 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "target": "ES5",
+    "module": "CommonJS",
+    "esModuleInterop": true,
     "strict": true,
     "baseUrl": ".",
     "emitDecoratorMetadata": true,
