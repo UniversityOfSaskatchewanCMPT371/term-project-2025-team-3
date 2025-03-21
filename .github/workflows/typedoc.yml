@@ -35,7 +35,7 @@ jobs:
       - name: Generate Coverage Testing Documentation
         run: |
           cd sk-vaccine-app
-          npm coverage
+          npm run coverage
           mv coverage ../docs/coverage
   
       - name: Deploy to Github Pages
