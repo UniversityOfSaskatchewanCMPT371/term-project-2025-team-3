@@ -1,7 +1,7 @@
 import VaccineDataController from "@/controllers/vaccineDataController";
 import { VaccineDataService } from "@/services/vaccineDataService";
 import { VaccinePDFData } from "@/interfaces/iVaccineData";
-import { PDFDownloadError, VaccineListVersionError } from "@/utils/ErrorTypes";
+import { PDFDownloadError, VaccineListVersionError, FetchError } from "../../utils/ErrorTypes";
 import logger from "@/utils/logger";
 
 // Mocking the logger
@@ -79,7 +79,7 @@ describe("VaccineDataController Tests", () => {
           if (productId === 321) {
             throw new PDFDownloadError(productId);
           } else {
-            return `https://publications.saskatchewan.ca/api/v1/products/${productId}/formats/${formatId}`; // Custom return for this case
+            return `https://publications.saskatchewan.ca/api/v1/products/${productId}/formats/${formatId}/download`; // Custom return for this case
           }
         }
       );
@@ -342,14 +342,149 @@ describe("VaccineDataController Tests", () => {
       ).rejects.toThrow(VaccineListVersionError); // Expect the funciton to throw an error
     });
   });
+  describe("updateVaccineList() Tests", () => {
+    let testableVaccineController: TestableVaccineDataController;
+
+    beforeEach(() => {
+      testableVaccineController = new TestableVaccineDataController(
+        mockVaccineDataService
+      );
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it("should update the vaccine list successfully", async () => {
+      const mockVaccineList = {
+        version: "1",
+        vaccines: [
+          {
+            vaccineName: "DTaP-IPV-Hib",
+            productId: 11766,
+            starting: "2 months",
+            associatedDiseases: {
+              english: [
+                "Diphtheria",
+                "Tetanus",
+                "Pertussis",
+                "Polio",
+                "Haemophilus Influenzae Type b",
+              ],
+              french: [
+                "La Diphtérie",
+                "Le Tétanos",
+                "La Coqueluche",
+                "La Poliomyélite",
+                "l’Haemophilus Influenzae de Type b",
+              ],
+            },
+          },
+        ],
+      };
+
+      mockVaccineDataService.getVaccineListRemote.mockResolvedValue(
+        mockVaccineList
+      );
+      mockVaccineDataService.storeVaccineListVersionLocal.mockResolvedValue();
+      mockVaccineDataService.storeVaccineListLocal.mockResolvedValue();
+
+      await testableVaccineController.updateVaccineList();
+
+      expect(mockVaccineDataService.getVaccineListRemote).toHaveBeenCalled();
+      expect(
+        mockVaccineDataService.storeVaccineListVersionLocal
+      ).toHaveBeenCalledWith("1");
+      expect(mockVaccineDataService.storeVaccineListLocal).toHaveBeenCalledWith(
+        mockVaccineList.vaccines
+      );
+    });
+
+    it("should log an error if fetching vaccine list fails", async () => {
+      const error = new FetchError("https://text.com/json");
+      mockVaccineDataService.getVaccineListRemote.mockRejectedValue(error);
+
+      await testableVaccineController.updateVaccineList();
+
+      expect(logger.error).toHaveBeenCalledWith(
+        `Error updating vaccine list: ${error.message}`
+      );
+    });
+
+    it("should log an error if storing vaccine list version fails", async () => {
+      const mockVaccineList = { version: "1.0.0", vaccines: [] };
+      mockVaccineDataService.getVaccineListRemote.mockResolvedValue(
+        mockVaccineList
+      );
+      mockVaccineDataService.storeVaccineListVersionLocal.mockRejectedValue(
+        new Error("Storage error")
+      );
+
+      await testableVaccineController.updateVaccineList();
+
+      expect(logger.error).toHaveBeenCalledWith(
+        "Error updating vaccine list: Storage error"
+      );
+    });
+
+    it("should log an error if storing vaccine list fails", async () => {
+      const mockVaccineList = { version: "1", "vaccines": [
+    {
+      "vaccineName": "DTaP-IPV-Hib",
+      "productId": 11766,
+      "starting": "2 months",
+      "associatedDiseases": {
+        "english": [
+          "Diphtheria",
+          "Tetanus",
+          "Pertussis",
+          "Polio",
+          "Haemophilus Influenzae Type b"
+        ],
+        "french": [
+          "La Diphtérie",
+          "Le Tétanos",
+          "La Coqueluche",
+          "La Poliomyélite",
+          "l’Haemophilus Influenzae de Type b"
+        ]
+      }
+    }]};
+      mockVaccineDataService.getVaccineListRemote.mockResolvedValue(
+        mockVaccineList
+      );
+      mockVaccineDataService.storeVaccineListVersionLocal.mockResolvedValue();
+      mockVaccineDataService.storeVaccineListLocal.mockRejectedValue(
+        new Error("Store list error")
+      );
+
+      await testableVaccineController.updateVaccineList();
+
+      expect(logger.error).toHaveBeenCalledWith(
+        "Error updating vaccine list: Store list error"
+      );
+    });
+
+    it("should not proceed with storing if fetching vaccine list fails", async () => {
+      mockVaccineDataService.getVaccineListRemote.mockRejectedValue(
+        new FetchError("https://test.com/json")
+      );
+
+      await testableVaccineController.updateVaccineList();
+
+      expect(
+        mockVaccineDataService.storeVaccineListVersionLocal
+      ).not.toHaveBeenCalled();
+      expect(mockVaccineDataService.storeVaccineListLocal).not.toHaveBeenCalled();
+    });
+  });
 });
 
-
-// New test by @Marzi 
-import {VaccineSheet} from "@/interfaces/iVaccineData";
+// New test by @Marzi
+import { VaccineSheet } from "@/interfaces/iVaccineData";
 const mockVaccineDataService: jest.Mocked<VaccineDataService> = {
   updateVaccines: jest.fn(),
-  searchVaccines: jest.fn()
+  searchVaccines: jest.fn(),
 };
 
 beforeEach(() => {
@@ -357,36 +492,67 @@ beforeEach(() => {
 });
 
 describe("Unit Test for VaccineDataController", () => {
-  const mockData : VaccineSheet[] =[
-      {vaccineName:"DTaP-IPV-Hib", associatedDiseases: ["Diphtheria", "Tetanus", "Pertussis", "Polio", "Hib"], pdfPath: "DtaP/path.pdf", starting: "2 months"},
-      {vaccineName:"Rota", associatedDiseases: ["Rota"], pdfPath: "Rota/path.pdf", starting: "2 months"},
-      {vaccineName:"MMRV", associatedDiseases: ["Measles", "Mumps", "Rubella", "Varicella"], pdfPath: "Measles/path.pdf", starting: "1 year"},
+  const mockData: VaccineSheet[] = [
+    {
+      vaccineName: "DTaP-IPV-Hib",
+      associatedDiseases: [
+        "Diphtheria",
+        "Tetanus",
+        "Pertussis",
+        "Polio",
+        "Hib",
+      ],
+      pdfPath: "DtaP/path.pdf",
+      starting: "2 months",
+    },
+    {
+      vaccineName: "Rota",
+      associatedDiseases: ["Rota"],
+      pdfPath: "Rota/path.pdf",
+      starting: "2 months",
+    },
+    {
+      vaccineName: "MMRV",
+      associatedDiseases: ["Measles", "Mumps", "Rubella", "Varicella"],
+      pdfPath: "Measles/path.pdf",
+      starting: "1 year",
+    },
   ];
   // this part will make sure that the function can fund the information based the name of vaccine
-  it('should return vaccine data based on vaccineName', () => {
-      const result = mockVaccineDataService.searchVaccines("Rota", "vaccineName")
-      expect(result).toEqual([mockData[1]]);
+  it("should return vaccine data based on vaccineName", () => {
+    const result = mockVaccineDataService.searchVaccines("Rota", "vaccineName");
+    expect(result).toEqual([mockData[1]]);
   });
   // this part will make sure that the function can fund the information based the particular disease
-  it('should return vaccine data based on associatedDisease', () => {
-      const result = mockVaccineDataService.searchVaccines("Rubella", "associatedDiseases")
-      expect(result).toEqual([mockData[2]]);
+  it("should return vaccine data based on associatedDisease", () => {
+    const result = mockVaccineDataService.searchVaccines(
+      "Rubella",
+      "associatedDiseases"
+    );
+    expect(result).toEqual([mockData[2]]);
   });
   // this part will make sure that the function will return empty arry if there isn't any match to input
-  it('should return empty when could not find any match', () => {
-      const result = mockVaccineDataService.searchVaccines("Covid19", "vaccineName")
-      expect(result).toEqual([]);
+  it("should return empty when could not find any match", () => {
+    const result = mockVaccineDataService.searchVaccines(
+      "Covid19",
+      "vaccineName"
+    );
+    expect(result).toEqual([]);
   });
   // this part will make sure that the function return all the information when input is null
-  it('should return all data if input was empty', () => {
-      const result = mockVaccineDataService.searchVaccines("", "associatedDiseases")
-      expect(result).toEqual(mockData);
+  it("should return all data if input was empty", () => {
+    const result = mockVaccineDataService.searchVaccines(
+      "",
+      "associatedDiseases"
+    );
+    expect(result).toEqual(mockData);
   });
   // // this part will make sure that the function is working with both capitilized and lowercase letters
-  it('should not be sensitive to capital or not capital letter', () => {
-      const result = mockVaccineDataService.searchVaccines("rubella", "associatedDiseases")
-      expect(result).toEqual([mockData[2]]);
+  it("should not be sensitive to capital or not capital letter", () => {
+    const result = mockVaccineDataService.searchVaccines(
+      "rubella",
+      "associatedDiseases"
+    );
+    expect(result).toEqual([mockData[2]]);
   });
-
 });
-

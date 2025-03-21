@@ -14,7 +14,7 @@ import assert from "assert";
 import tempJson from "@/services/vaccineListService.data.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import VaccineEntity from "@/myorm/vaccine-entity";
-import { PDFDownloadError, PDFUpdateError } from "@/utils/ErrorTypes";
+import { FetchError, PDFDownloadError, PDFUpdateError } from "@/utils/ErrorTypes";
 
 /**
  * @class Implements `iVaccineService`, is used to apply logic to external APIs
@@ -217,6 +217,9 @@ export class VaccineDataService implements iVaccineDataService {
    * @returns a promise containing the updated vaccine list
    */
   async getVaccineListRemote(): Promise<VaccineListResponse> {
+
+    const url:string = "";
+
     return new Promise((resolve, reject) => {
       try {
         // TODO: Don't have the link to request from yet
@@ -232,8 +235,8 @@ export class VaccineDataService implements iVaccineDataService {
         const data = response;
         resolve(data as VaccineListResponse);
       } catch (error) {
-        logger.error("Error in getVaccineListJSON:", error);
-        reject(error);
+        logger.error("Error in getVaccineListRemote:", error);
+        reject(new FetchError(url));
       }
     });
   }
