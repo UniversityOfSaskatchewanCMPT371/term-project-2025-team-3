@@ -11,6 +11,17 @@ export type VaccineSheet = {
   starting: string;
 };
 
+export type VaccineQueryResult = {
+  vaccineName: string;
+  associatedDiseases: string[];
+  formatId: string;
+  productId: string;
+  /**
+   * @field starting: This could be age or grade
+   */
+  starting: string;
+};
+
 /**
  * Used when updating filename and checking for differences
  */
@@ -131,7 +142,7 @@ export interface iVaccineDataService {
     input: string,
     language: "english" | "french",
     field?: string
-  ): Promise<VaccineSheet[]>;
+  ): Promise<VaccineQueryResult[]>;
 }
 
 export interface iVaccineDataController {

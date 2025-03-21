@@ -62,6 +62,7 @@ export default function Page() {
           renderItem={({ item, index }) => {
             const bgColor =
               index % 2 ? COLORS.ODD_VACCINE : COLORS.EVEN_VACCINE;
+            logger.debug(`Pdf path ${item.pdfPath}`);
             return (
               <View style={{ marginTop: 16 }}>
                 <ClinicCard
