@@ -9,6 +9,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest",
+    "coverage": "jest --coverage",
     "lint": "expo lint",
     "prepare": "cd .. && husky sk-vaccine-app/.husky"
   },
@@ -28,6 +29,7 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@react-native-async-storage/async-storage": "^2.1.1",
+    "@react-native-community/progress-bar-android": "^1.0.5",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
     "@types/date-fns": "^2.5.3",
@@ -40,6 +42,7 @@
     "expo-constants": "~17.0.4",
     "expo-crypto": "~14.0.2",
     "expo-dev-client": "~5.0.10",
+    "expo-document-picker": "^13.0.3",
     "expo-font": "~13.0.3",
     "expo-haptics": "~14.0.1",
     "expo-linking": "~7.0.4",
@@ -57,9 +60,11 @@
     "react": "^18.3.1",
     "react-dom": "18.3.1",
     "react-native": "^0.76.6",
+    "react-native-blob-util": "^0.21.2",
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-logs": "^5.3.0",
+    "react-native-pdf": "^6.7.7",
     "react-native-reanimated": "~3.16.1",
     "react-native-responsive-fontsize": "^0.5.1",
     "react-native-safe-area-context": "4.12.0",
@@ -86,6 +91,7 @@
     "reflect-metadata": "^0.2.2",
     "rimraf": "^6.0.1",
     "typedoc": "^0.27.7",
+    "typedoc-github-theme": "^0.2.1",
     "typescript": "^5.7.3"
   },
   "private": true

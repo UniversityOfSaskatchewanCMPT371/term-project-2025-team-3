@@ -8,9 +8,8 @@ import { PATH_VACCINE_INFO, CLINIC_INFO } from "../utils/constPaths";
 import React from "react";
 import ClosestClincButton from "@/components/closest-clinic-btn";
 import SettingsButton from "@/components/settings-btn";
-import { updateVaccineSheets } from "@/hooks/vaccineData";
-import VaccineDataController from "@/controllers/vaccineDataController";
-import { VaccineDataService } from "@/services/vaccineDataService";
+
+
 
 export const CLINIC_BTN_TEXT = "Clinic Info";
 export const BOOKING_BTN_TEXT = "Booking";
@@ -28,6 +27,9 @@ export const VACCINE_BTN_TEXT = "Vaccine Info";
  
  */
 export default function Index() {
+
+
+
   const navigation = useNavigation();
   useEffect(() => {
     navigation.setOptions({ headerShown: true });
@@ -40,11 +42,13 @@ export default function Index() {
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.textContainer}>
-          <Text style={{ fontSize: 22, fontWeight: "bold" }}>
+          <Text 
+            style= {styles.minionProBold}
+          >
             Good {timeOfDayText},
           </Text>
           <Text
-            style={{ fontSize: 22, alignSelf: "center", textAlign: "center" }}
+            style={styles.myriadProRegular}
           >
             {welcomeText}
           </Text>
@@ -69,10 +73,25 @@ export default function Index() {
           </View>
         </View>
       </ScrollView>
-      <SettingsButton />
+
     </View>
   );
 }
+
+// I just added Pre and Post Condition for the fonts
+/**
+ * @precondition the fonts myriadProRegular and minionProBold must be available in './asserts/fonts'
+ * @precondition react-native.config.js file - must be correctly configured to load fonts
+ * @postcondition fonts must desplyed as desired fonts
+ * @postcondition myriadProRegular must be correctly centerilized
+ */
+
+// assert react-native.config.js file is currectly configured
+import fontConf from 'react-native.config.js'
+console.assert(
+  fontConf.assets.includes('./assets/fonts'), 'fonts are not configured correctly'
+);
+
 
 const styles = StyleSheet.create({
   scrollContainer: {
@@ -120,4 +139,20 @@ const styles = StyleSheet.create({
   btnContainer: {
     flex: 1,
   },
+  minionProBold: {
+    fontFamily: 'MinionPro-Bold',
+    fontSize: 30
+  },
+  myriadProRegular: {
+    fontFamily: 'MYRIADPRO-REGULAR',
+    fontSize: 13,
+    textAlign: 'center'
+  }
 });
+
+// Check if the text is centered
+const textElement = styles.myriadProRegular;
+console.assert(
+  textElement.textAlign === 'center',
+  'text is not centered properly.'
+);

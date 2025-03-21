@@ -75,8 +75,7 @@ export default function SearchBar({ onChangeText, onSubmitEditing, placeholder, 
             inputStyle={styles.input}
             leftIconContainerStyle={styles.leftIconContainer}
             rightIconContainerStyle={styles.rightIconContainer}
-            searchIcon={isTesting ? undefined : { type: 'font-awesome', name: 'bars', size: 20, color: COLORS.iconColor }}
-            clearIcon={isTesting ? undefined : { type: 'font-awesome', name: 'search', size: 20, color: COLORS.iconColor }}
+            searchIcon={isTesting ? undefined : { type: 'font-awesome', name: 'search', size: 20, color: COLORS.iconColor, onPress: handleSubmitEditing }}
             placeholderTextColor={COLORS.placeholderText}
         />
     );

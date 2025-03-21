@@ -12,13 +12,12 @@ export const CLINIC_TIMESTAMP_KEY='clinic-data-timestamp';
 export interface Clinic {
     latitude?: number;
     longitude?: number;
-    serviceArea: string;
-    name: string;
-    address: string;
-    contactInfo: string;
-    hours: string;
-    services: Array<string>;
-
+    serviceArea?: string;
+    name?: string;
+    address?: string;
+    contactInfo?: string;
+    hours?: string;
+    services?: Array<string>;
 
 }
 
