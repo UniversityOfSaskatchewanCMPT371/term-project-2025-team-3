@@ -3,7 +3,7 @@ import {
   iVaccineDataController,
   VaccineSheet,
 } from "@/interfaces/iVaccineData";
-import { useVaccineSheets, updateVaccineSheets } from "../vaccineData";
+import { useVaccineSheets, useUpdateVaccineSheets } from "../vaccineData";
 import { useNetworkState } from 'expo-network';
 
 // Mocking the logger
@@ -220,7 +220,7 @@ describe("Unit Tests for VaccineData hooks", () => {
       ); // Ensure it's called with the updated searchValue
     });
   });
-  describe("Unit tests for updateVaccineSheets", () => {
+  describe("Unit tests for useUpdateVaccineSheets", () => {
     test('should return success when vaccines are updated', async () => {
       const updateResponse = {
         success: true,
@@ -234,7 +234,7 @@ describe("Unit Tests for VaccineData hooks", () => {
       // Simulate the network state as connected
       (useNetworkState as jest.Mock).mockReturnValue({ isConnected: true });
   
-      const { result } = renderHook(() => updateVaccineSheets(mockVaccineDataController));
+      const { result } = renderHook(() => useUpdateVaccineSheets(mockVaccineDataController));
   
       await act(async () => {});
   
@@ -256,7 +256,7 @@ describe("Unit Tests for VaccineData hooks", () => {
       // Simulate the network state as connected
       (useNetworkState as jest.Mock).mockReturnValue({ isConnected: true });
   
-      const { result } = renderHook(() => updateVaccineSheets(mockVaccineDataController));
+      const { result } = renderHook(() => useUpdateVaccineSheets(mockVaccineDataController));
   
       await act(async () => {});
   
@@ -274,7 +274,7 @@ describe("Unit Tests for VaccineData hooks", () => {
       // Simulate the network state as disconnected
       (useNetworkState as jest.Mock).mockReturnValue({ isConnected: false });
   
-      const { result } = renderHook(() => updateVaccineSheets(mockVaccineDataController));
+      const { result } = renderHook(() => useUpdateVaccineSheets(mockVaccineDataController));
   
       await act(async () => {});
   
@@ -298,7 +298,7 @@ describe("Unit Tests for VaccineData hooks", () => {
       // Simulate the network state as connected
       (useNetworkState as jest.Mock).mockReturnValue({ isConnected: true });
   
-      const { result, unmount } = renderHook(() => updateVaccineSheets(mockVaccineDataController));
+      const { result, unmount } = renderHook(() => useUpdateVaccineSheets(mockVaccineDataController));
   
       await act(async () => {});
   

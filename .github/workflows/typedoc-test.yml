@@ -1,0 +1,38 @@
+name: Ensure Typedocs will build
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.18'
+
+      - name: Install Dependencies
+        run: |
+          cd sk-vaccine-app
+          npm install
+          npm install typedoc
+
+      - name: Generate TypeDoc Documentation
+        run: |
+          cd sk-vaccine-app
+          npx typedoc
+
+  
+      
