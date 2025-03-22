@@ -3,11 +3,12 @@ import logger from "@/utils/logger";
 import "reflect-metadata";
 import BaseEntity from "./base-entity";
 import * as SQLite from "expo-sqlite";
+// Wrap the sqlite3 require so it is skipped when building the 
+// react native application
 let sqlite3: any;
 if (process.env.NODE_ENV === "test") {
     sqlite3 = require("sqlite3")
 }
-//import sqlite3 from "sqlite3";
 import { promisify } from "util";
 
 const DB_NAME = "sk-vaccine-app.db";

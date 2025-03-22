@@ -34,8 +34,7 @@
     ],
     "setupFiles": [
       "<rootDir>/jest-setup.ts"
-    ],
-    "dependencies": {}
+    ]
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
