@@ -1,7 +1,12 @@
 import VaccineDataController from "@/controllers/vaccineDataController";
 import { VaccineDataService } from "@/services/vaccineDataService";
 import { VaccinePDFData } from "@/interfaces/iVaccineData";
-import { PDFDownloadError, VaccineListVersionError, FetchError } from "../../utils/ErrorTypes";
+import VaccineEntity from "@/myorm/vaccine-entity";
+import {
+  PDFDownloadError,
+  VaccineListVersionError,
+  FetchError,
+} from "../../utils/ErrorTypes";
 import logger from "@/utils/logger";
 
 // Mocking the logger
@@ -428,28 +433,32 @@ describe("VaccineDataController Tests", () => {
     });
 
     it("should log an error if storing vaccine list fails", async () => {
-      const mockVaccineList = { version: "1", "vaccines": [
-    {
-      "vaccineName": "DTaP-IPV-Hib",
-      "productId": 11766,
-      "starting": "2 months",
-      "associatedDiseases": {
-        "english": [
-          "Diphtheria",
-          "Tetanus",
-          "Pertussis",
-          "Polio",
-          "Haemophilus Influenzae Type b"
+      const mockVaccineList = {
+        version: "1",
+        vaccines: [
+          {
+            vaccineName: "DTaP-IPV-Hib",
+            productId: 11766,
+            starting: "2 months",
+            associatedDiseases: {
+              english: [
+                "Diphtheria",
+                "Tetanus",
+                "Pertussis",
+                "Polio",
+                "Haemophilus Influenzae Type b",
+              ],
+              french: [
+                "La Diphtérie",
+                "Le Tétanos",
+                "La Coqueluche",
+                "La Poliomyélite",
+                "l’Haemophilus Influenzae de Type b",
+              ],
+            },
+          },
         ],
-        "french": [
-          "La Diphtérie",
-          "Le Tétanos",
-          "La Coqueluche",
-          "La Poliomyélite",
-          "l’Haemophilus Influenzae de Type b"
-        ]
-      }
-    }]};
+      };
       mockVaccineDataService.getVaccineListRemote.mockResolvedValue(
         mockVaccineList
       );
@@ -475,11 +484,61 @@ describe("VaccineDataController Tests", () => {
       expect(
         mockVaccineDataService.storeVaccineListVersionLocal
       ).not.toHaveBeenCalled();
-      expect(mockVaccineDataService.storeVaccineListLocal).not.toHaveBeenCalled();
+      expect(
+        mockVaccineDataService.storeVaccineListLocal
+      ).not.toHaveBeenCalled();
+    });
+  });
+  describe("searchVaccine() Tests", () => {
+    const OLD_ENV = process.env;
+    let vaccine: VaccineEntity;
+
+    beforeAll(() => {
+      jest.resetModules(); // Most important - it clears the cache
+      process.env.TEST_DB = 'node';
+
+      process.env = { ...OLD_ENV }; // Make a copy
+    });
+
+    beforeEach(() => {
+      vaccine = new VaccineEntity({
+        vaccineName: "DTaP-IPV-Hib",
+        productId: 11766,
+        starting: "2 months",
+        associatedDiseases: {
+          english: [
+            "Diphtheria",
+            "Tetanus",
+            "Pertussis",
+            "Polio",
+            "Haemophilus Influenzae Type b",
+          ],
+          french: [
+            "La Diphtérie",
+            "Le Tétanos",
+            "La Coqueluche",
+            "La Poliomyélite",
+            "l’Haemophilus Influenzae de Type b",
+          ],
+        },
+      });
+      
+    });
+
+    afterAll(() => {
+      process.env = OLD_ENV; // Restore old environment
+    })
+
+    test("Search", async () => {
+    
+      await vaccine.save();
+      const res = await VaccineEntity.count();
+      expect(res).toBe(1);
     });
   });
 });
 
+/*
 // New test by @Marzi
 import { VaccineSheet } from "@/interfaces/iVaccineData";
 const mockVaccineDataService: jest.Mocked<VaccineDataService> = {
@@ -556,3 +615,4 @@ describe("Unit Test for VaccineDataController", () => {
     expect(result).toEqual([mockData[2]]);
   });
 });
+*/

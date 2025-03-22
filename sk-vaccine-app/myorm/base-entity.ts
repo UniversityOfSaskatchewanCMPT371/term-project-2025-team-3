@@ -403,6 +403,7 @@ export default class BaseEntity {
           `SELECT sql FROM sqlite_master WHERE type='table' AND name='${tableName}';');`
         )
       );
+ 
       const sql = `INSERT INTO ${tableName} ( ${colNames.join(
         ", "
       )} ) VALUES ( ${placeholders} )`;
