@@ -178,7 +178,7 @@ export function Entity(options?: { tableName?: string; immutable?: boolean }) {
 
     let db: SQLite.SQLiteDatabase;
 
-    if (process.env.NODE_ENV === "test") {
+    if (process.env.NODE_ENV === "test" && process.env.TEST_DB === "node") {
       /**
        * Setup for a NodeJS based SQLite instance
        *
@@ -305,7 +305,8 @@ export function Entity(options?: { tableName?: string; immutable?: boolean }) {
       } as unknown as SQLite.SQLiteDatabase;
       BaseEntity.db = testdb;
     } else if (
-      // process.env.NODE_ENV === "test" &&
+      process.env.TEST_DB === "mock" &&
+      process.env.NODE_ENV === "test" &&
       process.env.JEST_WORKER_ID !== undefined
     ) {
       logger.info("Entity is initalized with mock database");

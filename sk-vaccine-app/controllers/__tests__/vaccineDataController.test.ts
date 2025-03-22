@@ -490,11 +490,15 @@ describe("VaccineDataController Tests", () => {
     });
   });
   describe("searchVaccine() Tests", () => {
+    const OLD_ENV = process.env;
     let vaccine: VaccineEntity;
-    
+
     beforeAll(() => {
-      //process.env.TEST_ENV = "TestDB";
-    })
+      jest.resetModules(); // Most important - it clears the cache
+      process.env.TEST_DB = 'node';
+
+      process.env = { ...OLD_ENV }; // Make a copy
+    });
 
     beforeEach(() => {
       vaccine = new VaccineEntity({
@@ -518,9 +522,15 @@ describe("VaccineDataController Tests", () => {
           ],
         },
       });
+      
     });
 
+    afterAll(() => {
+      process.env = OLD_ENV; // Restore old environment
+    })
+
     test("Search", async () => {
+    
       await vaccine.save();
       const res = await VaccineEntity.count();
       expect(res).toBe(1);
