@@ -3,7 +3,11 @@ import logger from "@/utils/logger";
 import "reflect-metadata";
 import BaseEntity from "./base-entity";
 import * as SQLite from "expo-sqlite";
-import sqlite3 from "sqlite3";
+let sqlite3: any;
+if (process.env.NODE_ENV === "test") {
+    sqlite3 = require("sqlite3")
+}
+//import sqlite3 from "sqlite3";
 import { promisify } from "util";
 
 const DB_NAME = "sk-vaccine-app.db";
@@ -262,7 +266,7 @@ export function Entity(options?: { tableName?: string; immutable?: boolean }) {
                     sqliteDb.get(
                       "SELECT last_insert_rowid() AS id;",
                       (
-                        err,
+                        err: any,
                         row: {
                           id: number;
                         }
