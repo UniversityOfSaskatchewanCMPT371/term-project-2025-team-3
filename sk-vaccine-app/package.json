@@ -13,6 +13,16 @@
     "lint": "expo lint",
     "prepare": "cd .. && husky sk-vaccine-app/.husky"
   },
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "react-native-responsive-fontsize",
+          "sqlite3"
+        ]
+      }
+    }
+  },
   "jest": {
     "preset": "jest-expo",
     "transformIgnorePatterns": [
@@ -25,9 +35,7 @@
     "setupFiles": [
       "<rootDir>/jest-setup.ts"
     ],
-    "dependencies": {
-
-    }
+    "dependencies": {}
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
