@@ -179,11 +179,24 @@ export function Entity(options?: { tableName?: string; immutable?: boolean }) {
     let db: SQLite.SQLiteDatabase;
 
     if (process.env.NODE_ENV === "test") {
-      const sqliteDb = new sqlite3.Database(":memory:"); // Ensure db is assigned
+      /**
+       * Setup for a NodeJS based SQLite instance
+       *
+       * This allows for testing SQL queries and function calls to the ORM
+       * without the need for the emulator and Expo application to be running
+       *
+       * Each function is replaced with an sqlite3 equivalent and return values
+       * are formatted to meet expectations of regular implementation.
+       *
+       * The database is stored in memory.
+       *
+       *
+       */
+      const sqliteDb = new sqlite3.Database(":memory:"); // Create a new temporary database in memory
 
       const allAsync = (...args: [string] | [string, any[]]) => {
         if (args.length === 1) {
-          // No parameters version
+          // If no parameters are provided, run query without parameters
           return promisify(
             (
               query: string,
@@ -193,7 +206,7 @@ export function Entity(options?: { tableName?: string; immutable?: boolean }) {
             }
           )(args[0]);
         } else {
-          // With parameters version
+          // If parameters are provided, run query with parameters
           return promisify(
             (
               query: string,
@@ -229,44 +242,37 @@ export function Entity(options?: { tableName?: string; immutable?: boolean }) {
                 result: { lastInsertRowId: number; changes: number }
               ) => void
             ) => {
-              console.log(query); // Logs the query
-              console.log(params); // Logs the parameters
               // Run the query with the provided parameters
-              type Row = {
-                id: number;
-              };
-
-              type RunResult = {
-                changes: number;
-                lastInsertRowId: number;
-              };
-              type Callback = (
-                err: Error | null,
-                result: RunResult | any[]
-              ) => void;
-              // Define the callback type properly to expect an object
-
               sqliteDb.run(
                 query,
                 params,
-                (err: Error | null, result: RunResult) => {
+                (
+                  err: Error | null,
+                  result: {
+                    changes: number;
+                    lastInsertRowId: number;
+                  }
+                ) => {
                   if (err) {
                     throw new Error(
                       "Entity: callback failed in runAsync test function"
                     );
                   } else {
                     // After the query completes, retrieve the last insert ID
-
                     sqliteDb.get(
                       "SELECT last_insert_rowid() AS id;",
-                      (err, row: Row) => {
+                      (
+                        err,
+                        row: {
+                          id: number;
+                        }
+                      ) => {
                         if (err) {
                           throw new Error(
                             "Entity: callback failed in runAsync test function"
                           );
                         } else {
                           // Return the result including the lastInsertRowId
-
                           callback(null, {
                             ...result,
                             lastInsertRowId: row?.id,
@@ -284,11 +290,10 @@ export function Entity(options?: { tableName?: string; immutable?: boolean }) {
 
       const getAsync = promisify(sqliteDb.get).bind(sqliteDb);
       const execAsync = promisify(sqliteDb.exec).bind(sqliteDb);
-      //const runAsync = promisify(sqliteDb.run).bind(sqliteDb);
 
-      const execSync = sqliteDb.exec.bind(sqliteDb); // Bind execSync to sqliteDb
-      const allSync = sqliteDb.all.bind(sqliteDb); // Bind allSync to sqliteDb
-      const runSync = sqliteDb.run.bind(sqliteDb); // Bind runSync to sqliteDb
+      const execSync = sqliteDb.exec.bind(sqliteDb);
+      const allSync = sqliteDb.all.bind(sqliteDb);
+      const runSync = sqliteDb.run.bind(sqliteDb);
 
       const testdb = {
         execAsync: execAsync,
