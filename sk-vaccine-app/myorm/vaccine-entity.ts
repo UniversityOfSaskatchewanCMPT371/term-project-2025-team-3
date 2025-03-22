@@ -29,10 +29,10 @@ export default class VaccineEntity extends BaseEntity implements Vaccine {
   @Column({ tsType: Number, isUnique: true })
   productId!: number;
   
-  @Column({ tsType: Number })
+  @Column({ tsType: Number, isNullable: true })
   englishFormatId!: number;
   
-  @Column({ tsType: Number })
+  @Column({ tsType: Number, isNullable: true })
   frenchFormatId!: number;
 
   @Column({ tsType: String, isNullable: true })

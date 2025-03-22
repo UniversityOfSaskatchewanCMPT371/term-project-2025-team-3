@@ -1,7 +1,6 @@
 import VaccineDataController from "@/controllers/vaccineDataController";
 import { VaccineDataService } from "@/services/vaccineDataService";
 import { VaccinePDFData } from "@/interfaces/iVaccineData";
-import BaseEntity from "@/myorm/base-entity-sqlite";
 import VaccineEntity from "@/myorm/vaccine-entity";
 import {
   PDFDownloadError,
@@ -492,6 +491,10 @@ describe("VaccineDataController Tests", () => {
   });
   describe("searchVaccine() Tests", () => {
     let vaccine: VaccineEntity;
+    
+    beforeAll(() => {
+      //process.env.TEST_ENV = "TestDB";
+    })
 
     beforeEach(() => {
       vaccine = new VaccineEntity({
