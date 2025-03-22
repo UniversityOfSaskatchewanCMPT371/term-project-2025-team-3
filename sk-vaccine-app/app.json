@@ -40,10 +40,13 @@
         }
       ],
       "expo-sqlite",
-      "expo-location",
-          {
-            "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
-          }
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "We need your location to provide personalized content."
+        }
+      ]
+      
     ],
     "experiments": {
       "typedRoutes": true
