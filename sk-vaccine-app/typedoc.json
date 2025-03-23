@@ -1,7 +1,7 @@
 // typedoc.json
 {
     "navigationLinks": {
-      "Coverage Testing": "coverage/lcov-report/index.html"
+      "Coverage Testing": "/term-project-2025-team-3/coverage/lcov-report/index.html"
     },
     "entryPointStrategy": "expand",
     "entryPoints": [

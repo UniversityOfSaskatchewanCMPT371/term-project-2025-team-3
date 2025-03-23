@@ -45,21 +45,12 @@ class VaccineDataController implements iVaccineDataController {
           logger.info(`vaccineListUpToDate returned: ${upToDate}`);
           if (!upToDate) {
             logger.info("Updating vaccine list...");
-            await this.updateVaccineList(); // Ensure update completes
-            logger.info("Vaccine list update completed.");
+            return this.updateVaccineList().then(() => true); // Ensure update completes
           }
-
-          // Ensure updated list is used
-          const productIds = await this.vaccineDataService.getProductIDs();
-          logger.debug(`Product IDs after update: ${productIds.length}`);
-
-          return productIds; // Return updated product IDs
+          return false; // No update needed
         })
-        .then(async (productIds) => {
-          if (productIds.length === 0) {
-            throw new Error("No product IDs found after update.");
-          }
-          return this.vaccineDataService.compareExternalPDFs();
+        .then(async () => {
+          return await this.vaccineDataService.compareExternalPDFs();
         })
         .then((pdfs) => {
           //logger.debug("VaccineDataController, updateVaccines: pdfs to check",pdfs);

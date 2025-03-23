@@ -5,6 +5,9 @@ jest.mock('@react-native-async-storage/async-storage', () =>
     require('@react-native-async-storage/async-storage/jest/async-storage-mock')
 );
 
+process.env.TEST_DB = 'node';
+
+
 // should makes font loading work in jest
 (global as any).loadedNativeFonts = [];
 interface MockedIconType extends React.FC<{ name: string }> {
