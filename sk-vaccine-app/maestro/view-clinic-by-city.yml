@@ -1,0 +1,17 @@
+appId: com.skvaccineapplicationproject.skvaccineapp   
+---
+- launchApp
+- assertVisible: "Clinic Info"
+- tapOn: "Clinic Info"
+- assertVisible: "Search"
+- tapOn: "Search"
+- inputText: "Swift Current"
+- hideKeyboard
+- tapOn:
+    text: "(?i).*swift current.*"
+    index: 1  
+- assertVisible: "(?i).*swift current.*"
+- assertVisible: "(?i).*hours.*"
+- assertVisible: "(?i).*service.*"
+- assertVisible: (?i).*location.*
+
