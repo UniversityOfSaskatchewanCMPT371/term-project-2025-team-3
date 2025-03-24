@@ -84,12 +84,14 @@ export class VaccineDataService implements iVaccineDataService {
       query += ` ORDER BY ${order.column} ${order.ascending ? "ASC" : "DESC"}`;
     }
     logger.debug(`Vaccine query ${query}`);
+    console.log(query, params)
     try {
       const result: VaccineQueryResult[] = await VaccineEntity.query(
         query,
         params
       );
       logger.debug(`Vaccine query result ${result[0]}`);
+      console.log(result)
       return result;
     } catch (error) {
       logger.error(`Error running vaccineQuery ${error}`);
