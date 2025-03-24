@@ -1,0 +1,17 @@
+appId: com.skvaccineapplicationproject.skvaccineapp   
+---
+- launchApp
+- assertVisible: "Clinic Info"
+- tapOn: "Clinic Info"
+- assertVisible: "Search"
+- tapOn: "Search"
+- inputText: "gama medical center"
+- tapOn:
+    text: "(?i).*saskatoon.*"
+    repeat: 3
+
+ 
+- assertVisible: "(?i).*gama medical center.*"
+- assertVisible: "(?i).*hours.*"
+- assertVisible: "(?i).*service.*"
+- assertVisible: (?i).*location.*

@@ -136,12 +136,17 @@ export interface iVaccineDataService {
    * updated to reflect multiple options
    * @param language The language to query for, defaults to "english" if no
    * value is provided
+   * @param order The sorting order for the results
    * @return A list of responses from the
    */
   vaccineQuery(
-    input: string,
     language: "english" | "french",
-    field?: string
+    input?: string,
+    searchColumn?: string,
+    order?: {
+      ascending: true | false;
+      column: "vaccineName" | "associatedDiseases" | "starting";
+    }
   ): Promise<VaccineQueryResult[]>;
 }
 
