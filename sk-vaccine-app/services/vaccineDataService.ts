@@ -14,7 +14,11 @@ import assert from "assert";
 import tempJson from "@/services/vaccineListService.data.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import VaccineEntity from "@/myorm/vaccine-entity";
-import { FetchError, PDFDownloadError, PDFUpdateError } from "@/utils/ErrorTypes";
+import {
+  FetchError,
+  PDFDownloadError,
+  PDFUpdateError,
+} from "@/utils/ErrorTypes";
 
 /**
  * @class Implements `iVaccineService`, is used to apply logic to external APIs
@@ -40,8 +44,8 @@ export class VaccineDataService implements iVaccineDataService {
    * @returns
    */
   async vaccineQuery(
-    input?: string,
     language: "english" | "french" = "english",
+    input?: string,
     searchColumn?: string,
     order?: {
       ascending: true | false;
@@ -59,7 +63,7 @@ export class VaccineDataService implements iVaccineDataService {
     if (input) {
       const columns = [
         `vaccineName`,
-        `assoiatedDiseases${language == "english" ? "English" : "French"}`,
+        `associatedDiseases${language == "english" ? "English" : "French"}`,
         `starting`,
       ];
       query += ` WHERE `;
@@ -83,7 +87,7 @@ export class VaccineDataService implements iVaccineDataService {
     try {
       const result: VaccineQueryResult[] = await VaccineEntity.query(
         query,
-        ...params
+        params
       );
       logger.debug(`Vaccine query result ${result[0]}`);
       return result;
@@ -217,8 +221,7 @@ export class VaccineDataService implements iVaccineDataService {
    * @returns a promise containing the updated vaccine list
    */
   async getVaccineListRemote(): Promise<VaccineListResponse> {
-
-    const url:string = "";
+    const url: string = "";
 
     return new Promise((resolve, reject) => {
       try {
@@ -326,7 +329,7 @@ export class VaccineDataService implements iVaccineDataService {
    */
   async compareExternalPDFs(): Promise<VaccinePDFData[]> {
     const productIds = await this.getProductIDs();
-    logger.debug(`Compare PDF productIds ${productIds}`)
+    logger.debug(`Compare PDF productIds ${productIds}`);
     try {
       const comparePromises = productIds.map(async (product) => {
         try {
@@ -354,25 +357,23 @@ export class VaccineDataService implements iVaccineDataService {
           );
           logger.debug(
             `CompareExternalPDFs productIDs passed: ${product.englishFormatId} ${product.frenchFormatId}`
-          )
-
+          );
 
           return {
             productId: product.productId,
             english: {
               filename: englishPDFFilename,
               formatId:
-                
                 englishPDFFilename === localFilenames.englishPDFFilename
                   ? undefined
-                  : englishRemoteProductID
+                  : englishRemoteProductID,
             },
             french: {
               filename: frenchPDFFilename,
               formatId:
                 frenchPDFFilename === localFilenames.frenchPDFFilename
                   ? undefined
-                  : frenchRemoteProductID
+                  : frenchRemoteProductID,
             },
           };
         } catch (error) {
@@ -405,7 +406,7 @@ export class VaccineDataService implements iVaccineDataService {
    */
   async getLocalPDFFilenames(productId: number): Promise<VaccineEntity> {
     try {
-      const vaccine = await VaccineEntity.findOne({ where: {productId} });
+      const vaccine = await VaccineEntity.findOne({ where: { productId } });
 
       if (!vaccine) {
         throw new Error(`Vaccine with productId ${productId} not found`);
@@ -440,7 +441,7 @@ export class VaccineDataService implements iVaccineDataService {
   ): Promise<void> {
     try {
       // Fetch the entity from the database
-      const vaccine = await VaccineEntity.findOne({ where: {productId} });
+      const vaccine = await VaccineEntity.findOne({ where: { productId } });
 
       if (!vaccine) {
         throw new Error(`Vaccine with productId ${productId} not found`);
