@@ -21,7 +21,7 @@ const BaseEntity =
 export default class VaccineEntity extends BaseEntity implements Vaccine {
 
   @PrimaryGeneratedColumn()
-  id!: number;
+  id: number;
 
   @Column({ tsType: String })
   vaccineName!: string;
