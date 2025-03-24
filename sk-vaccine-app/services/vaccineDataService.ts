@@ -102,8 +102,7 @@ export class VaccineDataService implements iVaccineDataService {
    * specific formats.
    *
    *
-   * Pre Conditions:
-   *  - database must be initialized
+   * @precondition database must be initialized
    *
    * @returns a list of all vaccine product ids and format ids.
    */
@@ -215,8 +214,7 @@ export class VaccineDataService implements iVaccineDataService {
   /**
    * Retrieves the remote vaccine list hosted as a JSON file
    *
-   * Pre Conditions:
-   *  - Internet connectivity must be present
+   * @precondition Internet connectivity must be present
    *
    * @returns a promise containing the updated vaccine list
    */
