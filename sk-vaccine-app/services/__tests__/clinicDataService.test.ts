@@ -1,3 +1,13 @@
+jest.mock("expo-sqlite", () => ({
+  openDatabaseSync: jest.fn().mockReturnValue({
+    execAsync: jest.fn(),
+    getAllAsync: jest.fn(),
+    getFirstAsync: jest.fn(),
+    runAsync: jest.fn(),
+    execSync: jest.fn(),
+    getAllSync: jest.fn(),
+  } as unknown as SQLite.SQLiteDatabase),
+}));
 import ClinicData, { ClinicArray, Clinic, CLINIC_TIMESTAMP_KEY } from "@/services/clinicDataService";
 import { EmptyStorageError, InvalidArgumentError } from "@/utils/ErrorTypes";
 import AsyncStorage from "@react-native-async-storage/async-storage";

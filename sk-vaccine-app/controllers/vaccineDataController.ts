@@ -172,13 +172,14 @@ class VaccineDataController implements iVaccineDataController {
    */
   async searchVaccines(
     input?: string,
-    field?: string
+    field?: string,
+    language: "english" | "french" = "english"
   ): Promise<VaccineSheet[]> {
     // TODO implement checking of language with settings page;
     try {
       if (field) {
         return (
-          await this.vaccineDataService.vaccineQuery(input, "english", field)
+          await this.vaccineDataService.vaccineQuery(language, input, field)
         ).map((element: VaccineQueryResult) => {
           return {
             pdfPath: `${FileSystem.documentDirectory}vaccinePdfs/${element.productId}/${element.formatId}.pdf`, // Properly assigning formatId
@@ -189,7 +190,7 @@ class VaccineDataController implements iVaccineDataController {
         }) as VaccineSheet[];
       } else {
         return (
-          await this.vaccineDataService.vaccineQuery(input, "english")
+          await this.vaccineDataService.vaccineQuery(language, input)
         ).map((element: VaccineQueryResult) => {
           return {
             pdfPath: `${FileSystem.documentDirectory}vaccinePdfs/${element.productId}/${element.formatId}.pdf`, // Properly assigning formatId

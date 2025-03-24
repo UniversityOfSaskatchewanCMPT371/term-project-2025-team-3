@@ -1,4 +1,14 @@
 import "reflect-metadata";
+jest.mock("expo-sqlite", () => ({
+  openDatabaseSync: jest.fn().mockReturnValue({
+    execAsync: jest.fn(),
+    getAllAsync: jest.fn(),
+    getFirstAsync: jest.fn(),
+    runAsync: jest.fn(),
+    execSync: jest.fn(),
+    getAllSync: jest.fn(),
+  } as unknown as SQLite.SQLiteDatabase),
+}));
 import {
   Entity,
   ColumnMetadata,
@@ -22,14 +32,12 @@ const mockdb = {
 class TestClass extends BaseEntity {}
 
 describe("Unit tests for myorm decorators", () => {
-  const OLD_ENV = process.env;
 
   BaseEntity.db = mockdb;
   beforeEach(() => {
-    jest.resetModules(); // Most important - it clears the cache
-    process.env = { ...OLD_ENV }; // Make a copy
+
     class TestClass extends BaseEntity {};
-    process.env.TEST_DB = 'mock';
+
   });
 
   afterEach(() => {
@@ -40,9 +48,7 @@ describe("Unit tests for myorm decorators", () => {
     delete (TestClass.prototype as any)._primaryKey;
   });
 
-  afterAll(() => {
-    process.env = OLD_ENV; // Reset old ENV variables
-  })
+
   describe("Test @Entity", () => {
     it("Test with one primary column", () => {
       const entity = Entity();
