@@ -1,0 +1,17 @@
+appId: com.skvaccineapplicationproject.skvaccineapp   
+---
+- launchApp
+- assertVisible: "Clinic Info"
+- tapOn: "Clinic Info"
+- assertVisible: "Search"
+- tapOn: "Search"
+- inputText: "Abderdeen"
+- tapOn:
+    text: "(?i).*abderdeen.*"
+    index: 1
+    repeat: 3
+- assertVisible: "(?i).*abderdeen.*"
+- assertVisible: "(?i).*hours.*"
+- assertVisible: "(?i).*service.*"
+- assertVisible: (?i).*location.*
+

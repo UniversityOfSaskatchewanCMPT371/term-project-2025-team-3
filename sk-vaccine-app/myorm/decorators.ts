@@ -3,8 +3,6 @@ import logger from "@/utils/logger";
 import "reflect-metadata";
 import BaseEntity from "./base-entity";
 import * as SQLite from "expo-sqlite";
-// Wrap the sqlite3 require so it is skipped when building the
-// react native application
 import { promisify } from "util";
 
 const DB_NAME = "sk-vaccine-app.db";
@@ -175,7 +173,7 @@ export function Entity(options?: { tableName?: string; immutable?: boolean }) {
   return function (constructor: Function) {
 
     let db: SQLite.SQLiteDatabase;
-
+    
     if (BaseEntity.db == undefined) {
       BaseEntity.db = SQLite.openDatabaseSync(DB_NAME);
       logger.debug("Database initialized successfully:");
