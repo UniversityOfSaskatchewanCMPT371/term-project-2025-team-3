@@ -173,9 +173,6 @@ export function mapTsTypeToSql(jsType: any, isList?: boolean): string {
 export function Entity(options?: { tableName?: string; immutable?: boolean }) {
   options = options || {};
   return function (constructor: Function) {
-    // set up a mock database if being tested
-    // this might look like bad practice, but you haven't tried to
-    // find a better solution, and you won't find one
 
     let db: SQLite.SQLiteDatabase;
 
