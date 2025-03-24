@@ -27,7 +27,8 @@ class VaccineDataController implements iVaccineDataController {
    * PDFs are also checked to ensure they are up to date. Depending on these
    * checks all are updated
    *
-   * This requires internet connectivity and a check WILL be in place
+   * @precondition This requires internet connectivity
+   * @precondition The remote vaccine list must exist
    *
    *
    * @returns
@@ -114,11 +115,11 @@ class VaccineDataController implements iVaccineDataController {
   /**
    * Gets the remote vaccine list, updates the local version and local list
    *
-   * Pre Condiitons:
-   *      - The vaccine datatable must exist.
-   *      - There must be internet connectivity.
-   * Post Condiitons:
-   *      This modifies the vaccine datatable, updating each altered row.
+
+   * @precondition The vaccine datatable must exist.
+   * @precondition There must be internet connectivity.
+   *
+   * @postcondition This modifies the vaccine datatable, updating each altered row.
    *
    */
   protected async updateVaccineList() {
@@ -139,8 +140,7 @@ class VaccineDataController implements iVaccineDataController {
   /**
    * Checks if the local vaccine list is up to date with the remote one.
    *
-   * Pre Conditions:
-   *      - There must be interet connectivity
+   * @precondition There must be interet connectivity
    *
    *
    * @returns A promise containing a boolean value. True if the list is
