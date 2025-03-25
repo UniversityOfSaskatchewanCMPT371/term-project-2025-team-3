@@ -80,3 +80,14 @@ export class NoInternetError extends Error {
     this.name = "NoInternetError";
   }
 }
+
+  export class FetchError extends Error {
+    url: string;
+    constructor(url: string, message = "Problem pulling data from URL") {
+      super(message);
+      this.name = "FetchError";
+      this.url = url;
+    }
+  }
+
+

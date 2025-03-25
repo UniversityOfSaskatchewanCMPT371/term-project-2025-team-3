@@ -1,0 +1,21 @@
+appId: com.skvaccineapplicationproject.skvaccineapp
+---
+- launchApp
+- assertVisible: "Clinic Info"
+- assertVisible: "VaccineInfo"
+- assertVisible: "Your Closest Clinic"
+- tapOn: "Vaccine Info"
+- tapOn: "Search"
+- inputText: "Rotavirus"
+- assertVisible: "Rotavirus"
+- hideKeyboard
+# checks if pdf loads
+- tapOn: "Rotavirus"
+- assertVisible: "Rotavirus Vaccine"
+- assertVisible: "Starting Age/Grade"
+- back
+# making sure the pdf loads for each type of vaccine
+- tapOn: "DTaP-IPV-Hib"
+- assertVisible: "Diphtheria"
+- assertVisible: "Tetanus"
+- assertVisible: "Starting Age/Grade"
