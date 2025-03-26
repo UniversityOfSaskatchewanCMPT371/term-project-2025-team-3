@@ -68,6 +68,7 @@ export default function useClinicData(
     const [loading, setLoading] = useState(true);
     const [accessFailed, setAccessFailed] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [reload, setReload] = useState(0); // only used to re render the component
 
 
     assert(!(searchColumn && !searchValue), "there should be a search value if their is a search column");
@@ -143,7 +144,9 @@ export default function useClinicData(
                                     // because no search is needed we can display the clinics we got from the server
                                     // without storing them first, this change should make the program much faster, at least I hope it will
                                     // Update: it worked
-                                    clinicServiceRef.current.storeClinics(remoteClinics); // no await is needed
+                                    clinicServiceRef.current.storeClinics(remoteClinics).then( () => {
+                                        setReload(reload);
+                                    });
 
                                     clinicArray = remoteClinics;
 

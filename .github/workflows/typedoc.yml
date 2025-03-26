@@ -33,10 +33,19 @@ jobs:
           npx typedoc
 
       - name: Generate Coverage Testing Documentation
+        continue-on-error: true
         run: |
-          npm coverage
-          mv coverage ../docs/coverage
-  
+          cd sk-vaccine-app
+          npm run coverage
+
+      - name: Move coverage files
+        run: |
+          mkdir -p docs/coverage
+          mv sk-vaccine-app/coverage/* docs/coverage/
+
+      - name: Debug Docs Structure
+        run: ls -R docs
+        
       - name: Deploy to Github Pages
         uses: peaceiris/actions-gh-pages@v4
         with:

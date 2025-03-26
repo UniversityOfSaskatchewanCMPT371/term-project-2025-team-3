@@ -27,7 +27,8 @@ class VaccineDataController implements iVaccineDataController {
    * PDFs are also checked to ensure they are up to date. Depending on these
    * checks all are updated
    *
-   * This requires internet connectivity and a check WILL be in place
+   * @precondition This requires internet connectivity
+   * @precondition The remote vaccine list must exist
    *
    *
    * @returns
@@ -45,21 +46,12 @@ class VaccineDataController implements iVaccineDataController {
           logger.info(`vaccineListUpToDate returned: ${upToDate}`);
           if (!upToDate) {
             logger.info("Updating vaccine list...");
-            await this.updateVaccineList(); // Ensure update completes
-            logger.info("Vaccine list update completed.");
+            return this.updateVaccineList().then(() => true); // Ensure update completes
           }
-
-          // Ensure updated list is used
-          const productIds = await this.vaccineDataService.getProductIDs();
-          logger.debug(`Product IDs after update: ${productIds.length}`);
-
-          return productIds; // Return updated product IDs
+          return false; // No update needed
         })
-        .then(async (productIds) => {
-          if (productIds.length === 0) {
-            throw new Error("No product IDs found after update.");
-          }
-          return this.vaccineDataService.compareExternalPDFs();
+        .then(async () => {
+          return await this.vaccineDataService.compareExternalPDFs();
         })
         .then((pdfs) => {
           //logger.debug("VaccineDataController, updateVaccines: pdfs to check",pdfs);
@@ -123,11 +115,11 @@ class VaccineDataController implements iVaccineDataController {
   /**
    * Gets the remote vaccine list, updates the local version and local list
    *
-   * Pre Condiitons:
-   *      - The vaccine datatable must exist.
-   *      - There must be internet connectivity.
-   * Post Condiitons:
-   *      This modifies the vaccine datatable, updating each altered row.
+
+   * @precondition The vaccine datatable must exist.
+   * @precondition There must be internet connectivity.
+   *
+   * @postcondition This modifies the vaccine datatable, updating each altered row.
    *
    */
   protected async updateVaccineList() {
@@ -148,8 +140,7 @@ class VaccineDataController implements iVaccineDataController {
   /**
    * Checks if the local vaccine list is up to date with the remote one.
    *
-   * Pre Conditions:
-   *      - There must be interet connectivity
+   * @precondition There must be interet connectivity
    *
    *
    * @returns A promise containing a boolean value. True if the list is
@@ -181,13 +172,14 @@ class VaccineDataController implements iVaccineDataController {
    */
   async searchVaccines(
     input?: string,
-    field?: string
+    field?: string,
+    language: "english" | "french" = "english"
   ): Promise<VaccineSheet[]> {
     // TODO implement checking of language with settings page;
     try {
       if (field) {
         return (
-          await this.vaccineDataService.vaccineQuery(input, "english", field)
+          await this.vaccineDataService.vaccineQuery(language, input, field)
         ).map((element: VaccineQueryResult) => {
           return {
             pdfPath: `${FileSystem.documentDirectory}vaccinePdfs/${element.productId}/${element.formatId}.pdf`, // Properly assigning formatId
@@ -198,7 +190,7 @@ class VaccineDataController implements iVaccineDataController {
         }) as VaccineSheet[];
       } else {
         return (
-          await this.vaccineDataService.vaccineQuery(input, "english")
+          await this.vaccineDataService.vaccineQuery(language, input)
         ).map((element: VaccineQueryResult) => {
           return {
             pdfPath: `${FileSystem.documentDirectory}vaccinePdfs/${element.productId}/${element.formatId}.pdf`, // Properly assigning formatId
