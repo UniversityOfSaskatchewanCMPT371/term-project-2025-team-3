@@ -1,5 +1,6 @@
 import iClinicData from "@/interfaces/iClinicData";
 import { ClinicArray } from "@/services/clinicDataService";
+import logger from "@/utils/logger";
 import assert from "assert";
 import { useEffect, useState, useRef } from "react";
 
