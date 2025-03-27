@@ -1,5 +1,5 @@
 {
-  "time-created": 1741550873426,
+  "time-created": 1743029637677,
   "clinics": [
     {
       "serviceArea": "Assiniboia",
@@ -10,7 +10,9 @@
       "services": [
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 49.632670594578,
+      "longitude": -105.99936471327915
     },
     {
       "serviceArea": "Avonlea",
@@ -21,7 +23,9 @@
       "services": [
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 50.0145867,
+      "longitude": -105.0556457
     },
     {
       "serviceArea": "Baildon",
@@ -32,7 +36,9 @@
       "services": [
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 50.2756803,
+      "longitude": -105.4645919
     },
     {
       "serviceArea": "Balcarres",
@@ -43,7 +49,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.80218470907077,
+      "longitude": -103.55101725142326
     },
     {
       "serviceArea": "Beauval",
@@ -55,7 +63,9 @@
         "Childhood",
         "Adult",
         "Travel"
-      ]
+      ],
+      "latitude": 55.146852071784636,
+      "longitude": -107.6120552718284
     },
     {
       "serviceArea": "Beechy",
@@ -66,7 +76,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.8784808,
+      "longitude": -107.3842256
     },
     {
       "serviceArea": "Bengough",
@@ -77,7 +89,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.3957345,
+      "longitude": -105.1262065
     },
     {
       "serviceArea": "Big River",
@@ -89,7 +103,9 @@
         "Childhood",
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 53.833333,
+      "longitude": -107.033333
     },
     {
       "serviceArea": "Biggar",
@@ -100,7 +116,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.0576499,
+      "longitude": -107.984618
     },
     {
       "serviceArea": "Broadview",
@@ -111,7 +129,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.373977249999996,
+      "longitude": -102.58452535887427
     },
     {
       "serviceArea": "Buffalo Narrows ",
@@ -123,7 +143,9 @@
         "Childhood",
         "Adult",
         "Travel"
-      ]
+      ],
+      "latitude": 55.86003740960647,
+      "longitude": -108.48169425421015
     },
     {
       "serviceArea": "Burstall",
@@ -135,7 +157,9 @@
         "Childhood",
         "Adult",
         "Travel"
-      ]
+      ],
+      "latitude": 50.65712563875978,
+      "longitude": -109.90583275525945
     },
     {
       "serviceArea": "Cabri",
@@ -147,7 +171,9 @@
         "Childhood",
         "Adult",
         "Travel"
-      ]
+      ],
+      "latitude": 50.6187301,
+      "longitude": -108.4611856
     },
     {
       "serviceArea": "Canora",
@@ -158,7 +184,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.63032044808465,
+      "longitude": -102.43928404704178
     },
     {
       "serviceArea": "Carlyle",
@@ -169,7 +197,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.634195233848494,
+      "longitude": -102.26056124209408
     },
     {
       "serviceArea": "Carnduff",
@@ -180,7 +210,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.17804445,
+      "longitude": -101.79068330796301
     },
     {
       "serviceArea": "Caronport",
@@ -191,7 +223,9 @@
       "services": [
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 50.45596198712322,
+      "longitude": -105.81973311280422
     },
     {
       "serviceArea": "Central Butte",
@@ -202,7 +236,9 @@
       "services": [
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 50.7938303,
+      "longitude": -106.5078309
     },
     {
       "serviceArea": "Climax",
@@ -213,7 +249,9 @@
       "services": [
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 49.20906128948603,
+      "longitude": -108.38625337529292
     },
     {
       "serviceArea": "Coronach",
@@ -224,7 +262,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.1127927,
+      "longitude": -105.5170497
     },
     {
       "serviceArea": "Craik",
@@ -235,7 +275,9 @@
       "services": [
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 51.0515057,
+      "longitude": -105.8159306
     },
     {
       "serviceArea": "Creighton",
@@ -246,7 +288,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 54.7449167,
+      "longitude": -101.9088396
     },
     {
       "serviceArea": "Cumberland House",
@@ -257,7 +301,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 53.9536112,
+      "longitude": -102.267635
     },
     {
       "serviceArea": "Davidson",
@@ -268,7 +314,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.261686876630364,
+      "longitude": -105.98522108274597
     },
     {
       "serviceArea": "Dinsmore",
@@ -279,7 +327,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.3325438,
+      "longitude": -107.4471085
     },
     {
       "serviceArea": "Eastend",
@@ -290,7 +340,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.516667,
+      "longitude": -108.816667
     },
     {
       "serviceArea": "Eatonia",
@@ -301,7 +353,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.2241821,
+      "longitude": -109.3900359
     },
     {
       "serviceArea": "Elrose",
@@ -312,7 +366,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.200121204894096,
+      "longitude": -108.03240324163761
     },
     {
       "serviceArea": "Esterhazy",
@@ -323,7 +379,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.6536237,
+      "longitude": -102.0763357
     },
     {
       "serviceArea": "Estevan",
@@ -334,7 +392,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.14866657123726,
+      "longitude": -103.0019243505351
     },
     {
       "serviceArea": "Eston",
@@ -345,7 +405,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.15048540218423,
+      "longitude": -108.75232404189869
     },
     {
       "serviceArea": "Fillmore",
@@ -356,7 +418,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.87874955899935,
+      "longitude": -103.4364956090807
     },
     {
       "serviceArea": "Foam Lake",
@@ -367,7 +431,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.641059740918436,
+      "longitude": -103.52752676792271
     },
     {
       "serviceArea": "Fox Valley",
@@ -378,7 +444,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.46506294570959,
+      "longitude": -109.48297449021507
     },
     {
       "serviceArea": "Gainsborough",
@@ -389,7 +457,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.17617063817871,
+      "longitude": -101.45046675520108
     },
     {
       "serviceArea": "Gravelbourg",
@@ -400,7 +470,9 @@
       "services": [
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 49.87411415,
+      "longitude": -106.56216495
     },
     {
       "serviceArea": "Green Lake",
@@ -411,7 +483,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 54.2916374,
+      "longitude": -107.7926027
     },
     {
       "serviceArea": "Grenfell",
@@ -422,7 +496,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.4180129,
+      "longitude": -102.93466115000001
     },
     {
       "serviceArea": "Gull Lake",
@@ -433,7 +509,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.090606831495194,
+      "longitude": -108.48280029217597
     },
     {
       "serviceArea": "Herbert",
@@ -444,7 +522,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.42651467100194,
+      "longitude": -107.22820121529686
     },
     {
       "serviceArea": "Hudson Bay",
@@ -455,7 +535,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.84989815105664,
+      "longitude": -102.38821984662135
     },
     {
       "serviceArea": "Humboldt",
@@ -466,7 +548,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.212796749999995,
+      "longitude": -105.12112503322231
     },
     {
       "serviceArea": "Ile a la Crosse",
@@ -478,7 +562,9 @@
         "Childhood",
         "Adult",
         "Travel"
-      ]
+      ],
+      "latitude": 55.4330898,
+      "longitude": -107.897256
     },
     {
       "serviceArea": "Kamsack",
@@ -489,7 +575,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.5645433,
+      "longitude": -101.8953088
     },
     {
       "serviceArea": "Kelvington",
@@ -500,7 +588,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.1643973,
+      "longitude": -103.5228082
     },
     {
       "serviceArea": "Kerrobert",
@@ -511,7 +601,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.91372869999999,
+      "longitude": -109.13289046846836
     },
     {
       "serviceArea": "Kindersley",
@@ -523,7 +615,9 @@
         "Childhood",
         "Purchased",
         "Adult"
-      ]
+      ],
+      "latitude": 51.4687094,
+      "longitude": -109.1581355
     },
     {
       "serviceArea": "Kyle",
@@ -534,7 +628,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.8299317,
+      "longitude": -108.0407186
     },
     {
       "serviceArea": "La Loche",
@@ -546,7 +642,9 @@
         "Childhood",
         "Adult",
         "Travel"
-      ]
+      ],
+      "latitude": 56.51016417819499,
+      "longitude": -109.44554696022333
     },
     {
       "serviceArea": "La Ronge",
@@ -557,7 +655,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 55.105041455278595,
+      "longitude": -105.28737968696565
     },
     {
       "serviceArea": "Lampman",
@@ -568,7 +668,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.379524055588256,
+      "longitude": -102.75725858621973
     },
     {
       "serviceArea": "Langenburg",
@@ -579,7 +681,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.8417915,
+      "longitude": -101.701553
     },
     {
       "serviceArea": "Leader",
@@ -590,7 +694,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.8878217,
+      "longitude": -109.5449145
     },
     {
       "serviceArea": "Lestock",
@@ -601,7 +707,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.3109558,
+      "longitude": -103.979858
     },
     {
       "serviceArea": "Lloydminster",
@@ -614,7 +722,9 @@
         "Adult",
         "Travel",
         "Purchased"
-      ]
+      ],
+      "latitude": 53.2816669,
+      "longitude": -109.98633896592374
     },
     {
       "serviceArea": "Lucky Lake",
@@ -625,7 +735,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.9850216,
+      "longitude": -107.1373209
     },
     {
       "serviceArea": "Macklin",
@@ -636,7 +748,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.3368517,
+      "longitude": -109.9441992
     },
     {
       "serviceArea": "Maidstone",
@@ -646,7 +760,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 53.0862269,
+      "longitude": -109.2960964
     },
     {
       "serviceArea": "Maple Creek",
@@ -657,7 +773,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.9056917,
+      "longitude": -109.4800219
     },
     {
       "serviceArea": "Maryfield",
@@ -668,7 +786,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.838806463641816,
+      "longitude": -101.52285071119991
     },
     {
       "serviceArea": "Meadow Lake",
@@ -679,7 +799,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 54.13026,
+      "longitude": -108.435059
     },
     {
       "serviceArea": "Melfort",
@@ -690,7 +812,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.86013394855163,
+      "longitude": -104.60126318716726
     },
     {
       "serviceArea": "Melville",
@@ -701,7 +825,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.9374916786204,
+      "longitude": -102.82072995412643
     },
     {
       "serviceArea": "Midale",
@@ -712,7 +838,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.39179234782708,
+      "longitude": -103.40652734860774
     },
     {
       "serviceArea": "Montmartre",
@@ -723,7 +851,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.2176095,
+      "longitude": -103.4483712
     },
     {
       "serviceArea": "Moose Jaw",
@@ -734,7 +864,9 @@
       "services": [
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 50.39849939468558,
+      "longitude": -105.56808264004455
     },
     {
       "serviceArea": "Mortlach",
@@ -745,7 +877,9 @@
       "services": [
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 50.4537478,
+      "longitude": -106.0674947
     },
     {
       "serviceArea": "Multicultural Centre Moose Jaw",
@@ -767,7 +901,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.8376602,
+      "longitude": -109.6279954
     },
     {
       "serviceArea": "Nipawin",
@@ -778,7 +914,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 53.3627879,
+      "longitude": -104.017425
     },
     {
       "serviceArea": "Norquay",
@@ -789,7 +927,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.8842262,
+      "longitude": -102.0907464
     },
     {
       "serviceArea": "North Battleford",
@@ -800,7 +940,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.76063685,
+      "longitude": -108.2780461
     },
     {
       "serviceArea": "Ogema",
@@ -811,7 +953,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.577289065064065,
+      "longitude": -104.91664907692527
     },
     {
       "serviceArea": "Outlook",
@@ -822,7 +966,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.48354295,
+      "longitude": -107.06235343886372
     },
     {
       "serviceArea": "Oxbow",
@@ -833,7 +979,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.22849025,
+      "longitude": -102.17503735
     },
     {
       "serviceArea": "Pinehouse",
@@ -844,7 +992,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 55.5180447,
+      "longitude": -106.574131
     },
     {
       "serviceArea": "Ponteix",
@@ -854,7 +1004,9 @@
       "hours": "",
       "services": [
         ""
-      ]
+      ],
+      "latitude": 49.7459773,
+      "longitude": -107.4880937
     },
     {
       "serviceArea": "Preeceville",
@@ -865,7 +1017,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.9553325,
+      "longitude": -102.6666643
     },
     {
       "serviceArea": "Prince Albert",
@@ -877,7 +1031,9 @@
         "Childhood",
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 53.201097,
+      "longitude": -105.748901
     },
     {
       "serviceArea": "Radville",
@@ -888,7 +1044,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.4629996,
+      "longitude": -104.2947907
     },
     {
       "serviceArea": "Raymore",
@@ -899,7 +1057,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.4096252,
+      "longitude": -104.5292377
     },
     {
       "serviceArea": "Redvers",
@@ -910,7 +1070,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.57168887942117,
+      "longitude": -101.69491948161507
     },
     {
       "serviceArea": "Regina",
@@ -921,7 +1083,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.43429931710439,
+      "longitude": -104.6507167323844
     },
     {
       "serviceArea": "Regina",
@@ -932,7 +1096,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
     },
     {
       "serviceArea": "Regina",
@@ -943,7 +1109,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
     },
     {
       "serviceArea": "Regina",
@@ -954,7 +1122,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.4547683,
+      "longitude": -104.61845622504507
     },
     {
       "serviceArea": "Regina",
@@ -965,7 +1135,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
     },
     {
       "serviceArea": "Regina",
@@ -976,7 +1148,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.4481828,
+      "longitude": -104.57168205261891
     },
     {
       "serviceArea": "Regina",
@@ -987,7 +1161,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.796226036513374,
+      "longitude": -104.98765696380873
     },
     {
       "serviceArea": "Regina",
@@ -998,7 +1174,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
     },
     {
       "serviceArea": "Regina",
@@ -1009,7 +1187,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.474419049999995,
+      "longitude": -104.65119895041659
     },
     {
       "serviceArea": "Regina",
@@ -1020,7 +1200,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
     },
     {
       "serviceArea": "Regina",
@@ -1031,7 +1213,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.45539702833057,
+      "longitude": -104.71948839081519
     },
     {
       "serviceArea": "Regina",
@@ -1042,7 +1226,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
     },
     {
       "serviceArea": "Regina",
@@ -1053,7 +1239,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.475235999999995,
+      "longitude": -104.6403341
     },
     {
       "serviceArea": "Regina",
@@ -1064,7 +1252,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.46768627577368,
+      "longitude": -104.63103461303902
     },
     {
       "serviceArea": "Regina",
@@ -1075,7 +1265,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
     },
     {
       "serviceArea": "Regina",
@@ -1086,7 +1278,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
     },
     {
       "serviceArea": "Regina",
@@ -1097,7 +1291,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.793487635329576,
+      "longitude": -104.9858947042389
     },
     {
       "serviceArea": "Regina",
@@ -1108,7 +1304,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.438600777786796,
+      "longitude": -104.57719454866921
     },
     {
       "serviceArea": "Regina",
@@ -1119,7 +1317,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
     },
     {
       "serviceArea": "Regina",
@@ -1130,7 +1330,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.434424816853074,
+      "longitude": -104.6408959
     },
     {
       "serviceArea": "Regina",
@@ -1144,7 +1346,9 @@
         "Travel",
         "Purchased",
         "*This is an international travel clinic"
-      ]
+      ],
+      "latitude": 50.4451053,
+      "longitude": -104.60978869708931
     },
     {
       "serviceArea": "Regina",
@@ -1155,7 +1359,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.46842476639488,
+      "longitude": -104.61232033441112
     },
     {
       "serviceArea": "Regina",
@@ -1166,7 +1372,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
     },
     {
       "serviceArea": "Rockglen",
@@ -1177,7 +1385,9 @@
       "services": [
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 49.1793978,
+      "longitude": -105.94724
     },
     {
       "serviceArea": "Rosetown",
@@ -1189,7 +1399,9 @@
         "Childhood",
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 51.554815,
+      "longitude": -107.9912859
     },
     {
       "serviceArea": "Rosthern",
@@ -1200,7 +1412,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.663891,
+      "longitude": -106.335297
     },
     {
       "serviceArea": "Rouleau",
@@ -1211,7 +1425,9 @@
       "services": [
         "Adult",
         "Purchase"
-      ]
+      ],
+      "latitude": 50.19058638152264,
+      "longitude": -104.90478916949219
     },
     {
       "serviceArea": "Sandy Bay",
@@ -1222,7 +1438,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 55.5257599,
+      "longitude": -102.313097
     },
     {
       "serviceArea": "Saskatoon",
@@ -1233,7 +1451,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
     },
     {
       "serviceArea": "Saskatoon",
@@ -1244,7 +1464,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
     },
     {
       "serviceArea": "Saskatoon",
@@ -1255,7 +1477,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
     },
     {
       "serviceArea": "Saskatoon",
@@ -1266,7 +1490,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
     },
     {
       "serviceArea": "Saskatoon",
@@ -1277,7 +1503,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
     },
     {
       "serviceArea": "Saskatoon",
@@ -1288,7 +1516,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
     },
     {
       "serviceArea": "Saskatoon",
@@ -1298,7 +1528,9 @@
       "hours": "",
       "services": [
         "General Inquiries"
-      ]
+      ],
+      "latitude": 52.13277411106907,
+      "longitude": -106.67032653561681
     },
     {
       "serviceArea": "Saskatoon",
@@ -1309,7 +1541,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
     },
     {
       "serviceArea": "Saskatoon",
@@ -1320,7 +1554,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
     },
     {
       "serviceArea": "Saskatoon",
@@ -1331,7 +1567,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
     },
     {
       "serviceArea": "Saskatoon",
@@ -1342,7 +1580,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
     },
     {
       "serviceArea": "Saskatoon",
@@ -1353,7 +1593,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
     },
     {
       "serviceArea": "Saskatoon",
@@ -1364,7 +1606,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
     },
     {
       "serviceArea": "Saskatoon",
@@ -1378,7 +1622,9 @@
         "Travel",
         "Purchased",
         "*This is an international travel clinic"
-      ]
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
     },
     {
       "serviceArea": "Saskatoon",
@@ -1389,7 +1635,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
     },
     {
       "serviceArea": "Saskatoon",
@@ -1400,7 +1648,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.12328315322211,
+      "longitude": -106.73773078854123
     },
     {
       "serviceArea": "Shaunavon",
@@ -1411,7 +1661,9 @@
       "services": [
         "Childhood ",
         "Adult"
-      ]
+      ],
+      "latitude": 49.6507703,
+      "longitude": -108.410021
     },
     {
       "serviceArea": "Shellbrook",
@@ -1423,7 +1675,9 @@
         "Childhood",
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 53.22248,
+      "longitude": -106.387482
     },
     {
       "serviceArea": "Spiritwood",
@@ -1435,7 +1689,9 @@
         "Childhood",
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 53.365233,
+      "longitude": -107.5175024
     },
     {
       "serviceArea": "Stoughton",
@@ -1446,7 +1702,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.67746205,
+      "longitude": -103.02952035
     },
     {
       "serviceArea": "Swift Current ",
@@ -1458,7 +1716,9 @@
         "Childhood",
         "Adult",
         "Purchased"
-      ]
+      ],
+      "latitude": 50.2849138,
+      "longitude": -107.7984496
     },
     {
       "serviceArea": "Tisdale",
@@ -1471,7 +1731,9 @@
         "Adult",
         "Travel",
         "Purchased"
-      ]
+      ],
+      "latitude": 52.850059,
+      "longitude": -104.048767
     },
     {
       "serviceArea": "Turtleford ",
@@ -1482,7 +1744,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 53.3878475,
+      "longitude": -108.9581917
     },
     {
       "serviceArea": "Unity",
@@ -1493,7 +1757,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.4428508,
+      "longitude": -109.1548985
     },
     {
       "serviceArea": "Val Marie ",
@@ -1504,7 +1770,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.24497637147437,
+      "longitude": -107.73014112351234
     },
     {
       "serviceArea": "Vanguard",
@@ -1515,7 +1783,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.9081257,
+      "longitude": -107.299645
     },
     {
       "serviceArea": "Wadena",
@@ -1526,7 +1796,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.9439343,
+      "longitude": -103.8022616
     },
     {
       "serviceArea": "Watrous",
@@ -1537,7 +1809,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 51.675148,
+      "longitude": -105.4655393
     },
     {
       "serviceArea": "Wawota",
@@ -1548,7 +1822,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.9041649,
+      "longitude": -102.0241117
     },
     {
       "serviceArea": "Weyburn",
@@ -1559,7 +1835,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 49.6651238,
+      "longitude": -103.854034
     },
     {
       "serviceArea": "Whitewood",
@@ -1570,7 +1848,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.326705832155604,
+      "longitude": -102.26104997079067
     },
     {
       "serviceArea": "Wilkie",
@@ -1581,7 +1861,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 52.4095307,
+      "longitude": -108.7068761
     },
     {
       "serviceArea": "Wolseley",
@@ -1592,7 +1874,9 @@
       "services": [
         "Childhood",
         "Adult"
-      ]
+      ],
+      "latitude": 50.42666387542433,
+      "longitude": -103.26883468374334
     },
     {
       "serviceArea": "Yorkton",
@@ -1605,7 +1889,9 @@
         "Adult",
         "Travel",
         "Purchased"
-      ]
+      ],
+      "latitude": 51.20644179071865,
+      "longitude": -102.48026803109423
     }
   ]
 }
