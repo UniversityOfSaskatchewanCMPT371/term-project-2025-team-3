@@ -44,7 +44,7 @@ export default function Page() {
     <SafeAreaView style={styles.container}>
       <View style={styles.clinicListSection}>
         <View style={styles.clinicListBanner}>
-          <Text style={styles.clinicListHeading}>Clinic List</Text>
+          <Text style={styles.clinicListHeading}>Clinics</Text>
           <Text style={styles.clinicListSubheading}>
             Clinics offering vaccinations intended for persons under 18 years of
             age
