@@ -14,6 +14,7 @@ import ClinicData from "@/services/clinicDataService";
 import { PATH_DISPLAY_CLINIC } from "@/utils/constPaths";
 import logger from "@/utils/logger";
 import { COLOURS } from "@/utils/colours";
+import LocationData from "@/services/locationDataService";
 
 const URL = process.env.EXPO_PUBLIC_CLINIC_LIST_URL;
 
@@ -26,6 +27,8 @@ export default function Page() {
     clinicService: new ClinicData(),
     url: URL,
     searchValue: searchVal,
+    sortByDistance: true,
+    locationService: new LocationData()
   });
 
   const filteredClinics =
@@ -41,7 +44,7 @@ export default function Page() {
     <SafeAreaView style={styles.container}>
       <View style={styles.clinicListSection}>
         <View style={styles.clinicListBanner}>
-          <Text style={styles.clinicListHeading}>Clinic List</Text>
+          <Text style={styles.clinicListHeading}>Clinics</Text>
           <Text style={styles.clinicListSubheading}>
             Clinics offering vaccinations intended for persons under 18 years of
             age
