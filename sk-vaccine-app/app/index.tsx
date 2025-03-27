@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import logger from "@/utils/logger";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { PATH_VACCINE_INFO, CLINIC_INFO } from "../utils/constPaths";
+import { PATH_VACCINE_INFO, PATH_CLINIC_INFO } from "../utils/constPaths";
 import React from "react";
 import ClosestClincButton from "@/components/closest-clinic-btn";
 import SettingsButton from "@/components/settings-btn";
@@ -54,19 +54,19 @@ export default function Index() {
           </Text>
         </View>
         <View style={styles.horizontalContainer}>
-          <ClosestClincButton path={PATH_VACCINE_INFO} />
+          <ClosestClincButton path={PATH_CLOSET_CLINIC} />
         </View>
         <View style={styles.horizontalContainer}>
           <View style={styles.btnContainer}>
             <SquareButton
-              path={"/clinic-info"}
+              path={PATH_CLINIC_INFO}
               text={CLINIC_BTN_TEXT}
               style={{ backgroundColor: "#a3caba" }}
             />
           </View>
           <View style={styles.btnContainer}>
             <SquareButton
-              path={"/vaccine-info"}
+              path={PATH_VACCINE_INFO}
               text={VACCINE_BTN_TEXT}
               style={{ backgroundColor: "#C2DAD0" }}
             />

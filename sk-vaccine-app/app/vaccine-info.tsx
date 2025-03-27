@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useUpdateVaccineSheets, useVaccineSheets } from "@/hooks/vaccineData";
 import VaccineDataController from "@/controllers/vaccineDataController";
-import { DISPLAY_VACCINE } from "@/utils/constPaths";
+import { PATH_DISPLAY_VACCINE } from "@/utils/constPaths";
 import logger from "@/utils/logger";
 import { VaccineDataService } from "@/services/vaccineDataService";
 
@@ -70,7 +70,7 @@ export default function Page() {
                   title={item.vaccineName}
                   subtitle={item.starting}
                   bgColor={bgColor}
-                  pathname={DISPLAY_VACCINE}
+                  pathname={PATH_DISPLAY_VACCINE}
                   params={item}
                   text={""}
                 />
