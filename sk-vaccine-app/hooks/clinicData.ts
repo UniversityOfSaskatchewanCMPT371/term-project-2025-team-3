@@ -1,5 +1,6 @@
 import iClinicData from "@/interfaces/iClinicData";
-import { ClinicArray } from "@/services/clinicDataService";
+import iLocationData from "@/interfaces/iLocationData";
+import { Clinic, ClinicArray } from "@/services/clinicDataService";
 import logger from "@/utils/logger";
 import assert from "assert";
 import { useEffect, useState, useRef } from "react";
@@ -48,6 +49,11 @@ class ClinicResults {
  *   If null or an empty string, it gets all of the clinics.
  * @param {string} [data.searchColumn] The column to search for `searchValue` in. 
  *   Ignored unless `searchValue` is set. If null, all columns are searched.
+ * @param {Boolean} [data.sortByDistance] If set to `true` then the clinics are sorted 
+ * by their distance to the user, `false` by default. If `true` the `locationService` parameter
+ * must be set.
+ * @param {iLocationData} [data.locationService] This is required if `data.sortByDistance` is `true`.
+ * The service provides the users location.
  *
  * @returns {ClinicResults} Object representing the current status of clinic data loading, containing:
  *   @property {ClinicArray | null} `clinicArray`  
@@ -60,9 +66,9 @@ class ClinicResults {
  *      An error message if an error occurred, or `null` if no error.
  */
 export default function useClinicData(
-    data: { clinicService: iClinicData, url?: string, searchValue?: string, searchColumn?: string }
+    data: { clinicService: iClinicData, url?: string, searchValue?: string, searchColumn?: string, sortByDistance?: Boolean, locationService?: iLocationData }
 ): ClinicResults {
-    const { clinicService, url, searchValue, searchColumn } = data;
+    const { clinicService, url, searchValue, searchColumn, sortByDistance, locationService } = data;
     
     const [clinics, setClinics] = useState<ClinicArray | null>(null);
     const [loading, setLoading] = useState(true);
@@ -72,6 +78,7 @@ export default function useClinicData(
 
 
     assert(!(searchColumn && !searchValue), "there should be a search value if their is a search column");
+    assert(!sortByDistance || locationService, "is sortByDistance is true, then there must be a locationService");
 
     // store clinicService in a ref so its reference does not change
     const clinicServiceRef = useRef(clinicService);
@@ -161,8 +168,47 @@ export default function useClinicData(
                     }
                 }
 
-                
 
+                // sort clinics by distance to user if location access is enabled
+                if (sortByDistance && clinicArray && (await locationService!.isEnabled() || await locationService!.requestPermission())) {
+                    const location = await locationService!.getLocation();
+                    clinicArray!.clinics =  clinicArray!.clinics.sort(
+                        (a: Clinic, b: Clinic) => {
+                            // make sure undefined cordinates go to the end of the list
+                            if ((a.latitude == undefined || a.longitude  == undefined) && (b.latitude  == undefined || b.longitude  == undefined)) {
+                                return 0;
+                            }
+                            else if (a.latitude == undefined || a.longitude  == undefined) {
+                                // indicate that `a` is larger than `b`
+                                return 1;
+                            }
+                            else if (b.latitude == undefined || b.longitude  == undefined) {
+                                // indicate that `b` is larger than `a`
+                                return -1;
+                            }
+                            else {
+                                assert(a.latitude! >= -90 && a.latitude! <= 90, "Latitude of `a` must be between -90 and 90 degrees");
+                                assert(a.longitude! >= -180 && a.longitude! <= 180, "Longitude of `a` must be between -180 and 180 degrees");
+                                assert(b.latitude! >= -90 && b.latitude! <= 90, "Latitude of `b` must be between -90 and 90 degrees");
+                                assert(b.longitude! >= -180 && b.longitude! <= 180, "Longitude of `b` must be between -180 and 180 degrees");
+    
+    
+                                const distA = locationService!.compareLocations(location, [a.latitude!, a.longitude!]);
+                                const distB = locationService!.compareLocations(location, [b.latitude!, b.longitude!]);
+    
+    
+    
+    
+                                return distA - distB;
+                            }
+
+
+
+                        }
+                    );
+
+                }
+                
                 setClinics(clinicArray);
 
 

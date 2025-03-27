@@ -14,6 +14,7 @@ import ClinicData from "@/services/clinicDataService";
 import { DISPLAY_CLINIC } from "@/utils/constPaths";
 import logger from "@/utils/logger";
 import { COLOURS } from "@/utils/colours";
+import LocationData from "@/services/locationDataService";
 
 const URL = process.env.EXPO_PUBLIC_CLINIC_LIST_URL;
 
@@ -26,6 +27,8 @@ export default function Page() {
     clinicService: new ClinicData(),
     url: URL,
     searchValue: searchVal,
+    sortByDistance: true,
+    locationService: new LocationData()
   });
 
   const filteredClinics =
