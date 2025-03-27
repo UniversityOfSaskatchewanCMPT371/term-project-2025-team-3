@@ -7,6 +7,50 @@ import useClinicData, { JSON_TIMESTAMP_KEY } from '../clinicData';
 import ClinicEntity from '@/myorm/clinic-entity';
 import iClinicData from '@/interfaces/iClinicData';
 
+const unsortedClinics = [
+  {
+    latitude: 0,
+    longitude: -1,
+    serviceArea: "Area B",
+    name: "Clinic B",
+    address: "Address B",
+    contactInfo: "555-0003",
+    hours: "10 AM - 6 PM",
+    services: ["Service"]
+  },
+  {
+    // undefined coordinates clinic should be pushed to end
+    latitude: undefined,
+    longitude: undefined,
+    serviceArea: "Area C",
+    name: "Clinic C",
+    address: "Address C",
+    contactInfo: "555-0004",
+    hours: "11 AM - 7 PM",
+    services: ["Service"]
+  },
+  {
+    latitude: 0,
+    longitude: 0,
+    serviceArea: "Area A",
+    name: "Clinic A",
+    address: "Address A",
+    contactInfo: "555-0001",
+    hours: "8 AM - 4 PM",
+    services: ["Service"]
+  },
+
+];
+
+const fakeClinicArray = new ClinicArray(unsortedClinics, new Date());
+
+
+
+
+
+
+
+
 const testClinics = [
   {
     latitude: 12.345,
@@ -29,6 +73,7 @@ const testClinics = [
     services: ["Adult"]
   }
 ];
+
   
 const testJson = {
   clinics: testClinics,
@@ -81,6 +126,23 @@ const mockClinicData: jest.Mocked<iClinicData> = {
   getTextColumns: jest.fn(),
   emptyStorage: jest.fn(),
 };
+
+
+
+const fakeLocationService = {
+  isEnabled: jest.fn().mockResolvedValue(true),
+  requestPermission: jest.fn().mockResolvedValue(true),
+  // return user location [0, 0] for testing
+  getLocation: jest.fn().mockResolvedValue([0, 0]),
+  // use simple distance function
+  compareLocations: jest.fn((userLoc: [number, number], clinicLoc: [number, number]) => {
+    const dx = clinicLoc[0] - userLoc[0];
+    const dy = clinicLoc[1] - userLoc[1];
+    return Math.sqrt(dx * dx + dy * dy);
+  }),
+};
+
+
   
 global.fetch = jest.fn();
   
@@ -271,4 +333,60 @@ describe("Unit tests for useClinicData", () => {
     // because local is more recent storeClinics is not called
     expect(mockClinicData.storeClinics).not.toHaveBeenCalled();
   });
+  
+  it("sorts clinics by distance when location is available", async () => {
+    mockClinicData.isStorageEmpty.mockResolvedValue(false);
+    mockClinicData.getClinics.mockResolvedValue(fakeClinicArray);
+    const { result } = renderHook(() =>
+      useClinicData({
+        clinicService: mockClinicData,
+        sortByDistance: true,
+        locationService: fakeLocationService,
+      })
+    );
+
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    const sortedClinics = result.current.clinicArray?.clinics;
+    expect(sortedClinics).toBeDefined();
+
+    // expect A at [0,0] to be first
+    expect(sortedClinics![0].name).toBe("Clinic A");
+    // expect B at [0,-1] to be second
+    expect(sortedClinics![1].name).toBe("Clinic B");
+    // expect C with undefined coordinates should be last
+    expect(sortedClinics![2].name).toBe("Clinic C");
+  });
+
+  it("does not sort clinics by distance if location services are not enabled", async () => {
+    mockClinicData.isStorageEmpty.mockResolvedValue(false);
+    mockClinicData.getClinics.mockResolvedValue(fakeClinicArray);
+    // create fake location service that fails location access
+    const failingLocationService = {
+      isEnabled: jest.fn().mockResolvedValue(false),
+      requestPermission: jest.fn().mockResolvedValue(false),
+      getLocation: jest.fn(),
+      compareLocations: jest.fn(),
+    };
+
+
+    const { result } = renderHook(() =>
+      useClinicData({
+        clinicService: mockClinicData,
+        sortByDistance: true,
+        locationService: failingLocationService,
+      })
+    );
+
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    // the clinics should be in the original order
+    const clinicNames = result.current.clinicArray?.clinics.map(clinic => clinic.name);
+    const unsortedClinicNames = unsortedClinics.map(clinic => clinic.name);
+    
+    expect(clinicNames).toEqual(unsortedClinicNames);
+  });
+  
+
+
+
 });
