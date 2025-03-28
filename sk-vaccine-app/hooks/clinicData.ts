@@ -170,7 +170,7 @@ export default function useClinicData(
 
 
                 // sort clinics by distance to user if location access is enabled
-                if (sortByDistance && clinicArray && (await locationService!.isEnabled() || await locationService!.requestPermission())) {
+                if (sortByDistance && clinicArray && await locationService!.requestPermission()) {
                     const location = await locationService!.getLocation();
                     clinicArray!.clinics =  clinicArray!.clinics.sort(
                         (a: Clinic, b: Clinic) => {
@@ -195,10 +195,6 @@ export default function useClinicData(
     
                                 const distA = locationService!.compareLocations(location, [a.latitude!, a.longitude!]);
                                 const distB = locationService!.compareLocations(location, [b.latitude!, b.longitude!]);
-    
-    
-    
-    
                                 return distA - distB;
                             }
 

@@ -2,9 +2,9 @@ import SquareButton from "@/components/home-square-btn";
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 // eslint-disable-next-line
 import logger from "@/utils/logger";
-import { useNavigation } from "expo-router";
+import { Redirect, useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { PATH_VACCINE_INFO, CLINIC_INFO } from "../utils/constPaths";
+import { PATH_VACCINE_INFO, PATH_CLINIC_INFO, PATH_CLOSEST_CLINIC, PATH_HOME, PATH_DISPLAY_CLINIC } from "../utils/constPaths";
 import React from "react";
 import ClosestClincButton from "@/components/closest-clinic-btn";
 import SettingsButton from "@/components/settings-btn";
@@ -15,6 +15,7 @@ export const CLINIC_BTN_TEXT = "Clinic Info";
 export const BOOKING_BTN_TEXT = "Booking";
 export const RECORDS_BTN_TEXT = "My Records";
 export const VACCINE_BTN_TEXT = "Vaccine Info";
+const URL = process.env.EXPO_PUBLIC_CLINIC_LIST_URL;
 
 /**
  * The home screen of the Sask Immunize app.
@@ -38,6 +39,55 @@ export default function Index() {
     "This is filler text, we could put a fact or something here";
   const timeOfDayText = "Morning";
 
+
+
+
+  // get closest clinic
+  const { clinicArray, loading, serverAccessFailed, error } = useClinicData({
+    clinicService: new ClinicData(),
+    url: URL,
+    sortByDistance: true,
+    locationService: new LocationData()
+  });
+
+
+  let closestClinicButton;
+
+  if (error) {
+    logger.error("Closest clinic failed to load");
+    closestClinicButton = <ClosestClincButton clinicName="Unavailable"/>
+  }
+  else if (!loading) {
+    const filteredClinics =
+    clinicArray?.clinics.filter(
+      (clinic) =>
+        Array.isArray(clinic.services) &&
+        clinic.services.some((service) =>
+          service.toLowerCase().includes("child")
+        )
+    ) || [];
+
+    const closestClinic = filteredClinics[0];
+    closestClinicButton = <ClosestClincButton
+      href={{
+        pathname: PATH_DISPLAY_CLINIC as any,
+        params: { data: JSON.stringify(closestClinic) },
+      }}
+      hours={closestClinic.hours}
+      clinicName={closestClinic.name}
+      address={closestClinic.address}
+    />
+  } else {
+    closestClinicButton = <ClosestClincButton/>
+  }
+
+
+
+
+
+
+
+
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -54,19 +104,19 @@ export default function Index() {
           </Text>
         </View>
         <View style={styles.horizontalContainer}>
-          <ClosestClincButton path={PATH_VACCINE_INFO} />
+          {closestClinicButton}
         </View>
         <View style={styles.horizontalContainer}>
           <View style={styles.btnContainer}>
             <SquareButton
-              path={"/clinic-info"}
+              path={PATH_CLINIC_INFO}
               text={CLINIC_BTN_TEXT}
               style={{ backgroundColor: "#a3caba" }}
             />
           </View>
           <View style={styles.btnContainer}>
             <SquareButton
-              path={"/vaccine-info"}
+              path={PATH_VACCINE_INFO}
               text={VACCINE_BTN_TEXT}
               style={{ backgroundColor: "#C2DAD0" }}
             />
@@ -88,6 +138,9 @@ export default function Index() {
 
 // assert react-native.config.js file is currectly configured
 import fontConf from 'react-native.config.js'
+import ClinicData from "@/services/clinicDataService";
+import useClinicData from "@/hooks/clinicData";
+import LocationData from "@/services/locationDataService";
 console.assert(
   fontConf.assets.includes('./assets/fonts'), 'fonts are not configured correctly'
 );

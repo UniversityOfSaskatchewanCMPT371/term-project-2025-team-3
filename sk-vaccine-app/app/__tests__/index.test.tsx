@@ -4,11 +4,7 @@ import { render, fireEvent } from '@testing-library/react-native';
 import Index, {CLINIC_BTN_TEXT, BOOKING_BTN_TEXT, RECORDS_BTN_TEXT, VACCINE_BTN_TEXT} from '../index';
 
 
-import {
-    PATH_HOME,
-    PATH_VACCINE_INFO,
-    CLINIC_INFO,
-} from '../../utils/constPaths'
+
 
 
 
