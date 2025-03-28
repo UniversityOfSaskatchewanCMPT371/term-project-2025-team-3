@@ -31,6 +31,8 @@ export default function Page() {
     locationService: new LocationData()
   });
 
+  
+
   const filteredClinics =
     clinicArray?.clinics.filter(
       (clinic) =>
