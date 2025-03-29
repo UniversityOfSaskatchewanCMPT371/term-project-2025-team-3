@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import useClinicData from "@/hooks/clinicData";
 import ClinicData from "@/services/clinicDataService";
-import { DISPLAY_CLINIC } from "@/utils/constPaths";
+import { PATH_DISPLAY_CLINIC } from "@/utils/constPaths";
 import logger from "@/utils/logger";
 import { COLOURS } from "@/utils/colours";
 import LocationData from "@/services/locationDataService";
@@ -30,6 +30,8 @@ export default function Page() {
     sortByDistance: true,
     locationService: new LocationData()
   });
+
+  
 
   const filteredClinics =
     clinicArray?.clinics.filter(
@@ -73,7 +75,7 @@ export default function Page() {
                   subtitle={item.serviceArea || ""}
                   text={item.address || ""}
                   bgColor={bgColor}
-                  pathname={DISPLAY_CLINIC}
+                  pathname={PATH_DISPLAY_CLINIC}
                   params={item}
                 />
               </View>

@@ -4,54 +4,56 @@ import { Link, LinkProps } from "expo-router";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 
 interface ClosestClinicBtnProps {
-  path: LinkProps["href"];
+  href?: LinkProps["href"];
+  hours?: string,
+  clinicName?: string
+  address?: string
 }
 
 /**
  * A button that displays information about the closest clinic.
- * @component
+ * @param {LinkProps["href"]} props.href The title of the card  (optional)
+ * @param {string} props.hours The hours the clinic is open (optional)
+ * @param {string} props.clinicName The name of the clinic (optional)
+ * @param {string} props.address The address of the clinic. Only used if the hours are undefined(optional)
  */
-export default function ClosestClinicButton({ path }: ClosestClinicBtnProps) {
-
-  const hours = "1:00pm - 4:00pm"
-  const clinicName = "Our Neighbourhood Health Centre";
-
-
-  return (
-    <Link href={path} asChild>
-      <Pressable style={styles.container}>
-        {/* Left Side: "Your Closest Clinic" & Directions */}
-        <View style={styles.leftContainer}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.clinicTitle}>Your Closest Clinic</Text>
-            <Feather
-              name="chevron-right"
-              size={45}
-              style={{ alignSelf: "flex-end", marginRight: 10 }}
-            />
-          </View>
+export default function ClosestClinicButton({ href, hours, clinicName, address }: ClosestClinicBtnProps) {
+  const ButtonContent = (
+    <Pressable style={styles.container}>
+      {/* Left Side: "Your Closest Clinic" & Directions */}
+      <View style={styles.leftContainer}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.clinicTitle}>Your Closest Clinic</Text>
+          <Feather
+            name="chevron-right"
+            size={45}
+            style={{ alignSelf: 'flex-end', marginRight: 10 }}
+          />
         </View>
+      </View>
 
-        {/* Right Side: Clinic Details */}
-        <View style={styles.rightContainer}>
-          {/*<View style={styles.dateBox}>
-            <Text style={styles.clinicDate}>5</Text>
-            <View>
-              <Text style={styles.clinicDay}>Tuesday</Text>
-              <Text style={styles.clinicMonth}>November</Text>
-            </View>
-          </View>*/}
-          <View style={styles.infoContainer}>
-            <Text style={styles.clinicName}>
-              {clinicName}
-            </Text>
-            <Text style={styles.clinicHours}>
-              <Text style={{ fontWeight: "bold" }}>Hours:{`\n`}</Text>{hours} 
-            </Text>
-          </View>
+      {/* Right Side: Clinic Details */}
+      <View style={styles.rightContainer}>
+        <View style={styles.infoContainer}>
+          <Text style={styles.clinicName}>{clinicName}</Text>
+          <Text style={styles.clinicHours}>
+            {hours ? <Text style={{ fontWeight: 'bold' }}>Hours:{'\n'}</Text> : null}
+            {hours}
+            {(!hours && address) ? <Text style={{ fontWeight: 'bold' }}>Address:{'\n'}</Text> : null}
+            {!hours ? address : null}
+
+          </Text>
         </View>
-      </Pressable>
+      </View>
+    </Pressable>
+  );
+
+  return href ? (
+    <Link href={href} asChild>
+      {ButtonContent}
     </Link>
+  ) : (
+    ButtonContent
   );
 }
 

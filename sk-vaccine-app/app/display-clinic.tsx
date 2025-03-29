@@ -38,20 +38,20 @@ export default function DisplayClinic() {
         <>
             <ScrollView style={styles.container}>
                 <View style={styles.headerCard}>
-                    <Text style={styles.headerTitle}>{clinicName}</Text>
-                    <Text style={styles.headerSubtitle}>{clinicServiceArea}</Text>
+                    <Text style={styles.headerTitle} selectable>{clinicName}</Text>
+                    <Text style={styles.headerSubtitle} selectable>{clinicServiceArea}</Text>
                 </View>
 
                 <View style={styles.infoRow}>
                     <View style={[styles.cardContainer, styles.flexCard, styles.leftCard]}>
                         <Text style={styles.titleText}>Contact Info</Text>
-                        <Text style={styles.bodyText}>{clinicContactInfo}</Text>
+                        <Text style={styles.bodyText} selectable>{clinicContactInfo}</Text>
                     </View>
                     <View style={[styles.cardContainer, styles.flexCard, styles.rightCard]}>
                         <Text style={styles.titleText}>Vaccination Services</Text>
-                        <View style={styles.vaccinationServices}>
+                        <View style={styles.vaccinationServices} >
                             {clinicServices.map((service, index) => (
-                                <Text key={index} style={styles.bodyText}>{service}</Text>
+                                <Text key={index} style={styles.bodyText} selectable>{service}</Text>
                             ))}
                         </View>
                     </View>
@@ -59,12 +59,12 @@ export default function DisplayClinic() {
 
                 <View style={styles.cardContainer}>
                     <Text style={styles.titleText}>Hours of Operation</Text>
-                    <Text style={styles.bodyText}>{clinicHours}</Text>
+                    <Text style={styles.bodyText} selectable>{clinicHours}</Text>
                 </View>
 
                 <View style={styles.cardContainer}>
                     <Text style={styles.titleText}>Clinic Location</Text>
-                    <Text style={styles.bodyText}>{clinicAddress}</Text>
+                    <Text style={styles.bodyText} selectable>{clinicAddress}</Text>
                     <View style={styles.mapContainer}>
 						{
 							/* 
