@@ -6,6 +6,7 @@ import {
   View,
   TextStyle,
 } from "react-native";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { Link, LinkProps } from "expo-router";
 import logger from "@/utils/logger";
 import React from "react";
@@ -74,13 +75,14 @@ const styles = StyleSheet.create({
     color: "black",
     marginHorizontal: 20,
     marginTop: 15,
-    fontSize: 40,
+    fontSize: RFPercentage(4.2),
     fontWeight: "semibold",
     textAlign: "left",
   },
   chevron: {
     marginRight: 10,
     marginBottom: 20,
+    fontSize: RFPercentage(4.5),
     alignSelf: "flex-end", // Moves icon to bottom-right
   },
 });

@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Pressable, Text, View } from "react-native";
 import { Link, LinkProps } from "expo-router";
 import { Feather, FontAwesome } from "@expo/vector-icons";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 interface ClosestClinicBtnProps {
   href?: LinkProps["href"];
@@ -27,7 +28,7 @@ export default function ClosestClinicButton({ href, hours, clinicName, address }
           <Feather
             name="chevron-right"
             size={45}
-            style={{ alignSelf: 'flex-end', marginRight: 10 }}
+            style={{ alignSelf: 'flex-end', marginRight: 10, fontSize: RFPercentage(4.5)}}
           />
         </View>
       </View>
@@ -82,14 +83,14 @@ const styles = StyleSheet.create({
     alignItems: "center", // Aligns them vertically
   },
   clinicTitle: {
-    fontSize: 40,
+    fontSize: RFPercentage(4.2),
     //lineHeight: 38,
     marginBottom: 25,
     fontWeight: "semibold",
   },
 
   directions: {
-    fontSize: 18,
+    fontSize: RFPercentage(2),
     color: "#333",
   },
 
@@ -110,18 +111,18 @@ const styles = StyleSheet.create({
   },
 
   clinicDate: {
-    fontSize: 20,
+    fontSize: RFPercentage(2.2),
     fontWeight: "bold",
     marginRight: 6,
   },
 
   clinicDay: {
-    fontSize: 12,
+    fontSize: RFPercentage(1.5),
     fontWeight: "bold",
   },
 
   clinicMonth: {
-    fontSize: 10,
+    fontSize: RFPercentage(1.4),
     color: "#666",
   },
 
@@ -132,14 +133,14 @@ const styles = StyleSheet.create({
   },
 
   clinicName: {
-    fontSize: 20,
+    fontSize: RFPercentage(2.2),
     fontWeight: "bold",
     textAlign: "center",
-    alignSelf: "flex-start"
+    alignSelf: "center"
   },
 
   clinicHours: {
-    fontSize: 15,
+    fontSize: RFPercentage(1.7),
     textAlign: "center",
   },
 });

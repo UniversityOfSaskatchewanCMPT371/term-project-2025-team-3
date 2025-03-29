@@ -1,5 +1,7 @@
 import { Link } from 'expo-router';
 import React from 'react';
+import { COLOURS } from '@/utils/colours';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -62,12 +64,12 @@ const styles = StyleSheet.create({
     clinicCard: {
         width: '100%',
         maxHeight: 200,
-        backgroundColor: COLORS.WHITE,
+        backgroundColor: COLOURS.WHITE,
         borderRadius: 8,
         paddingVertical: 12,
         paddingHorizontal: 16,
         marginBottom: 16,
-        shadowColor: COLORS.SHADOW_COLOR,
+        shadowColor: COLOURS.SHADOW_COLOR,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,

@@ -2,6 +2,7 @@ import assert from "assert";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
 import { StyleSheet, View, Text, Dimensions } from "react-native";
+import { RFPercentage } from "react-native-responsive-fontsize";
 import Pdf from "react-native-pdf";
 import logger from "@/utils/logger";
 import { VaccineSheet } from "@/interfaces/iVaccineData";
@@ -62,14 +63,14 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   headerTitle: {
-    fontSize: 35,
+    fontSize: RFPercentage(3.6),
     fontWeight: "semibold",
     textDecorationLine: "underline",
     marginBottom: 4,
     color: "#000",
   },
   headerSubtitle: {
-    fontSize: 18,
+    fontSize: RFPercentage(1.9),
     color: "#000",
   },
 });
