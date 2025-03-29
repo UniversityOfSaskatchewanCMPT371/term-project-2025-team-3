@@ -12,25 +12,17 @@ import settingsButton from "@/components/settings-btn";
 import { ScreenHeight } from "react-native-elements/dist/helpers";
 
 const CustomHeader = memo(() => {
-  const saskLogo = require("@/assets/images/NursingLogo.webp");
   /**
-   * Preconditions: Image file (NursingLogo.webp) must be exist in the directory.
-   * Postcondition: the header should contain the logo and the text properly
+   * @postcondition the header should contain the logo and the text properly
    */
   return (
     <View
       style = {styles.headerContainer}
     >
-      <Image
-        source={saskLogo}
-        style={styles.logo}
-      />
-      <Text style = {styles.headerTitle}>Sask</Text>
-      {/* <View style={{alignItems: "flex-start" }}>
-        <Text style={{ fontSize: 15, lineHeight: 20, marginTop: 60, justifyContent: 'center', alignContent: 'center'}}>
-          Sask Vaccine Guide
-        </Text>
-      </View> */}
+    <View>
+      <SettingsButton/>
+    </View>
+
     </View>
   );
 });
@@ -54,10 +46,9 @@ export default function RootLayout() {
   return (
     <Stack
       screenOptions={{
+        header: () => <CustomHeader/>,
         headerRight: () => <SettingsButton />,
         headerStyle: styles.headerStyle,
-        headerTitle: () => <CustomHeader />, // Memoize the header, supposed to prevent updates but I am unsure about that
-        headerTitleAlign: "center",
       }}
     />
   );
@@ -70,28 +61,14 @@ const styles = StyleSheet.create({
     top:0,
     right:0,
     left:0,
-    backgroundColor: '#fff',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignContent: 'center',
     paddingVertical: 5,
     height: ScreenHeight/8,
-    width: '100%',
+    zIndex:100,
+    margin:40,
+    flex:1
 
-  },
-  logo: {
-    width: 250,
-    height: 70,
-    resizeMode: 'contain',
-    margin: 5,
-  },
-  headerTitle: {
-    fontFamily: 'MYRIADPRO-REGULAR',
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#333", 
-    marginTop: -5,
-    textAlign: 'center'
-    
   },
   headerStyle: {
     backgroundColor: '#fff',

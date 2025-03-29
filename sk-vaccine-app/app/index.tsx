@@ -7,11 +7,6 @@ import { useEffect } from "react";
 import { PATH_VACCINE_INFO, CLINIC_INFO } from "../utils/constPaths";
 import React from "react";
 import ClosestClincButton from "@/components/closest-clinic-btn";
-import SettingsButton from "@/components/settings-btn";
-import { updateVaccineSheets } from "@/hooks/vaccineData";
-import VaccineDataController from "@/controllers/vaccineDataController";
-import { VaccineDataService } from "@/services/vaccineDataService";
-
 
 export const CLINIC_BTN_TEXT = "Clinic Info";
 export const BOOKING_BTN_TEXT = "Booking";
@@ -39,10 +34,21 @@ export default function Index() {
   const welcomeText =
     "This is filler text, we could put a fact or something here";
   const timeOfDayText = "Morning";
-
+  const saskLogo = require("@/assets/images/NursingLogo.webp");
+   /**
+   * @precondition Image file (NursingLogo.webp) must be exist in the directory.
+   * @precondition the fonts myriadProRegular and minionProBold must be available in './asserts/fonts'
+   * @precondition react-native.config.js file - must be correctly configured to load fonts
+   * @postcondition fonts must desplyed as desired fonts
+   * @postcondition myriadProRegular must be correctly centerilized
+   */
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Image source={saskLogo}
+        style={styles.logo}
+        />
+        <Text style = {styles.headerTitle}>Usask Immunization Guide</Text>
         <View style={styles.textContainer}>
           <Text 
             style= {styles.minionProBold}
@@ -99,7 +105,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexShrink: 1, // Ensures the ScrollView takes full height
     alignItems: "center",
-    paddingBottom: 20, // Adds space at the bottom to prevent content from being cut off
+    paddingBottom: 25, // Adds space at the bottom to prevent content from being cut off
     gap: 25,
   },
   textContainer: {
@@ -107,14 +113,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center", // Centers text vertically in its container
     flex: 1, // Allows it to take up space to be centered
-    paddingTop: "10%",
-    paddingBottom: "2%",
+    paddingTop: "20%",
+    paddingBottom: "4%",
     alignSelf: "flex-start",
+    marginTop: -50,
   },
   fullWidthContainer: {
     width: "100%", // Make the rectangle button take full width
     paddingHorizontal: 20, // Keep spacing consistent
-    marginBottom: 20,
+    marginBottom: 50,
   },
   container: {
     flexDirection: "row",
@@ -148,8 +155,26 @@ const styles = StyleSheet.create({
   myriadProRegular: {
     fontFamily: 'MYRIADPRO-REGULAR',
     fontSize: 13,
+    textAlign: 'center',
+  },
+  logo: {
+    width: 250,
+    height: 70,
+    resizeMode: 'contain',
+    alignItems: 'center',
+    marginTop: 40,
+    
+  },
+  headerTitle: { //this is just for the first page
+    fontFamily: 'MYRIADPRO-REGULAR',
+    fontSize: 25,
+    fontWeight: "600",
+    color: "#332", 
+    marginTop: -10,
     textAlign: 'center'
-  }
+      
+  },
+  
 });
 
 // Check if the text is centered
