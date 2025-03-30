@@ -1,5 +1,6 @@
 import SquareButton from "@/components/home-square-btn";
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 // eslint-disable-next-line
 import logger from "@/utils/logger";
 import { Redirect, useNavigation } from "expo-router";
@@ -198,7 +199,7 @@ const styles = StyleSheet.create({
   },
   minionProBold: {
     fontFamily: 'MinionPro-Bold',
-    fontSize: 30
+    fontSize: RFPercentage(3.2)
   },
   myriadProRegular: {
     fontFamily: 'MYRIADPRO-REGULAR',
@@ -222,7 +223,6 @@ const styles = StyleSheet.create({
     textAlign: 'center'
       
   },
-  
 });
 
 // Check if the text is centered

@@ -14,17 +14,9 @@ import VaccineDataController from "@/controllers/vaccineDataController";
 import { PATH_DISPLAY_VACCINE } from "@/utils/constPaths";
 import logger from "@/utils/logger";
 import { VaccineDataService } from "@/services/vaccineDataService";
+import { COLOURS } from "@/utils/colours";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
-const COLORS = {
-  WHITE: "#FFFFFF",
-  GREY: "#808080",
-  RED: "#FF0000",
-  ODD_VACCINE: "#C2DAD0",
-  EVEN_VACCINE: "#E7F0EC",
-  PRIMARY_TEXT: "#333333",
-  BANNER_BG: "#B7D4CB",
-  SEARCHBAR_BG: "#EFE8EE",
-};
 
 export default function Page() {
   const [searchVal, setSearchVal] = useState("");
@@ -60,8 +52,7 @@ export default function Page() {
         <FlatList
           data={vaccineSheets}
           renderItem={({ item, index }) => {
-            const bgColor =
-              index % 2 ? COLORS.ODD_VACCINE : COLORS.EVEN_VACCINE;
+            const bgColor = index % 2 ? COLOURS.WHITE : COLOURS.LIGHT_GREY;
             logger.debug(`Pdf path ${item.pdfPath}`);
             return (
               <View style={{ marginTop: 16 }}>
@@ -88,36 +79,36 @@ export default function Page() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.WHITE,
+    backgroundColor: COLOURS.WHITE,
   },
   clinicListSection: {
     flex: 1,
     marginHorizontal: 3,
     paddingHorizontal: 16,
     fontFamily: "Arial",
-    color: COLORS.PRIMARY_TEXT,
+    color: COLOURS.BLACK,
   },
   clinicListBanner: {
-    backgroundColor: COLORS.BANNER_BG,
+    backgroundColor: COLOURS.WHITE,
     padding: 16,
     borderRadius: 4,
     marginTop: 16,
   },
   clinicListHeading: {
     margin: 0,
-    fontSize: 32,
+    fontSize: RFPercentage(3.5),
     textDecorationLine: "underline",
     fontWeight: "bold",
-    color: COLORS.PRIMARY_TEXT,
+    color: COLOURS.BLACK,
   },
   clinicListSubheading: {
     marginTop: 8,
-    fontSize: 18,
+    fontSize: RFPercentage(2),
     lineHeight: 22,
-    color: COLORS.PRIMARY_TEXT,
+    color: COLOURS.BLACK,
   },
   searchBarWrapper: {
-    backgroundColor: COLORS.SEARCHBAR_BG,
+    backgroundColor: COLOURS.SEARCHBAR_BG,
     borderRadius: 24,
     marginVertical: 16,
     paddingVertical: 8,
@@ -127,9 +118,9 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   offline: {
-    color: COLORS.GREY,
+    color: COLOURS.GREY,
   },
   error: {
-    color: COLORS.RED,
+    color: COLOURS.STATUS_RED,
   },
 });

@@ -9,6 +9,7 @@ import {
     View,
     ScrollView,
 } from 'react-native';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 const COLORS = {
     CONTAINER_BG: '#f8f8f8',
@@ -122,7 +123,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginHorizontal: 20,
-        marginBottom: 16,
     },
     flexCard: {
         flex: 1,
@@ -135,24 +135,24 @@ const styles = StyleSheet.create({
         marginLeft: 8,
     },
     headerTitle: {
-        fontSize: 28,
+        fontSize: RFPercentage(3),
         fontWeight: 'bold',
         marginBottom: 8,
         color: COLORS.TEXT_PRIMARY,
     },
     headerSubtitle: {
-        fontSize: 24,
+        fontSize: RFPercentage(2.6),
         color: COLORS.TEXT_SUBTITLE,
         marginBottom: 4,
     },
     titleText: {
-        fontSize: 24,
+        fontSize: RFPercentage(2.6),
         fontWeight: 'bold',
         marginBottom: 6,
         color: COLORS.TEXT_PRIMARY,
     },
     bodyText: {
-        fontSize: 20,
+        fontSize: RFPercentage(1.9),
         marginBottom: 12,
         color: COLORS.TEXT_PRIMARY,
     },
