@@ -15,6 +15,7 @@ import { PATH_DISPLAY_CLINIC } from "@/utils/constPaths";
 import logger from "@/utils/logger";
 import { COLOURS } from "@/utils/colours";
 import LocationData from "@/services/locationDataService";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 const URL = process.env.EXPO_PUBLIC_CLINIC_LIST_URL;
 
@@ -28,10 +29,8 @@ export default function Page() {
     url: URL,
     searchValue: searchVal,
     sortByDistance: true,
-    locationService: new LocationData()
+    locationService: new LocationData(),
   });
-
-  
 
   const filteredClinics =
     clinicArray?.clinics.filter(
@@ -60,13 +59,12 @@ export default function Page() {
           </View>
         </View>
 
-
         {loading && !error && <ActivityIndicator size="large" />}
 
         <FlatList
           data={filteredClinics}
           renderItem={({ item, index }) => {
-            const bgColor = index % 2 ? COLOURS.LIGHT_GREY : COLOURS.WHITE;
+            const bgColor = index % 2 ? COLOURS.WHITE : COLOURS.LIGHT_GREY;
             return (
               <View style={{ marginTop: 16 }}>
                 <ClinicCard
@@ -109,14 +107,14 @@ const styles = StyleSheet.create({
   },
   clinicListHeading: {
     margin: 0,
-    fontSize: 32,
+    fontSize: RFPercentage(3.5),
     textDecorationLine: "underline",
     fontWeight: "bold",
     color: COLOURS.BLACK,
   },
   clinicListSubheading: {
     marginTop: 8,
-    fontSize: 18,
+    fontSize: RFPercentage(2),
     lineHeight: 22,
     color: COLOURS.BLACK,
   },
@@ -136,5 +134,4 @@ const styles = StyleSheet.create({
   error: {
     color: COLOURS.STATUS_RED,
   },
-
 });

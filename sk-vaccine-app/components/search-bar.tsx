@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SearchBar as defaultSearchBar } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 const COLORS = {
     containerBackground: '#EAE8F1',
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
         height: 40,
     },
     input: {
-        fontSize: 16,
+        fontSize: RFPercentage(2),
         color: COLORS.placeholderText,
         padding: 0,
         margin: 0,
