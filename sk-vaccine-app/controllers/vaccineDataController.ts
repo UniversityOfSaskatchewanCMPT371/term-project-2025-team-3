@@ -46,7 +46,10 @@ class VaccineDataController implements iVaccineDataController {
           logger.info(`vaccineListUpToDate returned: ${upToDate}`);
           if (!upToDate) {
             logger.info("Updating vaccine list...");
-            return this.updateVaccineList().then(() => true); // Ensure update completes
+            await this.updateVaccineList();
+            // Wait for half a second for the db to insert
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            return true;
           }
           return false; // No update needed
         })
@@ -83,6 +86,7 @@ class VaccineDataController implements iVaccineDataController {
                 logger.error(
                   `Error updating PDFs for product ${vaccine.productId}: ${error}`
                 );
+
                 throw new PDFUpdateError(vaccine.productId);
               }
             })
@@ -129,9 +133,11 @@ class VaccineDataController implements iVaccineDataController {
       await this.vaccineDataService.storeVaccineListVersionLocal(
         vaccineList.version
       );
-      return await this.vaccineDataService.storeVaccineListLocal(
+      const toDelete = await this.vaccineDataService.checkExistingVaccines(
         vaccineList.vaccines
       );
+      await this.vaccineDataService.deleteVaccines(toDelete);
+      await this.vaccineDataService.storeVaccineListLocal(vaccineList.vaccines);
     } catch (error: any) {
       logger.error(`Error updating vaccine list: ${error.message}`);
     }
