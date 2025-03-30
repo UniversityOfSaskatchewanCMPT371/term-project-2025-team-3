@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useUpdateVaccineSheets, useVaccineSheets } from "@/hooks/vaccineData";
 import VaccineDataController from "@/controllers/vaccineDataController";
-import { DISPLAY_VACCINE } from "@/utils/constPaths";
+import { PATH_DISPLAY_VACCINE } from "@/utils/constPaths";
 import logger from "@/utils/logger";
 import { VaccineDataService } from "@/services/vaccineDataService";
 
@@ -62,6 +62,7 @@ export default function Page() {
           renderItem={({ item, index }) => {
             const bgColor =
               index % 2 ? COLORS.ODD_VACCINE : COLORS.EVEN_VACCINE;
+            logger.debug(`Pdf path ${item.pdfPath}`);
             return (
               <View style={{ marginTop: 16 }}>
                 <ClinicCard
@@ -69,7 +70,7 @@ export default function Page() {
                   title={item.vaccineName}
                   subtitle={item.starting}
                   bgColor={bgColor}
-                  pathname={DISPLAY_VACCINE}
+                  pathname={PATH_DISPLAY_VACCINE}
                   params={item}
                   text={""}
                 />
@@ -95,7 +96,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     fontFamily: "Arial",
     color: COLORS.PRIMARY_TEXT,
-    boxSizing: "border-box",
   },
   clinicListBanner: {
     backgroundColor: COLORS.BANNER_BG,

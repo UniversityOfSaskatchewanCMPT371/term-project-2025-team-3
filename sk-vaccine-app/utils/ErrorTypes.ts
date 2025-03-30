@@ -36,7 +36,7 @@ export class LocationAccessError extends MyError {
 export class PDFDownloadError extends Error {
   product_id: number;
 
-  constructor(product_id: number, message = "Unable to download PDF.") {
+  constructor(product_id: number, message = "Unable to download PDF. ") {
     super(message);
     this.name = "PDFDownloadError";
     this.product_id = product_id;
@@ -80,3 +80,14 @@ export class NoInternetError extends Error {
     this.name = "NoInternetError";
   }
 }
+
+  export class FetchError extends Error {
+    url: string;
+    constructor(url: string, message = "Problem pulling data from URL") {
+      super(message);
+      this.name = "FetchError";
+      this.url = url;
+    }
+  }
+
+

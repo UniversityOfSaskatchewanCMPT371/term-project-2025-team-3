@@ -3,8 +3,10 @@ import {
   VaccineListResponse,
   VaccinePDFData,
   VaccineSheet,
+  VaccineQueryResult,
 } from "@/interfaces/iVaccineData";
 import VaccineEntity from "@/myorm/vaccine-entity";
+import * as FileSystem from "expo-file-system";
 import {
   PDFUpdateError,
   VaccineListVersionError,
@@ -25,7 +27,8 @@ class VaccineDataController implements iVaccineDataController {
    * PDFs are also checked to ensure they are up to date. Depending on these
    * checks all are updated
    *
-   * This requires internet connectivity and a check WILL be in place
+   * @precondition This requires internet connectivity
+   * @precondition The remote vaccine list must exist
    *
    *
    * @returns
@@ -39,7 +42,7 @@ class VaccineDataController implements iVaccineDataController {
   }> {
     try {
       return this.vaccineListUpToDate()
-        .then((upToDate) => {
+        .then(async (upToDate) => {
           logger.info(`vaccineListUpToDate returned: ${upToDate}`);
           if (!upToDate) {
             logger.info("Updating vaccine list...");
@@ -47,51 +50,50 @@ class VaccineDataController implements iVaccineDataController {
           }
           return false; // No update needed
         })
-        .then(() => this.vaccineDataService.compareExternalPDFs()) // Ensure updated list is used
-        .then((pdfs) =>
-          Promise.allSettled(
-            pdfs.map((vaccine: VaccinePDFData) =>
-              (async () => {
-                try {
-                  if (vaccine.english?.formatId) {
-                    await this.vaccineDataService.downloadVaccinePDF(
-                      vaccine.productId,
-                      vaccine.english.formatId
-                    );
-                  }
-                  if (vaccine.french?.formatId) {
-                    await this.vaccineDataService.downloadVaccinePDF(
-                      vaccine.productId,
-                      vaccine.french.formatId
-                    );
-                  }
-                  if (vaccine.english || vaccine.french) {
-                    await this.vaccineDataService.updateLocalPDFFilenames(
-                      vaccine.productId,
-                      vaccine.english?.filename,
-                      vaccine.french?.filename
-                    );
-                  }
-                } catch (error) {
-                  logger.error(
-                    `Error updating PDFs for product ${vaccine.productId}`
+        .then(async () => {
+          return await this.vaccineDataService.compareExternalPDFs();
+        })
+        .then((pdfs) => {
+          //logger.debug("VaccineDataController, updateVaccines: pdfs to check",pdfs);
+          return Promise.allSettled(
+            pdfs.map(async (vaccine: VaccinePDFData) => {
+              try {
+                if (vaccine.english?.formatId) {
+                  await this.vaccineDataService.downloadVaccinePDF(
+                    vaccine.productId,
+                    vaccine.english.formatId
                   );
-                  throw new PDFUpdateError(vaccine.productId);
                 }
-              })()
-            )
-          )
-        )
+                if (vaccine.french?.formatId) {
+                  await this.vaccineDataService.downloadVaccinePDF(
+                    vaccine.productId,
+                    vaccine.french.formatId
+                  );
+                }
+                if (vaccine.english || vaccine.french) {
+                  await this.vaccineDataService.updateLocalPDFFilenames(
+                    vaccine.productId,
+                    vaccine.english?.filename,
+                    vaccine.french?.filename,
+                    vaccine.english?.formatId,
+                    vaccine.french?.formatId
+                  );
+                }
+              } catch (error) {
+                logger.error(
+                  `Error updating PDFs for product ${vaccine.productId}: ${error}`
+                );
+                throw new PDFUpdateError(vaccine.productId);
+              }
+            })
+          );
+        })
         .then((pdfsToUpdate) => {
           const errors = pdfsToUpdate.filter(
             (result) => result.status === "rejected"
           );
           const successes = pdfsToUpdate.filter(
             (result) => result.status === "fulfilled"
-          );
-
-          errors.forEach((err) =>
-            logger.error(`PDF update failed: ${err.reason.message}`)
           );
 
           return {
@@ -113,11 +115,11 @@ class VaccineDataController implements iVaccineDataController {
   /**
    * Gets the remote vaccine list, updates the local version and local list
    *
-   * Pre Condiitons:
-   *      - The vaccine datatable must exist.
-   *      - There must be internet connectivity.
-   * Post Condiitons:
-   *      This modifies the vaccine datatable, updating each altered row.
+
+   * @precondition The vaccine datatable must exist.
+   * @precondition There must be internet connectivity.
+   *
+   * @postcondition This modifies the vaccine datatable, updating each altered row.
    *
    */
   protected async updateVaccineList() {
@@ -127,7 +129,9 @@ class VaccineDataController implements iVaccineDataController {
       await this.vaccineDataService.storeVaccineListVersionLocal(
         vaccineList.version
       );
-      await this.vaccineDataService.storeVaccineListLocal(vaccineList.vaccines);
+      return await this.vaccineDataService.storeVaccineListLocal(
+        vaccineList.vaccines
+      );
     } catch (error: any) {
       logger.error(`Error updating vaccine list: ${error.message}`);
     }
@@ -136,8 +140,7 @@ class VaccineDataController implements iVaccineDataController {
   /**
    * Checks if the local vaccine list is up to date with the remote one.
    *
-   * Pre Conditions:
-   *      - There must be interet connectivity
+   * @precondition There must be interet connectivity
    *
    *
    * @returns A promise containing a boolean value. True if the list is
@@ -169,20 +172,33 @@ class VaccineDataController implements iVaccineDataController {
    */
   async searchVaccines(
     input?: string,
-    field?: string
+    field?: string,
+    language: "english" | "french" = "english"
   ): Promise<VaccineSheet[]> {
     // TODO implement checking of language with settings page;
     try {
       if (field) {
-        return (await this.vaccineDataService.vaccineQuery(
-          input,
-          "english",
-          field
-        )) as VaccineSheet[];
+        return (
+          await this.vaccineDataService.vaccineQuery(language, input, field)
+        ).map((element: VaccineQueryResult) => {
+          return {
+            pdfPath: `${FileSystem.documentDirectory}vaccinePdfs/${element.productId}/${element.formatId}.pdf`, // Properly assigning formatId
+            associatedDiseases: element.associatedDiseases,
+            starting: element.starting,
+            vaccineName: element.vaccineName,
+          };
+        }) as VaccineSheet[];
       } else {
-        return (await this.vaccineDataService.vaccineQuery(
-          input
-        )) as VaccineSheet[];
+        return (
+          await this.vaccineDataService.vaccineQuery(language, input)
+        ).map((element: VaccineQueryResult) => {
+          return {
+            pdfPath: `${FileSystem.documentDirectory}vaccinePdfs/${element.productId}/${element.formatId}.pdf`, // Properly assigning formatId
+            associatedDiseases: element.associatedDiseases,
+            starting: element.starting,
+            vaccineName: element.vaccineName,
+          };
+        }) as VaccineSheet[];
       }
     } catch (error) {
       logger.error(

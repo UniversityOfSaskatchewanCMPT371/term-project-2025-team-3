@@ -1,3 +1,13 @@
+jest.mock("expo-sqlite", () => ({
+  openDatabaseSync: jest.fn().mockReturnValue({
+    execAsync: jest.fn(),
+    getAllAsync: jest.fn(),
+    getFirstAsync: jest.fn(),
+    runAsync: jest.fn(),
+    execSync: jest.fn(),
+    getAllSync: jest.fn(),
+  } as unknown as SQLite.SQLiteDatabase),
+}));
 import { InvalidEntityError } from "@/utils/ErrorTypes";
 import BaseEntity from "../base-entity";
 import * as SQLite from 'expo-sqlite';

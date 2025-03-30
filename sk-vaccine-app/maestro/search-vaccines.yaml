@@ -1,0 +1,11 @@
+appId: com.skvaccineapplicationproject.skvaccineapp
+---
+- launchApp
+- assertVisible: "Clinic Info"
+- assertVisible: "VaccineInfo"
+- assertVisible: "Your Closest Clinic"
+- tapOn: "Vaccine Info"
+- tapOn: "Search"
+- inputText: "Rotavirus"
+- assertVisible: "Rotavirus"
+- hideKeyboard

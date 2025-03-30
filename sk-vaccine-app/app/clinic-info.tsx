@@ -11,9 +11,10 @@ import {
 } from "react-native";
 import useClinicData from "@/hooks/clinicData";
 import ClinicData from "@/services/clinicDataService";
-import { DISPLAY_CLINIC } from "@/utils/constPaths";
+import { PATH_DISPLAY_CLINIC } from "@/utils/constPaths";
 import logger from "@/utils/logger";
 import { COLOURS } from "@/utils/colours";
+import LocationData from "@/services/locationDataService";
 
 const URL = process.env.EXPO_PUBLIC_CLINIC_LIST_URL;
 
@@ -26,7 +27,11 @@ export default function Page() {
     clinicService: new ClinicData(),
     url: URL,
     searchValue: searchVal,
+    sortByDistance: true,
+    locationService: new LocationData()
   });
+
+  
 
   const filteredClinics =
     clinicArray?.clinics.filter(
@@ -41,7 +46,7 @@ export default function Page() {
     <SafeAreaView style={styles.container}>
       <View style={styles.clinicListSection}>
         <View style={styles.clinicListBanner}>
-          <Text style={styles.clinicListHeading}>Clinic List</Text>
+          <Text style={styles.clinicListHeading}>Clinics</Text>
           <Text style={styles.clinicListSubheading}>
             Clinics offering vaccinations intended for persons under 18 years of
             age
@@ -51,7 +56,7 @@ export default function Page() {
           )}
           {error && <Text style={styles.error}>{error}</Text>}
           <View style={styles.searchBarWrapper}>
-            <SearchBar onSubmitEditing={setSearchVal} />
+            <SearchBar onChangeText={setSearchVal} />
           </View>
         </View>
 
@@ -70,7 +75,7 @@ export default function Page() {
                   subtitle={item.serviceArea || ""}
                   text={item.address || ""}
                   bgColor={bgColor}
-                  pathname={DISPLAY_CLINIC}
+                  pathname={PATH_DISPLAY_CLINIC}
                   params={item}
                 />
               </View>
@@ -95,7 +100,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     fontFamily: "Arial",
     color: COLOURS.BLACK,
-    boxSizing: "border-box",
   },
   clinicListBanner: {
     backgroundColor: COLOURS.WHITE,
@@ -132,4 +136,5 @@ const styles = StyleSheet.create({
   error: {
     color: COLOURS.STATUS_RED,
   },
+
 });

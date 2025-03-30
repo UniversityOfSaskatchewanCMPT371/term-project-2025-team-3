@@ -8,9 +8,20 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
+    "coverage": "jest --coverage",
     "lint": "expo lint",
     "prepare": "cd .. && husky sk-vaccine-app/.husky"
+  },
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "react-native-responsive-fontsize",
+          "sqlite3"
+        ]
+      }
+    }
   },
   "jest": {
     "preset": "jest-expo",
@@ -28,6 +39,7 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@react-native-async-storage/async-storage": "^2.1.1",
+    "@react-native-community/progress-bar-android": "^1.0.5",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
     "@types/date-fns": "^2.5.3",
@@ -40,6 +52,7 @@
     "expo-constants": "~17.0.4",
     "expo-crypto": "~14.0.2",
     "expo-dev-client": "~5.0.10",
+    "expo-document-picker": "^13.0.3",
     "expo-font": "~13.0.3",
     "expo-haptics": "~14.0.1",
     "expo-linking": "~7.0.4",
@@ -57,6 +70,7 @@
     "react": "^18.3.1",
     "react-dom": "18.3.1",
     "react-native": "^0.76.6",
+    "react-native-blob-util": "^0.21.2",
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-logs": "^5.3.0",
@@ -69,6 +83,7 @@
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
+    "sqlite": "^5.1.1",
     "ts-assert": "^1.0.0"
   },
   "devDependencies": {
@@ -77,6 +92,7 @@
     "@types/react": "~18.3.12",
     "@types/react-native": "^0.72.8",
     "@types/react-test-renderer": "^18.3.0",
+    "@types/sqlite3": "^3.1.11",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "babel-preset-expo": "^12.0.6",
     "eslint": "^8.57.0",
@@ -86,7 +102,9 @@
     "react-test-renderer": "18.3.1",
     "reflect-metadata": "^0.2.2",
     "rimraf": "^6.0.1",
-    "typedoc": "^0.27.7",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
+    "typedoc-github-theme": "^0.2.1",
     "typescript": "^5.7.3"
   },
   "private": true

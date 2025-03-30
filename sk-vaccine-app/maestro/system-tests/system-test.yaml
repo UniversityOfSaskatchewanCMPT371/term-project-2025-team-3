@@ -23,7 +23,7 @@ appId: com.skvaccineapplicationproject.skvaccineapp
 - assertVisible: "100 Elgin St Balcarres SK S0G 0C0"
 - assertVisible: "Lavoie St."
 - back
-
+# testing search bar
 - tapOn: "Vaccine Info"
 - assertVisible: "Search"
 - assertVisible: "DTaP-IPV-Hib"
@@ -35,6 +35,25 @@ appId: com.skvaccineapplicationproject.skvaccineapp
 - assertVisible: "Search"
 - assertVisible: "DTaP-IPV-Hib"
 - back
-
-
-
+# testing the pdf for the vaccines
+- tapOn: "Vaccine Info"
+- tapOn: "Rotavirus"
+- assertVisible: "Starting Age/Grade"
+- assertVisible: "HealthLine"
+- assertVisible: "Rotavirus Vaccine"
+- back
+- tapOn: "Pneumococcal Conjugate 15"
+- assertVisible: "Starting Age/Grade"
+- assertVisible: "Saskatchewan"
+- back
+- back
+- tapOn: "Clinic Info"
+- tapOn: "Beauval Health Centre"
+- assertVisible: "Contact Info"
+- assertVisible: "Vaccination Services"
+- assertVisible: "Hours of Operation"
+- assertVisible: "Clinic Location"
+  # making sure map opens correctly
+- tapOn: "View larger map"
+- assertVisible: "Open now"
+- assertVisible: "5.0"

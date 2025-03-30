@@ -39,18 +39,15 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-sqlite"
-    ],
-    "expo": {
-      "plugins": [
-        [
-          "expo-location",
-          {
-            "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
-          }
-        ]
+      "expo-sqlite",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "We need your location to provide personalized content."
+        }
       ]
-    },
+      
+    ],
     "experiments": {
       "typedRoutes": true
     },

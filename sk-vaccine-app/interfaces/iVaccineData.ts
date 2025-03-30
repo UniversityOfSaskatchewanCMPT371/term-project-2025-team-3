@@ -11,6 +11,17 @@ export type VaccineSheet = {
   starting: string;
 };
 
+export type VaccineQueryResult = {
+  vaccineName: string;
+  associatedDiseases: string[];
+  formatId: string;
+  productId: string;
+  /**
+   * @field starting: This could be age or grade
+   */
+  starting: string;
+};
+
 /**
  * Used when updating filename and checking for differences
  */
@@ -125,13 +136,18 @@ export interface iVaccineDataService {
    * updated to reflect multiple options
    * @param language The language to query for, defaults to "english" if no
    * value is provided
+   * @param order The sorting order for the results
    * @return A list of responses from the
    */
   vaccineQuery(
-    input: string,
     language: "english" | "french",
-    field?: string
-  ): Promise<VaccineSheet[]>;
+    input?: string,
+    searchColumn?: string,
+    order?: {
+      ascending: true | false;
+      column: "vaccineName" | "associatedDiseases" | "starting";
+    }
+  ): Promise<VaccineQueryResult[]>;
 }
 
 export interface iVaccineDataController {

@@ -63,7 +63,7 @@ export function useVaccineSheets(data: {
     fetchResults();
   }, [searchValue]);
 
-  logger.debug("useVaccineSheets -> vaccineSheets:", vaccineSheets);
+  //logger.debug("useVaccineSheets -> vaccineSheets:", vaccineSheets[0].associatedDiseases);
   logger.debug("useVaccineSheets -> loading:", loading);
   logger.debug("useVaccineSheets -> error:", error);
   logger.debug("useVaccineSheets -> fetchResults:", fetchResults);
@@ -80,7 +80,10 @@ export function useVaccineSheets(data: {
 
 /**
  *
- *
+ * Updates the vaccine sheets as well as the vaccine list. This is run when the
+ * application starts up.
+ * 
+ * @precondition There is an internet conneciton (checked within this function)
  *
  * @param {iVaccineDataController} vaccineController The interface to use to access the vaccine data.
  * @returns {Object}
