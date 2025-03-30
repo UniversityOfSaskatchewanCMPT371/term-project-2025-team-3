@@ -5,12 +5,16 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import logger from "@/utils/logger";
 import { Redirect, useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { PATH_VACCINE_INFO, PATH_CLINIC_INFO, PATH_CLOSEST_CLINIC, PATH_HOME, PATH_DISPLAY_CLINIC } from "../utils/constPaths";
+import {
+  PATH_VACCINE_INFO,
+  PATH_CLINIC_INFO,
+  PATH_CLOSEST_CLINIC,
+  PATH_HOME,
+  PATH_DISPLAY_CLINIC,
+} from "../utils/constPaths";
 import React from "react";
 import ClosestClincButton from "@/components/closest-clinic-btn";
 import SettingsButton from "@/components/settings-btn";
-
-
 
 export const CLINIC_BTN_TEXT = "Clinic Info";
 export const BOOKING_BTN_TEXT = "Booking";
@@ -29,84 +33,61 @@ const URL = process.env.EXPO_PUBLIC_CLINIC_LIST_URL;
  
  */
 export default function Index() {
-
-
-
   const navigation = useNavigation();
   useEffect(() => {
     navigation.setOptions({ headerShown: true });
   }, [navigation]);
   const welcomeText =
     "This is filler text, we could put a fact or something here";
-  const timeOfDayText = "Morning";
-
-
-
+  const timeOfDayText = useDayParts();
 
   // get closest clinic
   const { clinicArray, loading, serverAccessFailed, error } = useClinicData({
     clinicService: new ClinicData(),
     url: URL,
     sortByDistance: true,
-    locationService: new LocationData()
+    locationService: new LocationData(),
   });
-
 
   let closestClinicButton;
 
   if (error) {
     logger.error("Closest clinic failed to load");
-    closestClinicButton = <ClosestClincButton clinicName="Unavailable"/>
-  }
-  else if (!loading) {
+    closestClinicButton = <ClosestClincButton clinicName="Unavailable" />;
+  } else if (!loading) {
     const filteredClinics =
-    clinicArray?.clinics.filter(
-      (clinic) =>
-        Array.isArray(clinic.services) &&
-        clinic.services.some((service) =>
-          service.toLowerCase().includes("child")
-        )
-    ) || [];
+      clinicArray?.clinics.filter(
+        (clinic) =>
+          Array.isArray(clinic.services) &&
+          clinic.services.some((service) =>
+            service.toLowerCase().includes("child")
+          )
+      ) || [];
 
     const closestClinic = filteredClinics[0];
-    closestClinicButton = <ClosestClincButton
-      href={{
-        pathname: PATH_DISPLAY_CLINIC as any,
-        params: { data: JSON.stringify(closestClinic) },
-      }}
-      hours={closestClinic.hours}
-      clinicName={closestClinic.name}
-      address={closestClinic.address}
-    />
+    closestClinicButton = (
+      <ClosestClincButton
+        href={{
+          pathname: PATH_DISPLAY_CLINIC as any,
+          params: { data: JSON.stringify(closestClinic) },
+        }}
+        hours={closestClinic.hours}
+        clinicName={closestClinic.name}
+        address={closestClinic.address}
+      />
+    );
   } else {
-    closestClinicButton = <ClosestClincButton/>
+    closestClinicButton = <ClosestClincButton />;
   }
-
-
-
-
-
-
-
 
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.textContainer}>
-          <Text 
-            style= {styles.minionProBold}
-          >
-            Good {timeOfDayText},
-          </Text>
-          <Text
-            style={styles.myriadProRegular}
-          >
-            {welcomeText}
-          </Text>
+          <Text style={styles.minionProBold}>Good {timeOfDayText},</Text>
+          <Text style={styles.myriadProRegular}>{welcomeText}</Text>
         </View>
-        <View style={styles.horizontalContainer}>
-          {closestClinicButton}
-        </View>
+        <View style={styles.horizontalContainer}>{closestClinicButton}</View>
         <View style={styles.horizontalContainer}>
           <View style={styles.btnContainer}>
             <SquareButton
@@ -124,7 +105,6 @@ export default function Index() {
           </View>
         </View>
       </ScrollView>
-
     </View>
   );
 }
@@ -138,14 +118,15 @@ export default function Index() {
  */
 
 // assert react-native.config.js file is currectly configured
-import fontConf from 'react-native.config.js'
+import fontConf from "react-native.config.js";
 import ClinicData from "@/services/clinicDataService";
 import useClinicData from "@/hooks/clinicData";
 import LocationData from "@/services/locationDataService";
+import { useDayParts } from "@/hooks/welcomeData";
 console.assert(
-  fontConf.assets.includes('./assets/fonts'), 'fonts are not configured correctly'
+  fontConf.assets.includes("./assets/fonts"),
+  "fonts are not configured correctly"
 );
-
 
 const styles = StyleSheet.create({
   scrollContainer: {
@@ -194,20 +175,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   minionProBold: {
-    fontFamily: 'MinionPro-Bold',
-    fontSize: RFPercentage(3.2)
+    fontFamily: "MinionPro-Bold",
+    fontSize: RFPercentage(3.2),
   },
   myriadProRegular: {
-    fontFamily: 'MYRIADPRO-REGULAR',
+    fontFamily: "MYRIADPRO-REGULAR",
     fontSize: RFPercentage(2),
-    textAlign: 'center',
+    textAlign: "center",
     paddingHorizontal: "10%",
-  }
+  },
 });
 
 // Check if the text is centered
 const textElement = styles.myriadProRegular;
 console.assert(
-  textElement.textAlign === 'center',
-  'text is not centered properly.'
+  textElement.textAlign === "center",
+  "text is not centered properly."
 );
