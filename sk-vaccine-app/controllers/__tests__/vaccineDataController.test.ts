@@ -357,7 +357,7 @@ describe("VaccineDataController MockDB Tests", () => {
 
     it("should update the vaccine list successfully", async () => {
       const mockVaccineList = {
-        version: "1",
+        timestamp: 1743273741,
         vaccines: [
           {
             vaccineName: "DTaP-IPV-Hib",
