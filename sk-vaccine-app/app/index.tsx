@@ -5,6 +5,7 @@ import fontConf from "react-native.config.js";
 import ClinicData from "@/services/clinicDataService";
 import useClinicData from "@/hooks/clinicData";
 import LocationData from "@/services/locationDataService";
+import { COLOURS } from "@/utils/colours";
 import { useDayParts, useWelcomeFact } from "@/hooks/welcomeData";
 // eslint-disable-next-line
 import logger from "@/utils/logger";
@@ -19,8 +20,9 @@ import {
 } from "../utils/constPaths";
 import React from "react";
 import ClosestClincButton from "@/components/closest-clinic-btn";
-import SettingsButton from "@/components/settings-btn";
+
 import { WelcomeFactController } from "@/controllers/welcomeFactController";
+=======
 
 export const CLINIC_BTN_TEXT = "Clinic Info";
 export const BOOKING_BTN_TEXT = "Booking";
@@ -47,6 +49,16 @@ export default function Index() {
   const welcomeFact = useWelcomeFact(new WelcomeFactController());
 
   const timeOfDayText = useDayParts();
+
+  const saskLogo = require("@/assets/images/NursingLogo.webp");
+  /**
+   * @precondition Image file (NursingLogo.webp) must be exist in the directory.
+   * @precondition the fonts myriadProRegular and minionProBold must be available in './asserts/fonts'
+   * @precondition react-native.config.js file - must be correctly configured to load fonts
+   * @postcondition fonts must desplyed as desired fonts
+   * @postcondition myriadProRegular must be correctly centerilized
+   */
+
 
   // get closest clinic
   const { clinicArray, loading, serverAccessFailed, error } = useClinicData({
@@ -89,9 +101,15 @@ export default function Index() {
 
   return (
     <View style={{ flex: 1 }}>
+      <View style={styles.header}>
+        <Image source={saskLogo} style={styles.logo} />
+        <Text style={styles.headerTitle}>Usask Immunization Guide</Text>
+      </View>
+
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.textContainer}>
           <Text style={styles.minionProBold}>Good {timeOfDayText},</Text>
+
           <Text style={styles.myriadProRegular}>Did you know that</Text>
           <Text style={styles.myriadProRegular}>{welcomeFact}</Text>
         </View>
@@ -133,10 +151,21 @@ console.assert(
 );
 
 const styles = StyleSheet.create({
+  header: {
+    alignItems: "center",
+    backgroundColor: COLOURS.WHITE,
+    paddingBottom: 15,
+    borderBottomWidth: 0,  // Border thickness
+    shadowColor: "#000", // Shadow color for iOS
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset for iOS
+    shadowOpacity: 0.2,  // Shadow opacity for iOS
+    shadowRadius: 4,  // Shadow radius for iOS
+    elevation: 5, // Shadow for Android
+  },
   scrollContainer: {
     flexShrink: 1, // Ensures the ScrollView takes full height
     alignItems: "center",
-    paddingBottom: 20, // Adds space at the bottom to prevent content from being cut off
+    paddingBottom: 25, // Adds space at the bottom to prevent content from being cut off
     gap: 25,
   },
   textContainer: {
@@ -144,14 +173,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center", // Centers text vertically in its container
     flex: 1, // Allows it to take up space to be centered
-    paddingTop: "10%",
-    paddingBottom: "2%",
+    paddingTop: "20%",
+    paddingBottom: "4%",
     alignSelf: "flex-start",
+    marginTop: -50,
   },
   fullWidthContainer: {
     width: "100%", // Make the rectangle button take full width
     paddingHorizontal: 20, // Keep spacing consistent
-    marginBottom: 20,
+    marginBottom: 50,
   },
   container: {
     flexDirection: "row",
@@ -187,6 +217,21 @@ const styles = StyleSheet.create({
     fontSize: RFPercentage(2),
     textAlign: "center",
     paddingHorizontal: "10%",
+  },
+  logo: {
+    width: 250,
+    height: 70,
+    resizeMode: "contain",
+    alignItems: "center",
+  },
+  headerTitle: {
+    //this is just for the first page
+    fontFamily: "MYRIADPRO-REGULAR",
+    fontSize: 25,
+    fontWeight: "600",
+    color: "#332",
+    textAlign: "center",
+
   },
 });
 

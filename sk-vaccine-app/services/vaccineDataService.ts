@@ -84,14 +84,14 @@ export class VaccineDataService implements iVaccineDataService {
       query += ` ORDER BY ${order.column} ${order.ascending ? "ASC" : "DESC"}`;
     }
     logger.debug(`Vaccine query ${query}`);
-    console.log(query, params)
+    console.log(query, params);
     try {
       const result: VaccineQueryResult[] = await VaccineEntity.query(
         query,
         params
       );
       logger.debug(`Vaccine query result ${result[0]}`);
-      console.log(result)
+      console.log(result);
       return result;
     } catch (error) {
       logger.error(`Error running vaccineQuery ${error}`);
@@ -124,13 +124,17 @@ export class VaccineDataService implements iVaccineDataService {
    * @returns A promise containing the version number.
    */
   async getVaccineListVersionRemote(): Promise<number> {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         // TODO: Put in an actual fetch wen there is somewhere to fetch from
-        //const response = await fetch();
-        const response = tempJson;
-        logger.debug(`Remote vaccine list version: ${response.version}`);
-        resolve(response.version);
+
+        const listTimestamp = await (
+          await fetch(
+            "https://raw.githubusercontent.com/ThompsonC-collab/immsapp-data/refs/heads/main/vaccineData.json"
+          )
+        ).json();
+        logger.debug(`Remote vaccine list version: ${listTimestamp.timestamp}`);
+        resolve(listTimestamp.timestamp);
       } catch (error) {
         logger.error("Error getting remote vaccine list version\nError", error);
         reject(error);
@@ -221,21 +225,20 @@ export class VaccineDataService implements iVaccineDataService {
    * @returns a promise containing the updated vaccine list
    */
   async getVaccineListRemote(): Promise<VaccineListResponse> {
-    const url: string = "";
+    const url: string =
+      "https://raw.githubusercontent.com/ThompsonC-collab/immsapp-data/refs/heads/main/vaccineData.json";
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
-        // TODO: Don't have the link to request from yet
-        //const response = await fetch()
-        const response = tempJson;
-        /*
-                if (!response.ok) {
-                    throw new Error(`HTTP error, Status: ${response.status}`);
-                }
-                const data = await response.json();
-                */
-        logger.debug(`Remote list version :${response.version}`);
-        const data = response;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error, Status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        logger.debug(`Remote list version :${data.timestamp}`);
+
         resolve(data as VaccineListResponse);
       } catch (error) {
         logger.error("Error in getVaccineListRemote:", error);
@@ -254,7 +257,7 @@ export class VaccineDataService implements iVaccineDataService {
   async storeVaccineListLocal(vaccineList: VaccineInfoJSON[]): Promise<void> {
     try {
       assert(vaccineList.length > 0, "Vaccine list should not be empty");
-      const insertPromises = vaccineList.forEach(async (vaccine) => {
+      const insertPromises = vaccineList.map(async (vaccine) => {
         try {
           const vaccineEntry = new VaccineEntity({
             vaccineName: vaccine.vaccineName,
@@ -272,6 +275,95 @@ export class VaccineDataService implements iVaccineDataService {
       logger.debug(insertPromises);
     } catch (error) {
       logger.error("Error in store vaccine\nError", error);
+    }
+  }
+
+  /**
+   *
+   * Compares the local productIds with the remote and collects the ids which
+   * are no longer existing remotely. These are then returned to be deleted.
+   *
+   * @param vaccineList a list of VaccineInfoJSON objects to insert into
+   * the vaccine data table.
+   * @returns the productIds which exist locally and no longer remotely
+   */
+  async checkExistingVaccines(
+    vaccineList: VaccineInfoJSON[]
+  ): Promise<number[]> {
+    // Fetch existing product IDs from the database
+    try {
+      const existingIds: number[] = await VaccineEntity.query(
+        `SELECT productId FROM $table`
+      );
+      const vaccineIdSet = new Set(
+        vaccineList.map((vaccine) => vaccine.productId)
+      );
+
+      const missingIds = [...existingIds].filter((id) => !vaccineIdSet.has(id));
+      return missingIds;
+    } catch (error) {
+      throw new Error("Unable to compare existing vaccines against retrieved");
+    }
+  }
+
+  /**
+   * Deletes the vaccines corresponding to the given product ids from the
+   * database.
+   * The PDFs related to this id are also removed.
+   *
+   * @precondition a table must exist on the VaccineEntity
+   *
+   * @param idsToRemove a list of product ids of the vaccines to remove.
+   */
+  async deleteVaccines(idsToRemove: number[]): Promise<void> {
+    try {
+      try {
+        VaccineEntity.query(
+          `DELETE FROM $table WHERE productId IN (${idsToRemove
+            .map(() => "?")
+            .join(", ")})`,
+          idsToRemove
+        );
+      } catch (error) {
+        throw new Error(`Problem deleting vaccines from database`);
+      }
+      try {
+        await Promise.all(
+          idsToRemove.map(async (id) => {
+            const dirPath = `${FileSystem.documentDirectory}vaccinePdfs/${id}/`;
+
+            try {
+              // Check if directory exists
+              const dirInfo = await FileSystem.getInfoAsync(dirPath);
+              if (!dirInfo.exists) {
+                logger.error(`Path doesnt exists for productId ${id}`);
+                return;
+              }
+
+              // Get list of files inside the directory
+              const files = await FileSystem.readDirectoryAsync(dirPath);
+
+              // Delete each file inside the directory
+              await Promise.all(
+                files.map((file) => {
+                  FileSystem.deleteAsync(`${dirPath}${file}`);
+                  logger.info(`Deleted PDF ${dirPath}/${file}`);
+                })
+              );
+
+              // delete the directory itself
+              await FileSystem.deleteAsync(dirPath);
+              console.log(`Deleted directory: ${dirPath}`);
+            } catch (error) {
+              console.error(`Error deleting directory ${dirPath}:`, error);
+            }
+          })
+        );
+      } catch (error) {
+        throw new Error(`Problem deleting vaccine pdfs`);
+      }
+    } catch (error) {
+      throw new Error("Issue deleting vaccines");
     }
   }
 
