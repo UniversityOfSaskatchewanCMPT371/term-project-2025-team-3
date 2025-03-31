@@ -44,10 +44,17 @@ export function useWelcomeFact(
 ): string | undefined {
   const [fact, setFact] = useState<string>();
   const [rerun, setRerun] = useState<boolean>(false);
+  const [isConnected, setIsConnected] = useState<boolean | undefined>(
+    undefined
+  );
 
   const controllerRef = useRef(welcomeController);
 
   const getFact = async () => {
+    if (rerun) {
+      const state = await Network.getNetworkStateAsync();
+      setIsConnected(state.isConnected);
+    }
     const fact = await controllerRef.current.getFact();
     setRerun(fact.rerun);
     setFact(fact.fact);
@@ -60,21 +67,35 @@ export function useWelcomeFact(
   if (rerun) {
     logger.info("Rerunning the fact get");
     getFact();
+
+    // If there is no network connection, don't rerun
+    if (!isConnected) {
+      setRerun(false);
+    }
   }
 
   return fact;
 }
 
+/**
+ * Updates the welcome facts
+ *
+ *
+ * @param welcomeController
+ * @returns
+ *      - success: If the update succeeded
+ *      - factsUpdated The number of facts
+ */
 export function useUpdateWelcomeFacts(
   welcomeController: iWelcomeFactController
-) {
+): { success: boolean; factsUpdated: number } {
   const [isConnected, setIsConnected] = useState<boolean | undefined>(
     undefined
   );
   const [result, setResult] = useState<{
     success: boolean;
     factsUpdated: number;
-  }>();
+  }>({ success: false, factsUpdated: 0 });
   useEffect(() => {
     let isMounted = true; // Prevent updates after unmount
 

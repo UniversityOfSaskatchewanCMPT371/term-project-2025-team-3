@@ -5,19 +5,23 @@ export type WelcomeFact = {
 
 export interface iWelcomeFactService {
   /**
+   * Gets the fact list from the remote repo, this list contains string, lines that
+   * start with '#', these need to be discarded. (currently only enlish)
    *
-   * Fetches the remote list of welcome facts (currently only enlish)
+   * @precondition Connected to the internet
    *
-   * @precondition internet connection required
-   *
+   * @async
    * @returns A list of string from the remote repo, these need to be parsed
    * to remove comments
+   * @throws RemoteFactError there is an issue retrieving the remote fact list
    */
   getRemoteFactList(): Promise<string[]>;
 
   /**
+   * Wipes the current fact list and saves the new one to the database.
    *
-   * Save a list of facts into the database
+   * This works because the random fact is retrieved before the table is
+   * cleared.
    *
    * @precondition list cannot be empty
    * @async
@@ -27,13 +31,17 @@ export interface iWelcomeFactService {
 
   /**
    *
-   * Gets a random fact from the fact list to be displayed on the
-   * home page
+   * Gets a random fact from the WelcomeFact table.
    *
+   * @precondition the WelcomeFact table must exist
    * @precondition A fact must exist in the database.
-   * @async
-   * @param language the language the fact should be in. Defaults to english
    *
+   * @async
+   *
+   * @param language the language the fact should be in. Defaults to english !!NOT IMPLEMENTED!!
+   * @returns a promise containng a 'random' fact
+   *
+   * @throws FaceQueryError if there is an issue with the WelcomeFaceEntity query.
    */
   getRandomFact(language: "english" | "french"): Promise<WelcomeFact>;
 }
@@ -52,13 +60,14 @@ export interface iWelcomeFactController {
   updateFactList(): Promise<number>;
 
   /**
-   * Gets a fact from the database using the current language
-   * If no facts currently exist then a first time startup message is
-   * returned.
+   * Gets a fact from the database using the current language.
    *
+   * If no fact is retrieved a standard message is sent as well as a flag
+   * to tell the hook to rerun the function.
    *
    * @async
-   * @returns A fact in the form of a string;
+   * @returns An object containing the fact and whether the function should run again.
+   * The second run is only needed on the first
    */
   getFact(): Promise<{ rerun: boolean; fact: string }>;
 }

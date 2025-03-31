@@ -9,6 +9,15 @@ export class WelcomeFactController implements iWelcomeFactController {
     this.welcomeService = new WelcomeFactService();
   }
 
+  /**
+   * Gets and parses the remote fact list, then updates the
+   * local fact list.
+   *
+   * @precondition Requires an internet connection
+   *
+   * @returns the number of facts
+   *
+   */
   async updateFactList(): Promise<number> {
     const factLines = await this.welcomeService.getRemoteFactList();
     const welcomeFacts: WelcomeFact[] = factLines.flatMap((line) => {
@@ -25,8 +34,13 @@ export class WelcomeFactController implements iWelcomeFactController {
   }
 
   /**
-   *
-   * @returns
+   * Gets a fact from the database using the current language.
+   * 
+   * If no fact is retrieved a standard message is sent as well as a flag
+   * to tell the hook to rerun the function.
+   * 
+   * @returns An object containing the fact and whether the function should run again.
+   * The second run is only needed on the first
    */
   async getFact(): Promise<{ rerun: boolean; fact: string; }> {
     try {

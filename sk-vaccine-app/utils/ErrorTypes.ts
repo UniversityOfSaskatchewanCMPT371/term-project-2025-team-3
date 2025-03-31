@@ -90,4 +90,18 @@ export class NoInternetError extends Error {
     }
   }
 
+  export class FactQueryError extends Error {
+    constructor(message = "Unable to get fact") {
+      super(message);
+      this.name = "FactQueryError";
+    }
+  }
+
+  export class RemoteFactError extends Error {
+    constructor(message = "Problem getting the remote list of facts") {
+      super(message);
+      this.name = "RemoteFactError";
+    }
+  }
+
 
