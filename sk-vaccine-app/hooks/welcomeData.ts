@@ -31,3 +31,11 @@ export function useDayParts(): string {
 
   return dayPart;
 }
+
+/**
+ * 
+ * @returns 
+ */
+export function useWelcomeFact(): string {
+  return "This is filler text, we could put a fact or something here";
+}

@@ -1,6 +1,11 @@
 import SquareButton from "@/components/home-square-btn";
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import fontConf from "react-native.config.js";
+import ClinicData from "@/services/clinicDataService";
+import useClinicData from "@/hooks/clinicData";
+import LocationData from "@/services/locationDataService";
+import { useDayParts, useWelcomeFact } from "@/hooks/welcomeData";
 // eslint-disable-next-line
 import logger from "@/utils/logger";
 import { Redirect, useNavigation } from "expo-router";
@@ -37,8 +42,9 @@ export default function Index() {
   useEffect(() => {
     navigation.setOptions({ headerShown: true });
   }, [navigation]);
-  const welcomeText =
-    "This is filler text, we could put a fact or something here";
+
+  const welcomeFact = useWelcomeFact();
+
   const timeOfDayText = useDayParts();
 
   // get closest clinic
@@ -85,7 +91,8 @@ export default function Index() {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.textContainer}>
           <Text style={styles.minionProBold}>Good {timeOfDayText},</Text>
-          <Text style={styles.myriadProRegular}>{welcomeText}</Text>
+          <Text style={styles.myriadProRegular}>Did you know that</Text>
+          <Text style={styles.myriadProRegular}>{welcomeFact}</Text>
         </View>
         <View style={styles.horizontalContainer}>{closestClinicButton}</View>
         <View style={styles.horizontalContainer}>
@@ -118,11 +125,7 @@ export default function Index() {
  */
 
 // assert react-native.config.js file is currectly configured
-import fontConf from "react-native.config.js";
-import ClinicData from "@/services/clinicDataService";
-import useClinicData from "@/hooks/clinicData";
-import LocationData from "@/services/locationDataService";
-import { useDayParts } from "@/hooks/welcomeData";
+
 console.assert(
   fontConf.assets.includes("./assets/fonts"),
   "fonts are not configured correctly"
