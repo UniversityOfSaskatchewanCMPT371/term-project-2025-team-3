@@ -124,13 +124,17 @@ export class VaccineDataService implements iVaccineDataService {
    * @returns A promise containing the version number.
    */
   async getVaccineListVersionRemote(): Promise<number> {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         // TODO: Put in an actual fetch wen there is somewhere to fetch from
-        //const response = await fetch();
-        const response = tempJson;
-        logger.debug(`Remote vaccine list version: ${response.version}`);
-        resolve(response.version);
+
+        const listTimestamp = await (
+          await fetch(
+            "https://raw.githubusercontent.com/ThompsonC-collab/immsapp-data/refs/heads/main/vaccineData.json"
+          )
+        ).json();
+        logger.debug(`Remote vaccine list version: ${listTimestamp.timestamp}`);
+        resolve(listTimestamp.timestamp);
       } catch (error) {
         logger.error("Error getting remote vaccine list version\nError", error);
         reject(error);
@@ -221,21 +225,20 @@ export class VaccineDataService implements iVaccineDataService {
    * @returns a promise containing the updated vaccine list
    */
   async getVaccineListRemote(): Promise<VaccineListResponse> {
-    const url: string = "";
+    const url: string =
+      "https://raw.githubusercontent.com/ThompsonC-collab/immsapp-data/refs/heads/main/vaccineData.json";
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
-        // TODO: Don't have the link to request from yet
-        //const response = await fetch()
-        const response = tempJson;
-        /*
-                if (!response.ok) {
-                    throw new Error(`HTTP error, Status: ${response.status}`);
-                }
-                const data = await response.json();
-                */
-        logger.debug(`Remote list version :${response.version}`);
-        const data = response;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error, Status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        logger.debug(`Remote list version :${data.timestamp}`);
+
         resolve(data as VaccineListResponse);
       } catch (error) {
         logger.error("Error in getVaccineListRemote:", error);
