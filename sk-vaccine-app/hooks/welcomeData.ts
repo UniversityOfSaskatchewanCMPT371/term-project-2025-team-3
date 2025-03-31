@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import * as Network from "expo-network";
+import { iWelcomeFactController } from "@/interfaces/iWelcomeFact";
+import { useEffect, useRef, useState } from "react";
+import logger from "@/utils/logger";
 
 /**
  *
@@ -33,9 +36,72 @@ export function useDayParts(): string {
 }
 
 /**
- * 
- * @returns 
+ *
+ * @returns
  */
-export function useWelcomeFact(): string {
-  return "This is filler text, we could put a fact or something here";
+export function useWelcomeFact(
+  welcomeController: iWelcomeFactController
+): string | undefined {
+  const [fact, setFact] = useState<string>();
+  const [rerun, setRerun] = useState<boolean>(false);
+
+  const controllerRef = useRef(welcomeController);
+
+  const getFact = async () => {
+    const fact = await controllerRef.current.getFact();
+    setRerun(fact.rerun);
+    setFact(fact.fact);
+  };
+
+  useEffect(() => {
+    getFact();
+  }, []);
+
+  if (rerun) {
+    logger.info("Rerunning the fact get");
+    getFact();
+  }
+
+  return fact;
+}
+
+export function useUpdateWelcomeFacts(
+  welcomeController: iWelcomeFactController
+) {
+  const [isConnected, setIsConnected] = useState<boolean | undefined>(
+    undefined
+  );
+  const [result, setResult] = useState<{
+    success: boolean;
+    factsUpdated: number;
+  }>();
+  useEffect(() => {
+    let isMounted = true; // Prevent updates after unmount
+
+    const tryUpdate = async () => {
+      const state = await Network.getNetworkStateAsync();
+      setIsConnected(state.isConnected);
+
+      if (!state.isConnected) {
+        logger.error("No network connection");
+        return; // Don't run if offline
+      }
+
+      try {
+        const updateResult = await welcomeController.updateFactList();
+        if (isMounted) setResult({ success: true, factsUpdated: updateResult });
+      } catch (error: any) {
+        logger.error(error);
+        if (isMounted) setResult({ success: false, factsUpdated: 0 });
+      }
+    };
+
+    tryUpdate();
+
+    return () => {
+      isMounted = false; // Cleanup function to prevent memory leaks
+    };
+  }, []); // Empty dependency array → Runs once when app starts
+
+  return result;
 }
