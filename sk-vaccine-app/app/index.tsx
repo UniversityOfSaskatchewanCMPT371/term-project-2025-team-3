@@ -22,7 +22,6 @@ import React from "react";
 import ClosestClincButton from "@/components/closest-clinic-btn";
 
 import { WelcomeFactController } from "@/controllers/welcomeFactController";
-=======
 
 export const CLINIC_BTN_TEXT = "Clinic Info";
 export const BOOKING_BTN_TEXT = "Booking";
