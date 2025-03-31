@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
       borderRadius:50,
       padding:10,
       position: 'absolute',
-      top:-10,
       right: -35
     }
 });
