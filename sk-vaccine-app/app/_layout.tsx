@@ -62,7 +62,8 @@ export default function RootLayout() {
         headerStyle: {
           backgroundColor: "transparent", // Ensures transparency
         },
-        headerRight: () => <CustomHeader />,
+        //headerBackVisible: true,
+        headerRight: () => <SettingsButton />,
         headerTitle: "", // Memoize the header, supposed to prevent updates but I am unsure about that
       }}
     />
