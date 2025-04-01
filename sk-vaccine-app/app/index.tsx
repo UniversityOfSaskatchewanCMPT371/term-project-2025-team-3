@@ -1,6 +1,12 @@
 import SquareButton from "@/components/home-square-btn";
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import fontConf from "react-native.config.js";
+import ClinicData from "@/services/clinicDataService";
+import useClinicData from "@/hooks/clinicData";
+import LocationData from "@/services/locationDataService";
+import { COLOURS } from "@/utils/colours";
+import { useDayParts, useWelcomeFact } from "@/hooks/welcomeData";
 // eslint-disable-next-line
 import logger from "@/utils/logger";
 import { Redirect, useNavigation } from "expo-router";
@@ -14,6 +20,8 @@ import {
 } from "../utils/constPaths";
 import React from "react";
 import ClosestClincButton from "@/components/closest-clinic-btn";
+
+import { WelcomeFactController } from "@/controllers/welcomeFactController";
 
 export const CLINIC_BTN_TEXT = "Clinic Info";
 export const BOOKING_BTN_TEXT = "Booking";
@@ -36,9 +44,10 @@ export default function Index() {
   useEffect(() => {
     navigation.setOptions({ headerShown: true });
   }, [navigation]);
-  const welcomeText =
-    "This is filler text, we could put a fact or something here";
-  const timeOfDayText = "Morning";
+
+  const welcomeFact = useWelcomeFact(new WelcomeFactController());
+
+  const timeOfDayText = useDayParts();
 
   const saskLogo = require("@/assets/images/NursingLogo.webp");
   /**
@@ -48,6 +57,7 @@ export default function Index() {
    * @postcondition fonts must desplyed as desired fonts
    * @postcondition myriadProRegular must be correctly centerilized
    */
+
 
   // get closest clinic
   const { clinicArray, loading, serverAccessFailed, error } = useClinicData({
@@ -98,7 +108,9 @@ export default function Index() {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.textContainer}>
           <Text style={styles.minionProBold}>Good {timeOfDayText},</Text>
-          <Text style={styles.myriadProRegular}>{welcomeText}</Text>
+
+          <Text style={styles.myriadProRegular}>Did you know that</Text>
+          <Text style={styles.myriadProRegular}>{welcomeFact}</Text>
         </View>
         <View style={styles.horizontalContainer}>{closestClinicButton}</View>
         <View style={styles.horizontalContainer}>
@@ -131,11 +143,7 @@ export default function Index() {
  */
 
 // assert react-native.config.js file is currectly configured
-import fontConf from "react-native.config.js";
-import ClinicData from "@/services/clinicDataService";
-import useClinicData from "@/hooks/clinicData";
-import LocationData from "@/services/locationDataService";
-import { COLOURS } from "@/utils/colours";
+
 console.assert(
   fontConf.assets.includes("./assets/fonts"),
   "fonts are not configured correctly"
@@ -205,15 +213,15 @@ const styles = StyleSheet.create({
   },
   myriadProRegular: {
     fontFamily: "MYRIADPRO-REGULAR",
-    fontSize: 13,
+    fontSize: RFPercentage(2),
     textAlign: "center",
+    paddingHorizontal: "10%",
   },
   logo: {
     width: 250,
     height: 70,
     resizeMode: "contain",
     alignItems: "center",
-   
   },
   headerTitle: {
     //this is just for the first page
@@ -222,6 +230,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#332",
     textAlign: "center",
+
   },
 });
 

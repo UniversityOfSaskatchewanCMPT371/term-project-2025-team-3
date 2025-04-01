@@ -10,6 +10,8 @@ import { useUpdateVaccineSheets } from "@/hooks/vaccineData";
 import logger from "@/utils/logger";
 import settingsButton from "@/components/settings-btn";
 import { ScreenHeight } from "react-native-elements/dist/helpers";
+import { WelcomeFactController } from "@/controllers/welcomeFactController";
+import { useUpdateWelcomeFacts } from "@/hooks/welcomeData";
 
 const CustomHeader = memo(() => {
   /**
@@ -17,7 +19,9 @@ const CustomHeader = memo(() => {
    */
   return (
     <View style={styles.headerContainer}>
+
       <SettingsButton />
+
     </View>
   );
 });
@@ -33,11 +37,17 @@ const CustomHeader = memo(() => {
  * -Stack components properly rendered without crashing
  */
 export default function RootLayout() {
+  const updateWelcomeResult = useUpdateWelcomeFacts(
+    new WelcomeFactController()
+  );
   const vaccineController = new VaccineDataController(new VaccineDataService());
-  const updateResult = useUpdateVaccineSheets(vaccineController);
-  logger.info(updateResult);
+
+  const updateVaccineResult = useUpdateVaccineSheets(vaccineController);
+  logger.info(`Results of updating welcomeFacts `, updateWelcomeResult);
+  logger.info(updateVaccineResult);
   console.assert(
-    updateResult != null && updateResult != undefined,
+    updateVaccineResult != null && updateVaccineResult != undefined,
+
     "updated result cannot be null or undefined"
   );
   console.assert(
@@ -64,7 +74,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginRight: 20,
     flex: 1,
-    
   },
   headerStyle: {
     backgroundColor: "#fff",
