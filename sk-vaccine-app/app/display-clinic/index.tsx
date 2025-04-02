@@ -1,5 +1,6 @@
 import MapEmbed from '@/components/map';
 import { Clinic } from '@/services/clinicDataService';
+import { COLOURS } from '@/utils/colours';
 import assert from 'assert';
 import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
@@ -39,6 +40,7 @@ export default function DisplayClinic() {
         <>
             <ScrollView style={styles.container}>
                 <View style={styles.headerCard}>
+                <Text style={styles. headerSubtitleTitle} selectable>Municipality</Text>
                     <Text style={styles.headerSubtitle} selectable>{clinicServiceArea}</Text>
                 </View>
 
@@ -92,13 +94,13 @@ export default function DisplayClinic() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.CONTAINER_BG,
+        backgroundColor: COLOURS.GREEN,
     },
     headerCard: {
-        backgroundColor: COLORS.CARD_BG,
+        backgroundColor: COLOURS.WHITE,
         borderRadius: 8,
         padding: 16,
-        margin: 20,
+        margin: 10,
         marginBottom: 16,
         shadowColor: COLORS.SHADOW,
         shadowOffset: { width: 0, height: 2 },
@@ -107,10 +109,10 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     cardContainer: {
-        backgroundColor: COLORS.CARD_BG,
+        backgroundColor: COLOURS.WHITE,
         borderRadius: 8,
         padding: 16,
-        marginHorizontal: 20,
+        marginHorizontal: 10,
         marginBottom: 16,
         shadowColor: COLORS.SHADOW,
         shadowOffset: { width: 0, height: 2 },
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
     infoRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginHorizontal: 20,
+        marginHorizontal: 10,
     },
     flexCard: {
         flex: 1,
@@ -138,22 +140,35 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 8,
         color: COLORS.TEXT_PRIMARY,
+        fontFamily: "MYRIADPRO-REGULAR",
     },
     headerSubtitle: {
         fontSize: RFPercentage(2.6),
         color: COLORS.TEXT_SUBTITLE,
         marginBottom: 4,
+        fontWeight: 'bold',
+        fontFamily: "MYRIADPRO-REGULAR",
+    },
+    headerSubtitleTitle: {
+        fontSize: RFPercentage(2.6),
+        color: COLOURS.BLACK,
+        fontWeight: 'bold',
+        marginBottom: 4,
+        fontFamily: "MYRIADPRO-REGULAR",
     },
     titleText: {
         fontSize: RFPercentage(2.6),
         fontWeight: 'bold',
         marginBottom: 6,
         color: COLORS.TEXT_PRIMARY,
+        fontFamily: "MYRIADPRO-REGULAR",
     },
     bodyText: {
         fontSize: RFPercentage(1.9),
         marginBottom: 12,
         color: COLORS.TEXT_PRIMARY,
+        fontWeight: 'bold',
+        fontFamily: "MYRIADPRO-REGULAR",
     },
     vaccinationServices: {
         marginBottom: 12,

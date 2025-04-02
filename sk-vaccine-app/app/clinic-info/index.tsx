@@ -94,9 +94,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLOURS.WHITE,
   },
   clinicListSection: {
-    marginHorizontal: 3,
-    paddingHorizontal: 16,
-    fontFamily: "Arial",
+    paddingBottom: 50,
+    marginBottom: 260,
+    fontFamily: "MYRIADPRO-REGULAR",
     color: COLOURS.BLACK,
   },
   clinicListBanner: {
@@ -114,12 +114,14 @@ const styles = StyleSheet.create({
     margin: 0,
     fontSize: RFPercentage(3.5),
     textDecorationLine: "underline",
+    fontFamily: "MYRIADPRO-REGULAR",
     fontWeight: "bold",
     color: COLOURS.BLACK,
   },
   clinicListSubheading: {
     marginTop: 8,
     fontSize: RFPercentage(2),
+    fontFamily: "MYRIADPRO-REGULAR",
     lineHeight: 22,
     color: COLOURS.BLACK,
   },

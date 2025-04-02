@@ -11,6 +11,7 @@ import { Link, LinkProps } from "expo-router";
 import logger from "@/utils/logger";
 import React from "react";
 import { Feather } from "@expo/vector-icons";
+import { COLOURS } from "@/utils/colours";
 
 interface SquareButtonProps {
   path: LinkProps["href"];
@@ -57,7 +58,7 @@ export default function SquareButton({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#3E6BFF",
+    backgroundColor: COLOURS.GREEN,
     //padding: 20,
     borderRadius: 35,
     overflow: "hidden",
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     elevation: 3, // For Android shadow
   },
   text: {
-    color: "black",
+    color: COLOURS.WHITE,
     marginHorizontal: 20,
     marginTop: 15,
     fontSize: RFPercentage(4.2),
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
   },
   chevron: {
     marginRight: 10,
+    color: COLOURS.WHITE,
     marginBottom: 20,
     fontSize: RFPercentage(4.5),
     alignSelf: "flex-end", // Moves icon to bottom-right

@@ -3,6 +3,7 @@ import { StyleSheet, Pressable, Text, View } from "react-native";
 import { Link, LinkProps } from "expo-router";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import { COLOURS } from "@/utils/colours";
 
 interface ClosestClinicBtnProps {
   href?: LinkProps["href"];
@@ -28,7 +29,7 @@ export default function ClosestClinicButton({ href, hours, clinicName, address }
           <Feather
             name="chevron-right"
             size={45}
-            style={{ alignSelf: 'flex-end', marginRight: 10, fontSize: RFPercentage(4.5)}}
+            style={{ alignSelf: 'flex-end', color: COLOURS.WHITE, marginRight: 10, fontSize: RFPercentage(4.5)}}
           />
         </View>
       </View>
@@ -38,9 +39,9 @@ export default function ClosestClinicButton({ href, hours, clinicName, address }
         <View style={styles.infoContainer}>
           <Text style={styles.clinicName}>{clinicName}</Text>
           <Text style={styles.clinicHours}>
-            {hours ? <Text style={{ fontWeight: 'bold' }}>Hours:{'\n'}</Text> : null}
+            {hours ? <Text style={{ fontWeight: 'bold', fontFamily: "MYRIADPRO-REGULAR" }}>Hours:{'\n'}</Text> : null}
             {hours}
-            {(!hours && address) ? <Text style={{ fontWeight: 'bold' }}>Address:{'\n'}</Text> : null}
+            {(!hours && address) ? <Text style={{ fontWeight: 'bold', fontFamily: "MYRIADPRO-REGULAR" }}>Address:{'\n'}</Text> : null}
             {!hours ? address : null}
 
           </Text>
@@ -61,7 +62,7 @@ export default function ClosestClinicButton({ href, hours, clinicName, address }
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: "#85B4A0",
+    backgroundColor: COLOURS.GREEN,
     padding: 15,
     borderRadius: 35,
     alignItems: "center",
@@ -84,9 +85,10 @@ const styles = StyleSheet.create({
   },
   clinicTitle: {
     fontSize: RFPercentage(4.2),
-    //lineHeight: 38,
+    color: COLOURS.WHITE,
     marginBottom: 25,
     fontWeight: "semibold",
+    fontFamily: "MYRIADPRO-REGULAR",
   },
 
   directions: {
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
 
   rightContainer: {
     flex: 0.8,
-    backgroundColor: "#C2DAD0",
+    backgroundColor: COLOURS.LIGHT_GREY,
     padding: 10,
     borderRadius: 22,
     alignItems: "center",
@@ -114,16 +116,19 @@ const styles = StyleSheet.create({
     fontSize: RFPercentage(2.2),
     fontWeight: "bold",
     marginRight: 6,
+    fontFamily: "MYRIADPRO-REGULAR"
   },
 
   clinicDay: {
     fontSize: RFPercentage(1.5),
     fontWeight: "bold",
+    fontFamily: "MYRIADPRO-REGULAR"
   },
 
   clinicMonth: {
     fontSize: RFPercentage(1.4),
     color: "#666",
+    fontFamily: "MYRIADPRO-REGULAR"
   },
 
   infoContainer: {
@@ -136,11 +141,13 @@ const styles = StyleSheet.create({
     fontSize: RFPercentage(2.2),
     fontWeight: "bold",
     textAlign: "center",
-    alignSelf: "center"
+    alignSelf: "center",
+    fontFamily: "MYRIADPRO-REGULAR"
   },
 
   clinicHours: {
     fontSize: RFPercentage(1.7),
     textAlign: "center",
+    fontFamily: "MYRIADPRO-REGULAR"
   },
 });

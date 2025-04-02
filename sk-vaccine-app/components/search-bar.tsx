@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
     input: {
         fontSize: RFPercentage(2),
         color: COLORS.placeholderText,
+        fontFamily: "MYRIADPRO-REGULAR",
         padding: 0,
         margin: 0,
     },
