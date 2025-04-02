@@ -1,5 +1,6 @@
 import MapEmbed from '@/components/map';
 import { Clinic } from '@/services/clinicDataService';
+import { COLOURS } from '@/utils/colours';
 import assert from 'assert';
 import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
@@ -9,6 +10,7 @@ import {
     View,
     ScrollView,
 } from 'react-native';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 const COLORS = {
     CONTAINER_BG: '#f8f8f8',
@@ -38,20 +40,20 @@ export default function DisplayClinic() {
         <>
             <ScrollView style={styles.container}>
                 <View style={styles.headerCard}>
-                    <Text style={styles.headerTitle}>{clinicName}</Text>
-                    <Text style={styles.headerSubtitle}>{clinicServiceArea}</Text>
+                <Text style={styles. headerSubtitleTitle} selectable>Municipality</Text>
+                    <Text style={styles.headerSubtitle} selectable>{clinicServiceArea}</Text>
                 </View>
 
                 <View style={styles.infoRow}>
                     <View style={[styles.cardContainer, styles.flexCard, styles.leftCard]}>
                         <Text style={styles.titleText}>Contact Info</Text>
-                        <Text style={styles.bodyText}>{clinicContactInfo}</Text>
+                        <Text style={styles.bodyText} selectable>{clinicContactInfo}</Text>
                     </View>
                     <View style={[styles.cardContainer, styles.flexCard, styles.rightCard]}>
                         <Text style={styles.titleText}>Vaccination Services</Text>
-                        <View style={styles.vaccinationServices}>
+                        <View style={styles.vaccinationServices} >
                             {clinicServices.map((service, index) => (
-                                <Text key={index} style={styles.bodyText}>{service}</Text>
+                                <Text key={index} style={styles.bodyText} selectable>{service}</Text>
                             ))}
                         </View>
                     </View>
@@ -59,12 +61,12 @@ export default function DisplayClinic() {
 
                 <View style={styles.cardContainer}>
                     <Text style={styles.titleText}>Hours of Operation</Text>
-                    <Text style={styles.bodyText}>{clinicHours}</Text>
+                    <Text style={styles.bodyText} selectable>{clinicHours}</Text>
                 </View>
 
                 <View style={styles.cardContainer}>
                     <Text style={styles.titleText}>Clinic Location</Text>
-                    <Text style={styles.bodyText}>{clinicAddress}</Text>
+                    <Text style={styles.bodyText} selectable>{clinicAddress}</Text>
                     <View style={styles.mapContainer}>
 						{
 							/* 
@@ -92,13 +94,13 @@ export default function DisplayClinic() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.CONTAINER_BG,
+        backgroundColor: COLOURS.GREEN,
     },
     headerCard: {
-        backgroundColor: COLORS.CARD_BG,
+        backgroundColor: COLOURS.WHITE,
         borderRadius: 8,
         padding: 16,
-        margin: 20,
+        margin: 10,
         marginBottom: 16,
         shadowColor: COLORS.SHADOW,
         shadowOffset: { width: 0, height: 2 },
@@ -107,10 +109,10 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     cardContainer: {
-        backgroundColor: COLORS.CARD_BG,
+        backgroundColor: COLOURS.WHITE,
         borderRadius: 8,
         padding: 16,
-        marginHorizontal: 20,
+        marginHorizontal: 10,
         marginBottom: 16,
         shadowColor: COLORS.SHADOW,
         shadowOffset: { width: 0, height: 2 },
@@ -121,8 +123,7 @@ const styles = StyleSheet.create({
     infoRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginHorizontal: 20,
-        marginBottom: 16,
+        marginHorizontal: 10,
     },
     flexCard: {
         flex: 1,
@@ -135,26 +136,39 @@ const styles = StyleSheet.create({
         marginLeft: 8,
     },
     headerTitle: {
-        fontSize: 28,
+        fontSize: RFPercentage(3),
         fontWeight: 'bold',
         marginBottom: 8,
         color: COLORS.TEXT_PRIMARY,
+        fontFamily: "MYRIADPRO-REGULAR",
     },
     headerSubtitle: {
-        fontSize: 24,
+        fontSize: RFPercentage(2.6),
         color: COLORS.TEXT_SUBTITLE,
         marginBottom: 4,
+        fontWeight: 'bold',
+        fontFamily: "MYRIADPRO-REGULAR",
+    },
+    headerSubtitleTitle: {
+        fontSize: RFPercentage(2.6),
+        color: COLOURS.BLACK,
+        fontWeight: 'bold',
+        marginBottom: 4,
+        fontFamily: "MYRIADPRO-REGULAR",
     },
     titleText: {
-        fontSize: 24,
+        fontSize: RFPercentage(2.6),
         fontWeight: 'bold',
         marginBottom: 6,
         color: COLORS.TEXT_PRIMARY,
+        fontFamily: "MYRIADPRO-REGULAR",
     },
     bodyText: {
-        fontSize: 20,
+        fontSize: RFPercentage(1.9),
         marginBottom: 12,
         color: COLORS.TEXT_PRIMARY,
+        fontWeight: 'bold',
+        fontFamily: "MYRIADPRO-REGULAR",
     },
     vaccinationServices: {
         marginBottom: 12,

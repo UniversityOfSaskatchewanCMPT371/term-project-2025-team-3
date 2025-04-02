@@ -112,3 +112,37 @@ describe("Unit tests for LocationData.requestPermission", () => {
     expect(requestForegroundPermissionsAsync).toHaveBeenCalled();
   });
 });
+
+
+describe("Unit tests for LocationData.compareLocations", () => {
+  let locationData: LocationData;
+  beforeEach(() => {
+    locationData = new LocationData();
+  });
+
+  it("should return 0 for identical coords", () => {
+    const dist = locationData.compareLocations([0, 0], [0, 0]);
+    expect(dist).toBe(0);
+  });
+
+  it("calculates distance correctly", () => {
+    // [0, 0] and [0, 180] are about 20015 km apart.
+    const dist = locationData.compareLocations([0, 0], [0, 180]);
+    expect(dist).toBeGreaterThan(20014);
+    expect(dist).toBeLessThan(20016);
+  });
+
+  it("should throw an error for an out of range latitude", () => {
+    // latitude must be between -90 and 90
+    expect(() => {
+      locationData.compareLocations([100, 0], [0, 0]);
+    }).toThrow();
+  });
+
+  it("should throw an error for an out of range longitude", () => {
+    // Longitude must be between -180 and 180
+    expect(() => {
+      locationData.compareLocations([0, 200], [0, 0]);
+    }).toThrow();
+  });
+});

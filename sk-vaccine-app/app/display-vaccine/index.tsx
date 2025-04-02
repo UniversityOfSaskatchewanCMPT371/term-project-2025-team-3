@@ -2,6 +2,7 @@ import assert from "assert";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
 import { StyleSheet, View, Text, Dimensions } from "react-native";
+import { RFPercentage } from "react-native-responsive-fontsize";
 import Pdf from "react-native-pdf";
 import logger from "@/utils/logger";
 import { VaccineSheet } from "@/interfaces/iVaccineData";
@@ -27,7 +28,6 @@ export default function DisplayVaccine() {
     <>
       <View style={{ flex: 1, backgroundColor: "#0B6A41" }}>
         <View style={styles.headerCard}>
-          <Text style={styles.headerTitle}>{pageData.vaccineName}</Text>
           <Text style={styles.headerSubtitle}>
             Starting Age/Grade: {pageData.starting}
           </Text>
@@ -62,14 +62,16 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   headerTitle: {
-    fontSize: 35,
+    fontSize: RFPercentage(3.6),
     fontWeight: "semibold",
     textDecorationLine: "underline",
+    fontFamily: "MYRIADPRO-REGULAR",
     marginBottom: 4,
     color: "#000",
   },
   headerSubtitle: {
-    fontSize: 18,
+    fontSize: RFPercentage(1.9),
+    fontFamily: "MYRIADPRO-REGULAR",
     color: "#000",
   },
 });

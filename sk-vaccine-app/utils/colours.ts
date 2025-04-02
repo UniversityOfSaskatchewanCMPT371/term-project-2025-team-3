@@ -9,4 +9,5 @@ export const COLOURS = {
 
   STATUS_RED: "FF0000",
   SEARCHBAR_BG: "#EFE8EE",
+  SHADOW_COLOR: '#000000',
 };
