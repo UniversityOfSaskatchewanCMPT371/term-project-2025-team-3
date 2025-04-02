@@ -118,14 +118,14 @@ export default function Index() {
             <SquareButton
               path={PATH_CLINIC_INFO}
               text={CLINIC_BTN_TEXT}
-              style={{ backgroundColor: "#a3caba" }}
+              style={{ backgroundColor: COLOURS.GREEN }}
             />
           </View>
           <View style={styles.btnContainer}>
             <SquareButton
               path={PATH_VACCINE_INFO}
               text={VACCINE_BTN_TEXT}
-              style={{ backgroundColor: "#C2DAD0" }}
+              style={{ backgroundColor: COLOURS.GREEN }}
             />
           </View>
         </View>
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   minionProBold: {
-    fontFamily: "MinionPro-Bold",
+    fontFamily: "MYRIADPRO-REGULAR",
     fontSize: RFPercentage(3.2),
   },
   myriadProRegular: {
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     //this is just for the first page
     fontFamily: "MYRIADPRO-REGULAR",
-    fontSize: 25,
+    fontSize: RFPercentage(3.5),
     fontWeight: "600",
     color: "#332",
     textAlign: "center",
