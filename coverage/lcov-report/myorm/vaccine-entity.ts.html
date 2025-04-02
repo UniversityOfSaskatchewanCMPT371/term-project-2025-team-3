@@ -115,37 +115,7 @@
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -198,39 +168,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import "reflect-metadata";
-import { Column, Entity, PrimaryGeneratedColumn } from './decorators';
-import BaseEntity from './base-entity';
-import { Vaccine } from '@/interfaces/iVaccineData';
-/*
-const decorators = process.env.NODE_ENV === "test"
-  ? require("./decorators-sqlite") // for testing environment
-  : require("./decorators"); // for production environment
-&nbsp;
-const { Column, Entity, PrimaryGeneratedColumn } = decorators;
-const BaseEntity =
-  process.env.NODE_ENV === "test"
-    ? require("./base-entity-sqlite").default
-    : require("./base-entity").default;
-  */
-&nbsp;
-&nbsp;
-&nbsp;
+import { Column, Entity, PrimaryGeneratedColumn } from "./decorators";
+import BaseEntity from "./base-entity";
+import { Vaccine } from "@/interfaces/iVaccineData";
 &nbsp;
 @Entity()
 export default class VaccineEntity extends BaseEntity implements Vaccine {
-&nbsp;
   @PrimaryGeneratedColumn()
   id: number;
 &nbsp;
   @Column({ tsType: String })
   vaccineName!: string;
-  
+&nbsp;
   @Column({ tsType: Number, isUnique: true })
   productId!: number;
-  
+&nbsp;
   @Column({ tsType: Number })
   englishFormatId!: number;
-  
+&nbsp;
   @Column({ tsType: Number })
   frenchFormatId!: number;
 &nbsp;
@@ -239,39 +194,39 @@ export default class VaccineEntity extends BaseEntity implements Vaccine {
 &nbsp;
   @Column({ tsType: String, isNullable: true })
   frenchPDFFilename!: string;
-  
+&nbsp;
   @Column({ tsType: String })
   starting!: string;
-  
+&nbsp;
   @Column({ tsType: String, isList: true })
   associatedDiseasesEnglish!: string[];
-  
+&nbsp;
   @Column({ tsType: String, isList: true })
   associatedDiseasesFrench!: string[];
-  
+&nbsp;
   constructor(data?: Partial&lt;Vaccine&gt;) {
     super();
     <span class="missing-if-branch" title="else path not taken" >E</span>if (data) {
-      this.vaccineName = data.vaccineName ?? <span class="branch-1 cbranch-no" title="branch not covered" >'',</span>
-      this.productId = data.productId ?? <span class="branch-1 cbranch-no" title="branch not covered" >0,</span>
-      this.englishFormatId = data.englishFormatId ?? 0,
-      this.frenchFormatId = data.frenchFormatId ?? 0,
-      this.englishPDFFilename = data.englishPDFFilename ?? '',
-      this.frenchPDFFilename = data.frenchPDFFilename ?? '',
-      this.starting = data.starting ?? <span class="branch-1 cbranch-no" title="branch not covered" >'',</span>
-      this.associatedDiseasesEnglish = data.associatedDiseasesEnglish ?? <span class="branch-1 cbranch-no" title="branch not covered" >[],</span>
-      this.associatedDiseasesFrench = data.associatedDiseasesFrench ?? <span class="branch-1 cbranch-no" title="branch not covered" >[]</span>
+      (this.vaccineName = data.vaccineName ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span>,
+        (this.productId = data.productId ?? <span class="branch-1 cbranch-no" title="branch not covered" >0)</span>,
+        (this.englishFormatId = data.englishFormatId ?? 0),
+        (this.frenchFormatId = data.frenchFormatId ?? 0),
+        (this.englishPDFFilename = data.englishPDFFilename ?? ""),
+        (this.frenchPDFFilename = data.frenchPDFFilename ?? ""),
+        (this.starting = data.starting ?? <span class="branch-1 cbranch-no" title="branch not covered" >"")</span>,
+        (this.associatedDiseasesEnglish = data.associatedDiseasesEnglish ?? <span class="branch-1 cbranch-no" title="branch not covered" >[])</span>,
+        (this.associatedDiseasesFrench = data.associatedDiseasesFrench ?? <span class="branch-1 cbranch-no" title="branch not covered" >[])</span>;
     }
-    
   }
-}</pre></td></tr></table></pre>
+}
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-24T05:37:11.761Z
+                at 2025-04-02T05:45:44.798Z
             </div>
         <script src="../prettify.js"></script>
         <script>
