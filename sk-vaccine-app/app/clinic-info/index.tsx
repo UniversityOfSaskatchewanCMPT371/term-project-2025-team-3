@@ -19,7 +19,7 @@ import { RFPercentage } from "react-native-responsive-fontsize";
 
 const URL = process.env.EXPO_PUBLIC_CLINIC_LIST_URL;
 
-export default function Page() {
+export default function ClinicInfo() {
   const [searchVal, setSearchVal] = useState("");
 
   logger.debug("searchVal", searchVal);
@@ -43,9 +43,8 @@ export default function Page() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.clinicListSection}>
+      <View>
         <View style={styles.clinicListBanner}>
-          <Text style={styles.clinicListHeading}>Clinics</Text>
           <Text style={styles.clinicListSubheading}>
             Clinics offering vaccinations intended for persons under 18 years of
             age
@@ -59,29 +58,31 @@ export default function Page() {
           </View>
         </View>
 
-        {loading && !error && <ActivityIndicator size="large" />}
+        <View style={styles.clinicListSection}>
+          {loading && !error && <ActivityIndicator size="large" />}
 
-        <FlatList
-          data={filteredClinics}
-          renderItem={({ item, index }) => {
-            const bgColor = index % 2 ? COLOURS.WHITE : COLOURS.LIGHT_GREY;
-            return (
-              <View style={{ marginTop: 16 }}>
-                <ClinicCard
-                  key={index}
-                  title={item.name || ""}
-                  subtitle={item.serviceArea || ""}
-                  text={item.address || ""}
-                  bgColor={bgColor}
-                  pathname={PATH_DISPLAY_CLINIC}
-                  params={item}
-                />
-              </View>
-            );
-          }}
-          keyExtractor={(item, index) => index.toString()}
-          contentContainerStyle={styles.clinicCardsContainer}
-        />
+          <FlatList
+            data={filteredClinics}
+            renderItem={({ item, index }) => {
+              const bgColor = index % 2 ? COLOURS.WHITE : COLOURS.LIGHT_GREY;
+              return (
+                <View style={{ marginTop: 16 }}>
+                  <ClinicCard
+                    key={index}
+                    title={item.name || ""}
+                    subtitle={item.serviceArea || ""}
+                    text={item.address || ""}
+                    bgColor={bgColor}
+                    pathname={PATH_DISPLAY_CLINIC}
+                    params={item}
+                  />
+                </View>
+              );
+            }}
+            keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={styles.clinicCardsContainer}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -93,17 +94,21 @@ const styles = StyleSheet.create({
     backgroundColor: COLOURS.WHITE,
   },
   clinicListSection: {
-    flex: 1,
     marginHorizontal: 3,
     paddingHorizontal: 16,
     fontFamily: "Arial",
     color: COLOURS.BLACK,
   },
   clinicListBanner: {
-    backgroundColor: COLOURS.WHITE,
     padding: 16,
     borderRadius: 4,
-    marginTop: 16,
+    backgroundColor: COLOURS.WHITE,
+    borderBottomWidth: 0, // Border thickness
+    shadowColor: "#000", // Shadow color for iOS
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset for iOS
+    shadowOpacity: 0.2, // Shadow opacity for iOS
+    shadowRadius: 4, // Shadow radius for iOS
+    elevation: 5, // Shadow for Android
   },
   clinicListHeading: {
     margin: 0,
@@ -121,7 +126,7 @@ const styles = StyleSheet.create({
   searchBarWrapper: {
     backgroundColor: COLOURS.SEARCHBAR_BG,
     borderRadius: 24,
-    marginVertical: 16,
+    marginTop: 16,
     paddingVertical: 8,
     paddingHorizontal: 12,
   },

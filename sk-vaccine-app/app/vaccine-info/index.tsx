@@ -1,6 +1,6 @@
 import SearchBar from "@/components/search-bar";
 import ClinicCard from "@/components/card-link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -16,9 +16,9 @@ import logger from "@/utils/logger";
 import { VaccineDataService } from "@/services/vaccineDataService";
 import { COLOURS } from "@/utils/colours";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import { useNavigation } from "expo-router";
 
-
-export default function Page() {
+export default function VaccineInfo() {
   const [searchVal, setSearchVal] = useState("");
 
   logger.debug("searchVal", searchVal);
@@ -28,11 +28,18 @@ export default function Page() {
     vaccineController: new VaccineDataController(new VaccineDataService()),
   });
 
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => null, // Force-remove SettingsButton at runtime
+    });
+  }, [navigation]);
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.clinicListSection}>
+      <View>
         <View style={styles.clinicListBanner}>
-          <Text style={styles.clinicListHeading}>Vaccine List</Text>
           <Text style={styles.clinicListSubheading}>
             Vaccinations intended for persons under 18 years of age
           </Text>
@@ -46,31 +53,32 @@ export default function Page() {
             />
           </View>
         </View>
+        <View style={styles.clinicListSection}>
+          {loading && !error && <ActivityIndicator size="large" />}
 
-        {loading && !error && <ActivityIndicator size="large" />}
-
-        <FlatList
-          data={vaccineSheets}
-          renderItem={({ item, index }) => {
-            const bgColor = index % 2 ? COLOURS.WHITE : COLOURS.LIGHT_GREY;
-            logger.debug(`Pdf path ${item.pdfPath}`);
-            return (
-              <View style={{ marginTop: 16 }}>
-                <ClinicCard
-                  key={index}
-                  title={item.vaccineName}
-                  subtitle={item.starting}
-                  bgColor={bgColor}
-                  pathname={PATH_DISPLAY_VACCINE}
-                  params={item}
-                  text={""}
-                />
-              </View>
-            );
-          }}
-          keyExtractor={(item, index) => index.toString()}
-          contentContainerStyle={styles.clinicCardsContainer}
-        />
+          <FlatList
+            data={vaccineSheets}
+            renderItem={({ item, index }) => {
+              const bgColor = index % 2 ? COLOURS.WHITE : COLOURS.LIGHT_GREY;
+              logger.debug(`Pdf path ${item.pdfPath}`);
+              return (
+                <View style={{ marginTop: 16 }}>
+                  <ClinicCard
+                    key={index}
+                    title={item.vaccineName}
+                    subtitle={item.starting}
+                    bgColor={bgColor}
+                    pathname={PATH_DISPLAY_VACCINE}
+                    params={item}
+                    text={""}
+                  />
+                </View>
+              );
+            }}
+            keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={styles.clinicCardsContainer}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -82,17 +90,22 @@ const styles = StyleSheet.create({
     backgroundColor: COLOURS.WHITE,
   },
   clinicListSection: {
-    flex: 1,
     marginHorizontal: 3,
     paddingHorizontal: 16,
     fontFamily: "Arial",
     color: COLOURS.BLACK,
   },
   clinicListBanner: {
-    backgroundColor: COLOURS.WHITE,
     padding: 16,
     borderRadius: 4,
-    marginTop: 16,
+    backgroundColor: COLOURS.WHITE,
+    paddingBottom: 15,
+    borderBottomWidth: 0, // Border thickness
+    shadowColor: "#000", // Shadow color for iOS
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset for iOS
+    shadowOpacity: 0.2, // Shadow opacity for iOS
+    shadowRadius: 4, // Shadow radius for iOS
+    elevation: 5, // Shadow for Android
   },
   clinicListHeading: {
     margin: 0,
@@ -110,7 +123,7 @@ const styles = StyleSheet.create({
   searchBarWrapper: {
     backgroundColor: COLOURS.SEARCHBAR_BG,
     borderRadius: 24,
-    marginVertical: 16,
+    marginTop: 16,
     paddingVertical: 8,
     paddingHorizontal: 12,
   },

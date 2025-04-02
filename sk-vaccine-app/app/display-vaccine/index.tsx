@@ -28,7 +28,6 @@ export default function DisplayVaccine() {
     <>
       <View style={{ flex: 1, backgroundColor: "#0B6A41" }}>
         <View style={styles.headerCard}>
-          <Text style={styles.headerTitle}>{pageData.vaccineName}</Text>
           <Text style={styles.headerSubtitle}>
             Starting Age/Grade: {pageData.starting}
           </Text>

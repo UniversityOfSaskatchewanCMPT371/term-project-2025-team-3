@@ -39,7 +39,6 @@ export default function DisplayClinic() {
         <>
             <ScrollView style={styles.container}>
                 <View style={styles.headerCard}>
-                    <Text style={styles.headerTitle} selectable>{clinicName}</Text>
                     <Text style={styles.headerSubtitle} selectable>{clinicServiceArea}</Text>
                 </View>
 
