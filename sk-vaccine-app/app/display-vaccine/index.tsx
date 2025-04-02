@@ -65,11 +65,13 @@ const styles = StyleSheet.create({
     fontSize: RFPercentage(3.6),
     fontWeight: "semibold",
     textDecorationLine: "underline",
+    fontFamily: "MYRIADPRO-REGULAR",
     marginBottom: 4,
     color: "#000",
   },
   headerSubtitle: {
     fontSize: RFPercentage(1.9),
+    fontFamily: "MYRIADPRO-REGULAR",
     color: "#000",
   },
 });

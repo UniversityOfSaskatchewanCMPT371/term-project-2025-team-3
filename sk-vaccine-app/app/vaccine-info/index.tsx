@@ -66,7 +66,7 @@ export default function VaccineInfo() {
                   <ClinicCard
                     key={index}
                     title={item.vaccineName}
-                    subtitle={item.starting}
+                    subtitle={`Starting Age/Grade: ${item.starting}`}
                     bgColor={bgColor}
                     pathname={PATH_DISPLAY_VACCINE}
                     params={item}
@@ -90,16 +90,15 @@ const styles = StyleSheet.create({
     backgroundColor: COLOURS.WHITE,
   },
   clinicListSection: {
-    marginHorizontal: 3,
-    paddingHorizontal: 16,
-    fontFamily: "Arial",
+    paddingBottom: 50,
+    marginBottom: 50,
+    fontFamily: "MYRIADPRO-REGULAR",
     color: COLOURS.BLACK,
   },
   clinicListBanner: {
     padding: 16,
     borderRadius: 4,
     backgroundColor: COLOURS.WHITE,
-    paddingBottom: 15,
     borderBottomWidth: 0, // Border thickness
     shadowColor: "#000", // Shadow color for iOS
     shadowOffset: { width: 0, height: 2 }, // Shadow offset for iOS
@@ -111,12 +110,14 @@ const styles = StyleSheet.create({
     margin: 0,
     fontSize: RFPercentage(3.5),
     textDecorationLine: "underline",
+    fontFamily: "MYRIADPRO-REGULAR",
     fontWeight: "bold",
     color: COLOURS.BLACK,
   },
   clinicListSubheading: {
     marginTop: 8,
     fontSize: RFPercentage(2),
+    fontFamily: "MYRIADPRO-REGULAR",
     lineHeight: 22,
     color: COLOURS.BLACK,
   },
