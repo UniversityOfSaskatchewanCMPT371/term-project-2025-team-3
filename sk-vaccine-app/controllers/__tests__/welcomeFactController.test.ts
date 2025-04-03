@@ -75,7 +75,6 @@ describe("VaccineDataController MockDB Tests", () => {
 
       const updates = await welcomeFactController.updateFactList();
       expect(updates).toBe(2);
-
     });
 
     test("Should pass with 0 facts, only comments given", async () => {
@@ -89,7 +88,7 @@ describe("VaccineDataController MockDB Tests", () => {
 
       const updates = await welcomeFactController.updateFactList();
       expect(updates).toBe(0);
-    })
+    });
 
     test("Should pass lines with whitespace prior to starting comment '#'", async () => {
       mockWelcomeFactService.getRemoteFactList.mockReturnValue([
@@ -102,7 +101,7 @@ describe("VaccineDataController MockDB Tests", () => {
 
       const updates = await welcomeFactController.updateFactList();
       expect(updates).toBe(2);
-    })
+    });
 
     test("Should pass with 0 lines given", async () => {
       mockWelcomeFactService.getRemoteFactList.mockReturnValue([]);
@@ -111,14 +110,65 @@ describe("VaccineDataController MockDB Tests", () => {
 
       const updates = await welcomeFactController.updateFactList();
       expect(updates).toBe(0);
-    })
+    });
   });
 
   describe("getFact() Tests", () => {
-    test("", ()=> {
+    test("should return a fact and no rerun", async () => {
+      const expected = {
+        fact: "Most childhood vaccines require multiple doses for full protection.",
+        rerun: false,
+      };
 
-    })
+      mockWelcomeFactService.getRandomFact.mockReturnValue({
+        message:
+          "Most childhood vaccines require multiple doses for full protection.",
+        language: "english",
+      });
+      const response = await welcomeFactController.getFact();
+      expect(response).toEqual(expected);
+    });
 
+    test("should return default 'get started' message and rerun", async () => {
+      const expected = {
+        fact: "To get started, please ensure you have an internet connection!",
+        rerun: true,
+      };
 
+      mockWelcomeFactService.getRandomFact.mockReturnValue({
+        message: undefined,
+        language: "english",
+      });
+      const response = await welcomeFactController.getFact();
+      expect(response).toEqual(expected);
+    });
+
+    test("should return default message when error", async () => {
+      const expected = {
+        fact: "To get started, please ensure you have an internet connection!",
+        rerun: true,
+      };
+
+      // Make the mocked function throw an error when called
+      mockWelcomeFactService.getRandomFact.mockImplementation(() => {
+        throw new Error();
+      });
+      const response = await welcomeFactController.getFact();
+      expect(response).toEqual(expected);
+    });
+
+    test("should return default message when error", async () => {
+      const expected = {
+        fact: "To get started, please ensure you have an internet connection!",
+        rerun: true,
+      };
+
+      // Make the mocked function throw an error when called
+      mockWelcomeFactService.getRandomFact.mockImplementation(() => {
+        throw new Error();
+      });
+      const response = await welcomeFactController.getFact();
+      expect(response).toEqual(expected);
+    });
   });
 });
