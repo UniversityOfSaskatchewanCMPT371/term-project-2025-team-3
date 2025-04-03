@@ -8,7 +8,7 @@ jest.mock("expo-sqlite", () => ({
     getAllSync: jest.fn(),
   } as unknown as SQLite.SQLiteDatabase),
 }));
-import * as SQLite from 'expo-sqlite';
+import * as SQLite from "expo-sqlite";
 import { WelcomeFactController } from "@/controllers/welcomeFactController";
 import { iWelcomeFactController } from "@/interfaces/iWelcomeFact";
 import { WelcomeFactService } from "@/services/welcomeFactService";
@@ -21,7 +21,6 @@ jest.mock("../../utils/logger", () => ({
   warn: jest.fn(),
   debug: jest.fn(),
 }));
-
 
 // Mock the VaccineDataService class
 jest.mock("../../services/welcomeFactService");
@@ -54,17 +53,72 @@ describe("VaccineDataController MockDB Tests", () => {
   });
 
   describe("updateFactList() Tests", () => {
-    test("Should say 2 facts are updated", async () => {
-      mockWelcomeFactService.getRemoteFactList.mockReturnValue(
-        ["Most childhood vaccines require multiple doses for full protection.", "Vaccines can prevent complications like blindness, brain damage, and death."]
-      );
+    test("Should update 2 facts", async () => {
+      mockWelcomeFactService.getRemoteFactList.mockReturnValue([
+        "Most childhood vaccines require multiple doses for full protection.",
+        "Vaccines can prevent complications like blindness, brain damage, and death.",
+      ]);
       mockWelcomeFactService.saveFactList.mockResolvedValue(2);
 
-      const updates = await welcomeFactController.updateFactList()
+      const updates = await welcomeFactController.updateFactList();
+      expect(updates).toBe(2);
+    });
+
+    test("Should remove the comment lines, given 3 lines", async () => {
+      mockWelcomeFactService.getRemoteFactList.mockReturnValue([
+        "# fact is on a different line",
+        "Most childhood vaccines require multiple doses for full protection.",
+        "Vaccines can prevent complications like blindness, brain damage, and death.",
+      ]);
+
+      mockWelcomeFactService.saveFactList.mockResolvedValue(2);
+
+      const updates = await welcomeFactController.updateFactList();
       expect(updates).toBe(2);
 
     });
+
+    test("Should pass with 0 facts, only comments given", async () => {
+      mockWelcomeFactService.getRemoteFactList.mockReturnValue([
+        "# fact is on a different line",
+        "# Most childhood vaccines require multiple doses for full protection.",
+        "# Vaccines can prevent complications like blindness, brain damage, and death.",
+      ]);
+
+      mockWelcomeFactService.saveFactList.mockResolvedValue(0);
+
+      const updates = await welcomeFactController.updateFactList();
+      expect(updates).toBe(0);
+    })
+
+    test("Should pass lines with whitespace prior to starting comment '#'", async () => {
+      mockWelcomeFactService.getRemoteFactList.mockReturnValue([
+        " # fact is on a different line",
+        "Most childhood vaccines require multiple doses for full protection.",
+        "Vaccines can prevent complications like blindness, brain damage, and death.",
+      ]);
+
+      mockWelcomeFactService.saveFactList.mockResolvedValue(2);
+
+      const updates = await welcomeFactController.updateFactList();
+      expect(updates).toBe(2);
+    })
+
+    test("Should pass with 0 lines given", async () => {
+      mockWelcomeFactService.getRemoteFactList.mockReturnValue([]);
+
+      mockWelcomeFactService.saveFactList.mockResolvedValue(0);
+
+      const updates = await welcomeFactController.updateFactList();
+      expect(updates).toBe(0);
+    })
   });
 
-  describe("getFact() Tests", () => {});
+  describe("getFact() Tests", () => {
+    test("", ()=> {
+
+    })
+
+
+  });
 });
