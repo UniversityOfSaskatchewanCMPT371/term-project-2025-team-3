@@ -1,3 +1,14 @@
+jest.mock("expo-sqlite", () => ({
+  openDatabaseSync: jest.fn().mockReturnValue({
+    execAsync: jest.fn(),
+    getAllAsync: jest.fn(),
+    getFirstAsync: jest.fn(),
+    runAsync: jest.fn(),
+    execSync: jest.fn(),
+    getAllSync: jest.fn(),
+  } as unknown as SQLite.SQLiteDatabase),
+}));
+import * as SQLite from 'expo-sqlite';
 import VaccineDataController from "@/controllers/vaccineDataController";
 import { VaccineDataService } from "@/services/vaccineDataService";
 import { VaccinePDFData } from "@/interfaces/iVaccineData";

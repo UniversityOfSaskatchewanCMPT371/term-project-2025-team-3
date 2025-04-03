@@ -1,12 +1,12 @@
 import { iWelcomeFactController, WelcomeFact } from "@/interfaces/iWelcomeFact";
-import WelcomeFactService from "@/services/welcomeFactService";
+import { WelcomeFactService } from "@/services/welcomeFactService";
 import logger from "@/utils/logger";
 
 export class WelcomeFactController implements iWelcomeFactController {
   private welcomeService: WelcomeFactService;
 
-  constructor() {
-    this.welcomeService = new WelcomeFactService();
+  constructor(welcomeFactService: WelcomeFactService) {
+    this.welcomeService = welcomeFactService
   }
 
   /**

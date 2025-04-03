@@ -4,7 +4,7 @@ import { FactQueryError, RemoteFactError } from "@/utils/ErrorTypes";
 import logger from "@/utils/logger";
 import assert from "assert";
 
-export default class WelcomeFactService implements iWelcomeFactService {
+export class WelcomeFactService implements iWelcomeFactService {
   /**
    * Gets the fact list from the remote repo, this list contains string, lines that
    * start with '#', these need to be discarded. (currently only enlish)
