@@ -1,3 +1,3 @@
-export default {
-    assets: ['./assets/fonts'],
-  };
+module.exports = {
+  assets: ['./assets/fonts'],
+};
