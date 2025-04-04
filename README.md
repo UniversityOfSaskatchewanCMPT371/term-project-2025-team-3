@@ -25,9 +25,9 @@ Below are a few early-stage screenshots of our application.
 |----------------------------------------|--------------------------------------|
 | <img src="./images/clinic.png" width="200"/> | <img src="./images/clinic-map.png" width="200"/> |
 
-| *Figure 5: Vaccine information page listing available vaccines and details.* | *Figure 6: Vaccine details page with the PDF info sheet about selected vaccine.*
-|----------------------------------------|-------------------------------------|
-| <img src="./images/vaccines.png" width="200"/> | <img src="./images/vaccine.png" width="200/">
+| *Figure 5: Vaccine information page listing available vaccines and details.* |
+|----------------------------------------------|
+| <img src="./images/vaccines.png" width="200"/> |
 
 
 ---
