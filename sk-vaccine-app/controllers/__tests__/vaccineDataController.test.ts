@@ -15,13 +15,14 @@ import { VaccinePDFData } from "@/interfaces/iVaccineData";
 import { PDFDownloadError, VaccineListVersionError, FetchError } from "../../utils/ErrorTypes";
 import logger from "@/utils/logger";
 
-// Mocking the logger
-jest.mock("../../utils/logger", () => ({
+// mock the logger to test its calls
+jest.mock("@/utils/logger", () => ({
   error: jest.fn(),
   info: jest.fn(),
-  warn: jest.fn(),
+  warning: jest.fn(),
   debug: jest.fn(),
 }));
+
 
 // This class allows for testing protected functions
 class TestableVaccineDataController extends VaccineDataController {

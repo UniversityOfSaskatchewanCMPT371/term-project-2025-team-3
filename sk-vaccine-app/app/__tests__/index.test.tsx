@@ -1,4 +1,15 @@
 import React, { ReactNode } from 'react';
+jest.mock("expo-sqlite", () => ({
+  openDatabaseSync: jest.fn().mockReturnValue({
+    execAsync: jest.fn(),
+    getAllAsync: jest.fn(),
+    getFirstAsync: jest.fn(),
+    runAsync: jest.fn(),
+    execSync: jest.fn(),
+    getAllSync: jest.fn(),
+  } as unknown as SQLite.SQLiteDatabase),
+}));
+import * as SQLite from 'expo-sqlite';
 import { render, fireEvent } from '@testing-library/react-native';
 
 import Index, {CLINIC_BTN_TEXT, BOOKING_BTN_TEXT, RECORDS_BTN_TEXT, VACCINE_BTN_TEXT} from '../index';
@@ -11,6 +22,13 @@ import Index, {CLINIC_BTN_TEXT, BOOKING_BTN_TEXT, RECORDS_BTN_TEXT, VACCINE_BTN_
 import { useNavigation } from 'expo-router';
 
 
+// mock the logger to test its calls
+jest.mock("@/utils/logger", () => ({
+  error: jest.fn(),
+  info: jest.fn(),
+  warning: jest.fn(),
+  debug: jest.fn(),
+}));
 
 
 jest.mock('expo-router', () => {

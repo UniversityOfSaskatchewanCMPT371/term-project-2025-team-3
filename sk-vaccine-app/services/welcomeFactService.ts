@@ -21,9 +21,15 @@ export class WelcomeFactService implements iWelcomeFactService {
         "https://raw.githubusercontent.com/ThompsonC-collab/immsapp-data/refs/heads/main/welcomeFacts.txt"
       );
       const factList = await response.text();
-      return factList.split("\n");
+      return factList.trim().split("\n");
     } catch (error) {
-      throw new RemoteFactError();
+      if (error instanceof TypeError) {
+        throw new RemoteFactError(
+          `Response not of type 'txt', Error: ${error}`
+        );
+      } else {
+        throw new RemoteFactError();
+      }
     }
   }
 

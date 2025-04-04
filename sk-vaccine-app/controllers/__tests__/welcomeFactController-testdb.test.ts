@@ -21,13 +21,14 @@ import { WelcomeFactService } from "@/services/welcomeFactService";
 import logger from "@/utils/logger";
 import welcomeFacts from "./welcomeFacts.data.txt";
 
-// Mocking the logger
-jest.mock("../../utils/logger", () => ({
+// mock the logger to test its calls
+jest.mock("@/utils/logger", () => ({
   error: jest.fn(),
   info: jest.fn(),
   warning: jest.fn(),
   debug: jest.fn(),
 }));
+
 
 describe("WelcomeFactController NodeDB Tests", () => {
   let welcomeFactService: iWelcomeFactService = new WelcomeFactService();

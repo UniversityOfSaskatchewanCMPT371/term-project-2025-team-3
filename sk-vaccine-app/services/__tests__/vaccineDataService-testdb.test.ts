@@ -16,12 +16,14 @@ import VaccineEntity from "@/myorm/vaccine-entity";
 import testVaccineList from "./vaccineListService.data.json";
 import * as SQLite from "expo-sqlite";
 
-jest.mock("../../utils/logger", () => ({
+// mock the logger to test its calls
+jest.mock("@/utils/logger", () => ({
   error: jest.fn(),
   info: jest.fn(),
-  warn: jest.fn(),
+  warning: jest.fn(),
   debug: jest.fn(),
 }));
+
 
 describe("VaccineDataService NodeDB Tests", () => {
   let vaccineDataService: VaccineDataService = new VaccineDataService();

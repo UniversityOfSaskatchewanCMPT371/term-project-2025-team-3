@@ -6,14 +6,14 @@ import {
 import { useVaccineSheets, useUpdateVaccineSheets } from "../vaccineData";
 import { useNetworkState } from 'expo-network';
 
-// Mocking the logger
-jest.mock("../../utils/logger", () => ({
+// mock the logger to test its calls
+jest.mock("@/utils/logger", () => ({
   error: jest.fn(),
   info: jest.fn(),
-  warn: jest.fn(),
+  warning: jest.fn(),
   debug: jest.fn(),
-  http: jest.fn(),
 }));
+
 
 // Mock the VaccineDataController class
 jest.mock("../../controllers/vaccineDataController");

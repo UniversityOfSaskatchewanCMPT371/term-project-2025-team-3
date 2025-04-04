@@ -14,13 +14,14 @@ import { iWelcomeFactController } from "@/interfaces/iWelcomeFact";
 import { WelcomeFactService } from "@/services/welcomeFactService";
 import logger from "@/utils/logger";
 
-// Mocking the logger
-jest.mock("../../utils/logger", () => ({
+// mock the logger to test its calls
+jest.mock("@/utils/logger", () => ({
   error: jest.fn(),
   info: jest.fn(),
-  warn: jest.fn(),
+  warning: jest.fn(),
   debug: jest.fn(),
 }));
+
 
 // Mock the VaccineDataService class
 jest.mock("../../services/welcomeFactService");

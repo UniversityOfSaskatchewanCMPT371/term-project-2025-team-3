@@ -142,6 +142,13 @@ const fakeLocationService = {
   }),
 };
 
+// mock the logger to test its calls
+jest.mock("@/utils/logger", () => ({
+  error: jest.fn(),
+  info: jest.fn(),
+  warning: jest.fn(),
+  debug: jest.fn(),
+}));
 
   
 global.fetch = jest.fn();

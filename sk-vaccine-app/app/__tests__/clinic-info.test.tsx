@@ -1,4 +1,17 @@
 import React from 'react';
+// Mock SQLite module
+import { mockdb } from "@/myorm/__tests__/mock-db";
+jest.mock("expo-sqlite", () => ({
+  openDatabaseSync: jest.fn().mockReturnValue({
+    execAsync: mockdb.execAsync,
+    getAllAsync: mockdb.getAllAsync,
+    getFirstAsync: mockdb.getFirstAsync,
+    runAsync: mockdb.runAsync,
+    execSync: mockdb.execSync,
+    getAllSync: mockdb.getAllSync,
+  } as unknown as SQLite.SQLiteDatabase),
+}));
+import * as SQLite from 'expo-sqlite';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react-native';
 import ClinicInfo from '../clinic-info';
 import { db } from '../../myorm/decorators';
@@ -23,6 +36,15 @@ jest.mock('../../myorm/decorators', () => ({
     execSync: jest.fn(),
   },
 }));
+
+// mock the logger to test its calls
+jest.mock("@/utils/logger", () => ({
+  error: jest.fn(),
+  info: jest.fn(),
+  warning: jest.fn(),
+  debug: jest.fn(),
+}));
+
 
 describe('ClinicInfo', () => {
   beforeEach(() => {

@@ -29,6 +29,15 @@ const mockdb = {
   getAllSync: jest.fn(),
 } as unknown as SQLite.SQLiteDatabase;
 
+// mock the logger to test its calls
+jest.mock("@/utils/logger", () => ({
+  error: jest.fn(),
+  info: jest.fn(),
+  warning: jest.fn(),
+  debug: jest.fn(),
+}));
+
+
 class TestClass extends BaseEntity {}
 
 describe("Unit tests for myorm decorators", () => {
