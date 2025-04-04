@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
   },
   clinicListBanner: {
     padding: 16,
-    borderRadius: 4,
     backgroundColor: COLOURS.WHITE,
     borderBottomWidth: 0, // Border thickness
     shadowColor: "#000", // Shadow color for iOS
