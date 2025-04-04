@@ -38,7 +38,11 @@ export class WelcomeFactService implements iWelcomeFactService {
    * @param list The list of facts to save into the database
    */
   async saveFactList(list: WelcomeFact[]): Promise<void> {
-    assert(list.length > 0, "The list of WelcomeFacts cannot be empty");
+    if (list.length === 0) {
+      logger.warning("The list of WelcomeFacts is empty");
+      // Do not clear as there is nothing to add
+      return;
+    }
     // Simply remove all other facts
     WelcomeFactEntity.clear();
 
@@ -51,26 +55,26 @@ export class WelcomeFactService implements iWelcomeFactService {
   }
 
   /**
-  *
-  * Gets a random fact from the WelcomeFact table.
-  *
-  * @precondition the WelcomeFact table must exist
-  * @precondition A fact must exist in the database.
-  *
-  * @param language the language the fact should be in. Defaults to english !!NOT IMPLEMENTED!!
-  * @returns a promise containng a 'random' fact
-  *
-  * @throws FaceQueryError if there is an issue with the WelcomeFaceEntity query.
-  */
+   *
+   * Gets a random fact from the WelcomeFact table.
+   *
+   * @precondition the WelcomeFact table must exist
+   * @precondition A fact must exist in the database.
+   *
+   * @param language the language the fact should be in. Defaults to english !!NOT IMPLEMENTED!!
+   * @returns a promise containng a 'random' fact
+   *
+   * @throws FaceQueryError if there is an issue with the WelcomeFaceEntity query.
+   */
   async getRandomFact(
     language: "english" | "french" = "english"
   ): Promise<WelcomeFact> {
     try {
       const numberOfFacts = await WelcomeFactEntity.count();
-      assert(
-        numberOfFacts > 0,
-        "There should always be a fact if the table exists"
-      );
+      if (numberOfFacts === 0) {
+        logger.warning("There are no welcome facts in the DB");
+      }
+
       const randomN = Math.floor(Math.random() * numberOfFacts);
 
       const randomFact: WelcomeFact[] = await WelcomeFactEntity.query(
@@ -80,6 +84,7 @@ export class WelcomeFactService implements iWelcomeFactService {
 
       return randomFact[0];
     } catch (error) {
+      logger.error(error);
       throw new FactQueryError();
     }
   }

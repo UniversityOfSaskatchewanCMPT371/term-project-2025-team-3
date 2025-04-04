@@ -25,7 +25,7 @@ jest.mock("../../utils/logger", () => ({
 // Mock the VaccineDataService class
 jest.mock("../../services/welcomeFactService");
 
-describe("VaccineDataController MockDB Tests", () => {
+describe("WelcomeFactController MockDB Tests", () => {
   let welcomeFactController: iWelcomeFactController;
   let mockWelcomeFactService: jest.Mocked<WelcomeFactService>;
 
@@ -64,7 +64,7 @@ describe("VaccineDataController MockDB Tests", () => {
       expect(updates).toBe(2);
     });
 
-    test("Should remove the comment lines, given 3 lines", async () => {
+    test("Should dicard the commented line, given 3 lines and 2 facts", async () => {
       mockWelcomeFactService.getRemoteFactList.mockReturnValue([
         "# fact is on a different line",
         "Most childhood vaccines require multiple doses for full protection.",
@@ -125,7 +125,7 @@ describe("VaccineDataController MockDB Tests", () => {
           "Most childhood vaccines require multiple doses for full protection.",
         language: "english",
       });
-      const response = await welcomeFactController.getFact();
+      const response = await welcomeFactController.getFact(false);
       expect(response).toEqual(expected);
     });
 
@@ -139,35 +139,21 @@ describe("VaccineDataController MockDB Tests", () => {
         message: undefined,
         language: "english",
       });
-      const response = await welcomeFactController.getFact();
+      const response = await welcomeFactController.getFact(false);
       expect(response).toEqual(expected);
     });
 
-    test("should return default message when error", async () => {
+    test("should return default message, no rerun, when error", async () => {
       const expected = {
-        fact: "To get started, please ensure you have an internet connection!",
-        rerun: true,
+        fact: "The first vaccine, for smallpox, was developed in 1796.",
+        rerun: false,
       };
 
       // Make the mocked function throw an error when called
       mockWelcomeFactService.getRandomFact.mockImplementation(() => {
         throw new Error();
       });
-      const response = await welcomeFactController.getFact();
-      expect(response).toEqual(expected);
-    });
-
-    test("should return default message when error", async () => {
-      const expected = {
-        fact: "To get started, please ensure you have an internet connection!",
-        rerun: true,
-      };
-
-      // Make the mocked function throw an error when called
-      mockWelcomeFactService.getRandomFact.mockImplementation(() => {
-        throw new Error();
-      });
-      const response = await welcomeFactController.getFact();
+      const response = await welcomeFactController.getFact(false);
       expect(response).toEqual(expected);
     });
   });

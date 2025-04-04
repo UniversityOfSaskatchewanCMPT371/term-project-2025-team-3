@@ -55,7 +55,7 @@ export function useWelcomeFact(
       const state = await Network.getNetworkStateAsync();
       setIsConnected(state.isConnected);
     }
-    const fact = await controllerRef.current.getFact();
+    const fact = await controllerRef.current.getFact(rerun);
     setRerun(fact.rerun);
     setFact(fact.fact);
   };
