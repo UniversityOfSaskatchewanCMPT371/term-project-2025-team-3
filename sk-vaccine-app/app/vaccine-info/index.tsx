@@ -1,6 +1,6 @@
 import SearchBar from "@/components/search-bar";
 import ClinicCard from "@/components/card-link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -24,8 +24,14 @@ export default function VaccineInfo() {
   logger.debug("searchVal", searchVal);
   //updateVaccineSheets(new VaccineDataController(new VaccineDataService))
 
-  const { vaccineSheets, loading, error, fetchResults } = useVaccineSheets({
-    vaccineController: new VaccineDataController(new VaccineDataService()),
+  const controller = useMemo(
+    () => new VaccineDataController(new VaccineDataService()),
+    []
+  );
+
+  const { vaccineSheets, loading, error } = useVaccineSheets({
+    vaccineController: controller,
+    searchValue: searchVal,
   });
 
   const navigation = useNavigation();
@@ -49,7 +55,7 @@ export default function VaccineInfo() {
             <SearchBar
               value={searchVal}
               onChangeText={setSearchVal}
-              onSubmitEditing={() => fetchResults(searchVal)}
+              placeholder="Search by Vaccine or Disease"
             />
           </View>
         </View>
@@ -75,7 +81,7 @@ export default function VaccineInfo() {
                 </View>
               );
             }}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item, index) => item.vaccineName}
             contentContainerStyle={styles.clinicCardsContainer}
           />
         </View>
