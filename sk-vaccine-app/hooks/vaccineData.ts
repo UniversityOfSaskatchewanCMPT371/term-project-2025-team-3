@@ -14,8 +14,7 @@ export type VaccineSheetStatus = {
   loading: boolean;
   /** if an error occures a string representing the error is stored */
   error?: string;
-  fetchResults: (searchValue?: string, searchColumn?: string) => Promise<void>;
-};
+}
 
 /**
  * Retrieves the list of vaccine sheets.
@@ -61,7 +60,7 @@ export function useVaccineSheets(data: {
 
   useEffect(() => {
     fetchResults();
-  }, [searchValue]);
+  }, [searchValue, searchColumn]);
 
   //logger.debug("useVaccineSheets -> vaccineSheets:", vaccineSheets[0].associatedDiseases);
   logger.debug("useVaccineSheets -> loading:", loading);
@@ -72,7 +71,6 @@ export function useVaccineSheets(data: {
     vaccineSheets: vaccineSheets,
     loading: loading,
     error: error ?? undefined,
-    fetchResults,
   };
 
   return response;
