@@ -1,0 +1,1897 @@
+{
+  "time-created": 1743029637677,
+  "clinics": [
+    {
+      "serviceArea": "Assiniboia",
+      "name": "Assiniboia Public Health Services located in Asaskan Complex",
+      "address": "131 3rd Ave W, Assiniboia, SK S0H 0B0",
+      "contactInfo": "P: 306-642-2200\nF: 306-642-2211",
+      "hours": "Mon – Fri\n\n8:30 a.m. - 4:30 p.m.",
+      "services": [
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 49.632670594578,
+      "longitude": -105.99936471327915
+    },
+    {
+      "serviceArea": "Avonlea",
+      "name": "Old Medical Clinic",
+      "address": "311-4th Ave Avonlea SK, S0H 0C0",
+      "contactInfo": "P: 306-868-2233\n\nP: 306-691-2300 (Booked through MJPH office)\n\nF: 306-691-2330",
+      "hours": "Mon – Fri\n\n9:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 50.0145867,
+      "longitude": -105.0556457
+    },
+    {
+      "serviceArea": "Baildon",
+      "name": "Baildon Colony Home #206",
+      "address": "",
+      "contactInfo": "P: 306-691-2300 (Booked with PHN)",
+      "hours": "One clinic per month\n\n8:30 a.m. - 12:00 p.m.",
+      "services": [
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 50.2756803,
+      "longitude": -105.4645919
+    },
+    {
+      "serviceArea": "Balcarres",
+      "name": "Balcarres Integrated Care Centre",
+      "address": "100 Elgin St Balcarres SK S0G 0C0",
+      "contactInfo": "P: 306-332-3314\n\nF: 306-332-3322",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.80218470907077,
+      "longitude": -103.55101725142326
+    },
+    {
+      "serviceArea": "Beauval",
+      "name": "Beauval Health Centre",
+      "address": "Lavoie St.",
+      "contactInfo": "P: 306-288-4800",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Travel"
+      ],
+      "latitude": 55.146852071784636,
+      "longitude": -107.6120552718284
+    },
+    {
+      "serviceArea": "Beechy",
+      "name": "Beechy Health Care Centre",
+      "address": "226 1st Ave. N.  Beechy SK. S0L 0C0",
+      "contactInfo": "P: 306-859-2118 Facility\n\nP: 306-867-5039 PHN",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.8784808,
+      "longitude": -107.3842256
+    },
+    {
+      "serviceArea": "Bengough",
+      "name": "Bengough Health Centre",
+      "address": "400 2nd Street West\nBengough SK S0C 0K0",
+      "contactInfo": "P. 306-267-5705\n\nF: 306-267-2324",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.3957345,
+      "longitude": -105.1262065
+    },
+    {
+      "serviceArea": "Big River",
+      "name": "Big River Health Centre",
+      "address": "220 1st Ave West\nBig River",
+      "contactInfo": "P: 306-469-2505",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 53.833333,
+      "longitude": -107.033333
+    },
+    {
+      "serviceArea": "Biggar",
+      "name": "Biggar Public Health Office",
+      "address": "501 1st Ave W Biggar, SK S0K 0M0",
+      "contactInfo": "P: 306-948-3323 Ext. 2730",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.0576499,
+      "longitude": -107.984618
+    },
+    {
+      "serviceArea": "Broadview",
+      "name": "Broadview Hospital",
+      "address": "901 Nina St Broadview SK S0G 0K0",
+      "contactInfo": "P: 306-435-6279\n\nF: 306-435-2386",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.373977249999996,
+      "longitude": -102.58452535887427
+    },
+    {
+      "serviceArea": "Buffalo Narrows ",
+      "name": "Buffalo Narrows Health Centre",
+      "address": "310 Davey St.",
+      "contactInfo": "P: 306-235-5813",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Travel"
+      ],
+      "latitude": 55.86003740960647,
+      "longitude": -108.48169425421015
+    },
+    {
+      "serviceArea": "Burstall",
+      "name": "Burstall School",
+      "address": "603 Maharg Ave., Burstall, SK",
+      "contactInfo": "P: 306-778-5280\n\nor 1-866-786-2510 toll free",
+      "hours": "4th Tuesdays of odd months\n\n10:00 a.m. - 12:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Travel"
+      ],
+      "latitude": 50.65712563875978,
+      "longitude": -109.90583275525945
+    },
+    {
+      "serviceArea": "Cabri",
+      "name": "Cabri Prairie Health Care Centre",
+      "address": "517 1st St. W, Cabri, SK",
+      "contactInfo": "P: 306-778-5280\n\nor 1-866-786-2510 toll free",
+      "hours": "Every 3rd Thursday\n\n10:00 a.m. - 3:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Travel"
+      ],
+      "latitude": 50.6187301,
+      "longitude": -108.4611856
+    },
+    {
+      "serviceArea": "Canora",
+      "name": "Canora Health Office",
+      "address": "1219 Main Street, Canora, SK",
+      "contactInfo": "P: 306-563-1259",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.63032044808465,
+      "longitude": -102.43928404704178
+    },
+    {
+      "serviceArea": "Carlyle",
+      "name": "Carlyle Community Health Services",
+      "address": "206 Railway Ave E Carlyle SK S0C 0R0",
+      "contactInfo": "P: 306-453-6131\n\nF: 306-453-6799",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.634195233848494,
+      "longitude": -102.26056124209408
+    },
+    {
+      "serviceArea": "Carnduff",
+      "name": "Tony Day Medical Clinic",
+      "address": "405 Spencer St Carnduff SK S0C 0S0",
+      "contactInfo": "P: 306-483-4220\n\nF: 306-483-1241",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.17804445,
+      "longitude": -101.79068330796301
+    },
+    {
+      "serviceArea": "Caronport",
+      "name": "Golden Age Centre",
+      "address": "203 Valleyview Drive Caronport SK, S0H 0S0",
+      "contactInfo": "P: 306-691-2300",
+      "hours": "One clinic per month\n\n9:30 a.m. - 4:00 p.m.",
+      "services": [
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 50.45596198712322,
+      "longitude": -105.81973311280422
+    },
+    {
+      "serviceArea": "Central Butte",
+      "name": "Central Butte Health Centre",
+      "address": "601 Canada St NW Central Butte SK, S0H 0T0",
+      "contactInfo": "P: 306-796-2190 (Booked through MJPH office)\n\nP: 306-691-2300\n\nF: 306-691-2330",
+      "hours": "Two clinics per month\n\n9:30 a.m. - 3:30 p.m.",
+      "services": [
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 50.7938303,
+      "longitude": -106.5078309
+    },
+    {
+      "serviceArea": "Climax",
+      "name": "Climax Border Health Centre",
+      "address": "301 1st St W, Climax, SK",
+      "contactInfo": "P: 306-778-5280\n\nor 1-866-786-2510 toll free",
+      "hours": "Every 3rd Thursday\n\n10:00 a.m. - 3:00 p.m.",
+      "services": [
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 49.20906128948603,
+      "longitude": -108.38625337529292
+    },
+    {
+      "serviceArea": "Coronach",
+      "name": "Coronach Public Health",
+      "address": "240 South Ave East Coronach SK S0H 0Z0",
+      "contactInfo": "P: 306-267-5705\n\nF: 306-267-2324",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.1127927,
+      "longitude": -105.5170497
+    },
+    {
+      "serviceArea": "Craik",
+      "name": "Craik Health Centre",
+      "address": "",
+      "contactInfo": "P: 306-734-2288\n\n(Booked through MJPH office)\n\nP: 306-691-2300\n\nF: 306-691-2330",
+      "hours": "One clinic per month\n\n9:30 a.m. - 12:00 p.m.",
+      "services": [
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 51.0515057,
+      "longitude": -105.8159306
+    },
+    {
+      "serviceArea": "Creighton",
+      "name": "Creighton Health Centre",
+      "address": "298 1st St. East",
+      "contactInfo": "P: 306-688-8620",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 54.7449167,
+      "longitude": -101.9088396
+    },
+    {
+      "serviceArea": "Cumberland House",
+      "name": "Cumberland House Public Health",
+      "address": "2nd Ave\nCumberland House",
+      "contactInfo": "P: 306-888-2244",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 53.9536112,
+      "longitude": -102.267635
+    },
+    {
+      "serviceArea": "Davidson",
+      "name": "Davidson Community Health Services",
+      "address": "900 Government RD.  Davidson, SK S0G 1A0",
+      "contactInfo": "P: 306-567-2305",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.261686876630364,
+      "longitude": -105.98522108274597
+    },
+    {
+      "serviceArea": "Dinsmore",
+      "name": "Dinsmore Health Care Centre",
+      "address": "207 1st.E Dinsmore, SK S0L 0T0",
+      "contactInfo": "P: 306-882-2672 Ext. 3, Option 3",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.3325438,
+      "longitude": -107.4471085
+    },
+    {
+      "serviceArea": "Eastend",
+      "name": "Eastend Wolf Willow Health Centre",
+      "address": "555 Redcoat Drive, Eastend, SK",
+      "contactInfo": "P: 306-778-5280\n\nor 1-866-786-2510 toll free",
+      "hours": "Every 6th Thursday\n\n10:00 a.m. - 3:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.516667,
+      "longitude": -108.816667
+    },
+    {
+      "serviceArea": "Eatonia",
+      "name": "Eatonia Health Centre",
+      "address": "205 2nd Ave W Eatonia, SK S0L 0Y0",
+      "contactInfo": "P: 306-463-1000 Ext. 2500",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.2241821,
+      "longitude": -109.3900359
+    },
+    {
+      "serviceArea": "Elrose",
+      "name": "Elrose Health Centre",
+      "address": "505 Main Street Elrose, SK S0L 0Z0",
+      "contactInfo": "P: 306-882-2672 Ext. 3, Option 3",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.200121204894096,
+      "longitude": -108.03240324163761
+    },
+    {
+      "serviceArea": "Esterhazy",
+      "name": "Esterhazy Health Office",
+      "address": "St. Anthony’s Hospital – 216 Ancona Street",
+      "contactInfo": "P: 306-745-3200",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.6536237,
+      "longitude": -102.0763357
+    },
+    {
+      "serviceArea": "Estevan",
+      "name": "Estevan Public Health",
+      "address": "1174 Nicholson Road, Estevan SK S4A 2V3",
+      "contactInfo": "P: 306-637-3626\n\nF: 306-637-2496",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.14866657123726,
+      "longitude": -103.0019243505351
+    },
+    {
+      "serviceArea": "Eston",
+      "name": "Eston Health Centre",
+      "address": "922 Main Street Eston, SK S0L 1A0",
+      "contactInfo": "P: 306-463-1000 Ext. 2500",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.15048540218423,
+      "longitude": -108.75232404189869
+    },
+    {
+      "serviceArea": "Fillmore",
+      "name": "Fillmore Health Centre",
+      "address": "100 Main Street Fillmore SK S0G 1N0",
+      "contactInfo": "P: 306-842-8618\n\nF: 306-842-8637",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.87874955899935,
+      "longitude": -103.4364956090807
+    },
+    {
+      "serviceArea": "Foam Lake",
+      "name": "Foam Lake Health Office",
+      "address": "715 Saskatchewan Ave, Foam Lake",
+      "contactInfo": "P: 306-272-3375",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.641059740918436,
+      "longitude": -103.52752676792271
+    },
+    {
+      "serviceArea": "Fox Valley",
+      "name": "Fox Valley Community Seniors Centre",
+      "address": "Centre St. Fox Valley, SK",
+      "contactInfo": "P: 306-778-5280\n\nor 1-866-786-2510 toll free",
+      "hours": "1st Thursday of Even Months\n\n10:00 a.m. - 3:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.46506294570959,
+      "longitude": -109.48297449021507
+    },
+    {
+      "serviceArea": "Gainsborough",
+      "name": "Gainsborough Health Center",
+      "address": "312 Stephens St. Gainsborough, SK S0C 0Z0",
+      "contactInfo": "P: 306-452-4020",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.17617063817871,
+      "longitude": -101.45046675520108
+    },
+    {
+      "serviceArea": "Gravelbourg",
+      "name": "Gravelbourg Public Health",
+      "address": "216 Bettez St Gravelbourg SK, S0H 0X0",
+      "contactInfo": "P: 306-648-1400\n\nF: 306-648-3533",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 49.87411415,
+      "longitude": -106.56216495
+    },
+    {
+      "serviceArea": "Green Lake",
+      "name": "Green Lake Health Centre",
+      "address": "",
+      "contactInfo": "",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 54.2916374,
+      "longitude": -107.7926027
+    },
+    {
+      "serviceArea": "Grenfell",
+      "name": "Grenfell Public Health",
+      "address": "721 Stella St Grenfell SK S0G 2B0",
+      "contactInfo": "P: 306-697-4040\n\nF: 306-697-4042",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.4180129,
+      "longitude": -102.93466115000001
+    },
+    {
+      "serviceArea": "Gull Lake",
+      "name": "Gull Lake Health Centre",
+      "address": "751 Grey St. Gull Lake, SK",
+      "contactInfo": "P: 306-778-5280\n\nor 1-866-786-2510 toll free",
+      "hours": "Every Second Week (Wed or Thurs) \n\n10:00 a.m. - 3:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.090606831495194,
+      "longitude": -108.48280029217597
+    },
+    {
+      "serviceArea": "Herbert",
+      "name": "Herbert and District Integrated Health Facility",
+      "address": "405 Herbert Ave., Herbert SK",
+      "contactInfo": "P: 306-778-5280\n\nor 1-866-786-2510 toll free",
+      "hours": "Every 3rd Wednesday \n\n10:00 a.m. - 3:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.42651467100194,
+      "longitude": -107.22820121529686
+    },
+    {
+      "serviceArea": "Hudson Bay",
+      "name": "Hudson Bay Public Health",
+      "address": "614 Prince Street\nHudson Bay",
+      "contactInfo": "P: 306-865-5630",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.84989815105664,
+      "longitude": -102.38821984662135
+    },
+    {
+      "serviceArea": "Humboldt",
+      "name": "Humboldt District Health Complex",
+      "address": "515-14th Ave.\nHumboldt, SK\nS0K 2A0",
+      "contactInfo": "P: 306-682-2626\n\nF: 306-682-4417",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.212796749999995,
+      "longitude": -105.12112503322231
+    },
+    {
+      "serviceArea": "Ile a la Crosse",
+      "name": "St. Joseph’s Health Centre",
+      "address": "La Jeunesse Ave.",
+      "contactInfo": "P: 306-833-3511",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Travel"
+      ],
+      "latitude": 55.4330898,
+      "longitude": -107.897256
+    },
+    {
+      "serviceArea": "Kamsack",
+      "name": "Kamsack Health Office",
+      "address": "359 Queen Elizabeth E., Kamsack",
+      "contactInfo": "P: 306-542-4295",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.5645433,
+      "longitude": -101.8953088
+    },
+    {
+      "serviceArea": "Kelvington",
+      "name": "Kelvington Public Health",
+      "address": "701 – 6th Ave West\nKelvington",
+      "contactInfo": "P: 306-327-5515",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.1643973,
+      "longitude": -103.5228082
+    },
+    {
+      "serviceArea": "Kerrobert",
+      "name": "Kerrobert Public Health",
+      "address": "115 Manitoba Ave Kerrobert, SK S0L 1R0",
+      "contactInfo": "P: 306-834-2646 Ext. 2815",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.91372869999999,
+      "longitude": -109.13289046846836
+    },
+    {
+      "serviceArea": "Kindersley",
+      "name": "Kindersley Public Health",
+      "address": "1003 1st Street W Kindersley, SK S0L 1S2",
+      "contactInfo": "P: 306-463-1000 Ext. 2500",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Purchased",
+        "Adult"
+      ],
+      "latitude": 51.4687094,
+      "longitude": -109.1581355
+    },
+    {
+      "serviceArea": "Kyle",
+      "name": "Kyle District Health Centre",
+      "address": "208 3rd Ave Kyle, SK S0L 1T0",
+      "contactInfo": "P: 306-882-2672 Ext. 3, Option 3",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.8299317,
+      "longitude": -108.0407186
+    },
+    {
+      "serviceArea": "La Loche",
+      "name": "La Loche Health Centre",
+      "address": "Dene Road",
+      "contactInfo": "P: 306-822-8819",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Travel"
+      ],
+      "latitude": 56.51016417819499,
+      "longitude": -109.44554696022333
+    },
+    {
+      "serviceArea": "La Ronge",
+      "name": "La Ronge Health Centre",
+      "address": "227 Backlund Street",
+      "contactInfo": "P: 306-425-4800",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 55.105041455278595,
+      "longitude": -105.28737968696565
+    },
+    {
+      "serviceArea": "Lampman",
+      "name": "Lampman Community Health Centre",
+      "address": "311 2 Ave E Lampman SK S0C 1N0",
+      "contactInfo": "P: 306-453-6131\n\nF: 306-453-6799",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.379524055588256,
+      "longitude": -102.75725858621973
+    },
+    {
+      "serviceArea": "Langenburg",
+      "name": "Langenburg Health Office",
+      "address": "200 Heritage Drive, Langenburg",
+      "contactInfo": "P: 306-743-2801",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.8417915,
+      "longitude": -101.701553
+    },
+    {
+      "serviceArea": "Leader",
+      "name": "Leader and District Integrated Health Facility",
+      "address": "400 1st St. W, Leader, SK",
+      "contactInfo": "P: 306-778-5280\n\nor 1-866-786-2510 toll free",
+      "hours": "Every 2nd Wednesday\n\n9:00 a.m. - 4:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.8878217,
+      "longitude": -109.5449145
+    },
+    {
+      "serviceArea": "Lestock",
+      "name": "St. Josephs Integrated Care Centre- Lestock",
+      "address": "508 Westmoore St. Lestock SK S0A 2G0",
+      "contactInfo": "P: 306-332-3314\n\nF: 306-332-3322",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.3109558,
+      "longitude": -103.979858
+    },
+    {
+      "serviceArea": "Lloydminster",
+      "name": "Prairie North Plaza",
+      "address": "101- 4910 50th St\nLloydminster",
+      "contactInfo": "P: 306-820-6225",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Travel",
+        "Purchased"
+      ],
+      "latitude": 53.2816669,
+      "longitude": -109.98633896592374
+    },
+    {
+      "serviceArea": "Lucky Lake",
+      "name": "Lucky Lake Health Centre",
+      "address": "1st Ave. E. Lucky Lake SK S0L 1Z0",
+      "contactInfo": "P: 306-858-2123 Facility\n\nP: 306-867-5039 PHN",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.9850216,
+      "longitude": -107.1373209
+    },
+    {
+      "serviceArea": "Macklin",
+      "name": "Macklin St. Joseph’s Health Centre",
+      "address": "",
+      "contactInfo": "P: 306-228-2666 Ext. 2961",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.3368517,
+      "longitude": -109.9441992
+    },
+    {
+      "serviceArea": "Maidstone",
+      "address": "214 5th Avenue East\nMaidstone SK",
+      "contactInfo": "P: 306-893-2622",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 53.0862269,
+      "longitude": -109.2960964
+    },
+    {
+      "serviceArea": "Maple Creek",
+      "name": "Maple Creek Southwest Integrated Healthcare Facility",
+      "address": "102 5th Ave. W, Maple Creek, SK",
+      "contactInfo": "P: 306-778-5280\n\nor 1-866-786-2510 toll free",
+      "hours": "Wed\n\n9:00 a.m. - 4:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.9056917,
+      "longitude": -109.4800219
+    },
+    {
+      "serviceArea": "Maryfield",
+      "name": "Maryfield Primary Care Center",
+      "address": "233 Main St Maryfield, SK S0G 3K0",
+      "contactInfo": "P: 306-646-2133",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.838806463641816,
+      "longitude": -101.52285071119991
+    },
+    {
+      "serviceArea": "Meadow Lake",
+      "name": "Northwest Health Facility",
+      "address": "9 – 711 Centre St\n2nd Floor\nMeadow Lake",
+      "contactInfo": "P: 306-236-1570",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 54.13026,
+      "longitude": -108.435059
+    },
+    {
+      "serviceArea": "Melfort",
+      "name": "Melfort Public Health",
+      "address": "107 Crawford Ave East\nMelfort",
+      "contactInfo": "P: 306-752-6310",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.86013394855163,
+      "longitude": -104.60126318716726
+    },
+    {
+      "serviceArea": "Melville",
+      "name": "Melville Health Office",
+      "address": "200 Heritage Drive, Melville",
+      "contactInfo": "P: 306-728-7300",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.9374916786204,
+      "longitude": -102.82072995412643
+    },
+    {
+      "serviceArea": "Midale",
+      "name": "Midale Mainprize Manor",
+      "address": "206 South Road\nMidale SK S0C 2S0",
+      "contactInfo": "P: 306-842-8618\n\nF: 306-842-8637",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.39179234782708,
+      "longitude": -103.40652734860774
+    },
+    {
+      "serviceArea": "Montmartre",
+      "name": "Montmartre Health Centre",
+      "address": "237 2nd Ave E Montmartre SK S0G 3M0",
+      "contactInfo": "P: 306-697-4040\n\nF: 306-697-4042",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.2176095,
+      "longitude": -103.4483712
+    },
+    {
+      "serviceArea": "Moose Jaw",
+      "name": "Moose Jaw Public Health",
+      "address": "1000B Albert St. Moose Jaw, SK      S6H 2Y1",
+      "contactInfo": "P: 306-691-2300\n\nF: 306-691-2330",
+      "hours": "Mon – Fri\n\n8:30 a.m. - 4:30 p.m.",
+      "services": [
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 50.39849939468558,
+      "longitude": -105.56808264004455
+    },
+    {
+      "serviceArea": "Mortlach",
+      "name": "Mortlach School",
+      "address": "122-1st Ave Mortlach SK, S0H 3E0",
+      "contactInfo": "P: 306-355-2332 (Booked through MJPH office)\n\nP: 306-691-2300\n\nF: 306-691-2330",
+      "hours": "One clinic per month\n\n1:00 p.m. - 3:00 p.m.",
+      "services": [
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 50.4537478,
+      "longitude": -106.0674947
+    },
+    {
+      "serviceArea": "Multicultural Centre Moose Jaw",
+      "name": "Multicultural Centre",
+      "address": "60 Athabasca St E. Moose Jaw, SK      S6H 0L2",
+      "contactInfo": "P: 306-693-4600 (Booked through MJPH office)\n\nP: 306-691-2300\n\nF: 306-691-2330",
+      "hours": "Two clinics per month\n\n9:30 a.m. - 3:00 p.m.",
+      "services": [
+        "Adult",
+        "Purchased"
+      ]
+    },
+    {
+      "serviceArea": "Neilburg",
+      "name": "Manitou Health Centre",
+      "address": "105 – 2nd Ave West\nNeilburg",
+      "contactInfo": "P: 306-823-3450",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.8376602,
+      "longitude": -109.6279954
+    },
+    {
+      "serviceArea": "Nipawin",
+      "name": "Nipawin Public Health",
+      "address": "210 – 2nd Street West\nNipawin",
+      "contactInfo": "P: 306-862-7230",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 53.3627879,
+      "longitude": -104.017425
+    },
+    {
+      "serviceArea": "Norquay",
+      "name": "Norquay Health Office",
+      "address": "355 East Road Allowance S, Norquay",
+      "contactInfo": "P: 306-594-2262",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.8842262,
+      "longitude": -102.0907464
+    },
+    {
+      "serviceArea": "North Battleford",
+      "name": "Primary Health Centre",
+      "address": "11427 Railway Ave\nNorth Battleford",
+      "contactInfo": "P: 306-446-6400",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.76063685,
+      "longitude": -108.2780461
+    },
+    {
+      "serviceArea": "Ogema",
+      "name": "Ogema Town Office",
+      "address": "#104 Main Street\nOgema SK S0C 1Y0",
+      "contactInfo": "P: 306-869-3351\n\nF: 306-869-3358",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.577289065064065,
+      "longitude": -104.91664907692527
+    },
+    {
+      "serviceArea": "Outlook",
+      "name": "Outlook Community Health Services",
+      "address": "500 Semple St. Outlook, SK. S0L 2N0",
+      "contactInfo": "P: 306-867-5038",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.48354295,
+      "longitude": -107.06235343886372
+    },
+    {
+      "serviceArea": "Oxbow",
+      "name": "RM of Enniskillen Wellness Centre",
+      "address": "119 Railway Ave Oxbow SK S0C 2B0",
+      "contactInfo": "P: 306-483-4220\n\nF: 306-483-1241",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.22849025,
+      "longitude": -102.17503735
+    },
+    {
+      "serviceArea": "Pinehouse",
+      "name": "Pinehouse Health Centre",
+      "address": "Co-located with offices of Saskatchewan Environment",
+      "contactInfo": "P: 306-884-5670",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 55.5180447,
+      "longitude": -106.574131
+    },
+    {
+      "serviceArea": "Ponteix",
+      "name": "Ponteix Health Centre",
+      "address": "428 2nd Ave., Ponteix, SK",
+      "contactInfo": "P: 306-778-5280\n\nor 1-866-786-2510 toll free",
+      "hours": "",
+      "services": [
+        ""
+      ],
+      "latitude": 49.7459773,
+      "longitude": -107.4880937
+    },
+    {
+      "serviceArea": "Preeceville",
+      "name": "Preeceville Health Office",
+      "address": "712 7th St NE, Preeceville",
+      "contactInfo": "P: 306-547-3546",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.9553325,
+      "longitude": -102.6666643
+    },
+    {
+      "serviceArea": "Prince Albert",
+      "name": "Prince Albert Public Health",
+      "address": "2nd Floor LF McIntosh Building\n800 Central Ave\nPrince Albert",
+      "contactInfo": "P: 306-765-6500",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 53.201097,
+      "longitude": -105.748901
+    },
+    {
+      "serviceArea": "Radville",
+      "name": "Radville Public Health Radville Marian Health Centre",
+      "address": "840 Conrad Ave\nRadville SK S0C 2G0",
+      "contactInfo": "P: 306-869-3351\n\nF: 306-869-3358",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.4629996,
+      "longitude": -104.2947907
+    },
+    {
+      "serviceArea": "Raymore",
+      "name": "Raymore Health Centre",
+      "address": "806 2nd Ave Raymore SK S0A 3J0",
+      "contactInfo": "P: 306-332-3314\n\nF: 306-332-3322",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.4096252,
+      "longitude": -104.5292377
+    },
+    {
+      "serviceArea": "Redvers",
+      "name": "Redvers Health Center",
+      "address": "18 Eichhorst St, Redvers SK S0C 2H0",
+      "contactInfo": "P: 306-452-4020\n\nF: 306-452-3556",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.57168887942117,
+      "longitude": -101.69491948161507
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Al Ritchie Action Centre",
+      "address": "1550 – 14 Avenue",
+      "contactInfo": "P: 306-766-7500 Ext. 3",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.43429931710439,
+      "longitude": -104.6507167323844
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Balgonie",
+      "address": "207 Main Street",
+      "contactInfo": "P: 306-766-7500 Ext. 2",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Bethune",
+      "address": "648 Kelvin Street",
+      "contactInfo": "P: 306-766-7500 Ext. 1",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Central Four Directions Community Health Centre",
+      "address": "1504 Albert St.",
+      "contactInfo": "P: 306-766-7500 Ext. 3",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.4547683,
+      "longitude": -104.61845622504507
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Cupar",
+      "address": "213 Mills St.",
+      "contactInfo": "P: 306-766-7500 Ext. 1",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "East Primary Health Care Network",
+      "address": "1911 Park St.",
+      "contactInfo": "P: 306-766-7500 Ext. 2",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.4481828,
+      "longitude": -104.57168205261891
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Grand Coulee",
+      "address": "102 Railway Avenue",
+      "contactInfo": "P: 306-766-7500 Ext. 4",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.796226036513374,
+      "longitude": -104.98765696380873
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Holdfast",
+      "address": "125 Roberts Street",
+      "contactInfo": "P: 306-766-7500 Ext. 2",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Imperial",
+      "address": "310 Royal Street",
+      "contactInfo": "P: 306-766-7500 Ext. 1",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.474419049999995,
+      "longitude": -104.65119895041659
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Lumsden",
+      "address": "10 Aspen Bay",
+      "contactInfo": "P: 306-766-7500 Ext. 1",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Meadow Primary Health Care Centre",
+      "address": "4006 Dewdney Avenue",
+      "contactInfo": "P: 306-766-7500 Ext. 3",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.45539702833057,
+      "longitude": -104.71948839081519
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Milestone",
+      "address": "#400-415 Prairie Avenue",
+      "contactInfo": "P: 306-766-7500 Ext. 4",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "North Primary Health Care Network",
+      "address": "204 Wascana St.",
+      "contactInfo": "P: 306-766-7500 Ext. 3",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.475235999999995,
+      "longitude": -104.6403341
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Odessa",
+      "address": "406 – 1st Avenue",
+      "contactInfo": "P: 306-766-7500 Ext. 2",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.46768627577368,
+      "longitude": -104.63103461303902
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Pense",
+      "address": "300 Brunswick Street",
+      "contactInfo": "P: 306-766-7500 Ext. 4",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Pilot Butte",
+      "address": "1505 Aaron Drive",
+      "contactInfo": "P: 306-766-7500 Ext. 2",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Regina Beach",
+      "address": "410 Centre Street",
+      "contactInfo": "P: 306-766-7500 Ext. 1",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.793487635329576,
+      "longitude": -104.9858947042389
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Sedley",
+      "address": "202 Broadway Avenue",
+      "contactInfo": "P: 306-766-7500 Ext. 2",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.438600777786796,
+      "longitude": -104.57719454866921
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Southey",
+      "address": "290 Keats Street",
+      "contactInfo": "P: 306-766-7500 Ext. 1",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "South Primary Health Care Network",
+      "address": "3621 Pasqua St.",
+      "contactInfo": "P: 306-766-7500 Ext. 4",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.434424816853074,
+      "longitude": -104.6408959
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Specialty Immunization and Travel Health Clinic",
+      "address": "2110 Hamilton St.",
+      "contactInfo": "P: 306-766-7904 (Specialty Immunization)\n\nP: 306-766-7600 (Travel)",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Travel",
+        "Purchased",
+        "*This is an international travel clinic"
+      ],
+      "latitude": 50.4451053,
+      "longitude": -104.60978869708931
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "Vibank",
+      "address": "103 – 1st Avenue",
+      "contactInfo": "P: 306-766-7500 Ext. 2",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.46842476639488,
+      "longitude": -104.61232033441112
+    },
+    {
+      "serviceArea": "Regina",
+      "name": "White City",
+      "address": "12 Ramm Avenue East",
+      "contactInfo": "P: 306-766-7500 Ext. 2",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.4479733,
+      "longitude": -104.6158764
+    },
+    {
+      "serviceArea": "Rockglen",
+      "name": "Grassland’s Wellness Centre",
+      "address": "316 SK-2, Rockglen, SK S0H 3R0",
+      "contactInfo": "P: 306-642-2200 (Booked through Assiniboia PH office)",
+      "hours": "One clinic per month\n\n9:00 a.m. - 3:00 p.m.",
+      "services": [
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 49.1793978,
+      "longitude": -105.94724
+    },
+    {
+      "serviceArea": "Rosetown",
+      "name": "Rosetown Community Health Services",
+      "address": "409 Highway 4 N Rosetown, SK S0L 2V0",
+      "contactInfo": "P: \n\n306-882-2672 Ext. 3. Option 3",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 51.554815,
+      "longitude": -107.9912859
+    },
+    {
+      "serviceArea": "Rosthern",
+      "name": "Rosthern Community Services Building",
+      "address": "2014 6th Street\nRosthern, SK\nS0K 3R0",
+      "contactInfo": "P: 306-232-9685\n\nF: 306-232-9681",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.663891,
+      "longitude": -106.335297
+    },
+    {
+      "serviceArea": "Rouleau",
+      "name": "Community Complex",
+      "address": "113 Main St. Rouleau, SK S0G 4H0",
+      "contactInfo": "P: 306-776-2270\n\n(Booked through MJPH office)\n\nP: 306-691-2300\n\nF: 306-691-2330",
+      "hours": "One clinic per month\n\n10:00 a.m. - 12:00 p.m.",
+      "services": [
+        "Adult",
+        "Purchase"
+      ],
+      "latitude": 50.19058638152264,
+      "longitude": -104.90478916949219
+    },
+    {
+      "serviceArea": "Sandy Bay",
+      "name": "Sandy Bay Health Centre",
+      "address": "Sandy Bay, SK, S0P 0G0",
+      "contactInfo": "P: 306-754-5400",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 55.5257599,
+      "longitude": -102.313097
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "Abderdeen",
+      "address": "Recreation Complex",
+      "contactInfo": "P: 306-655-4700",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "Asquith",
+      "address": "Town Office",
+      "contactInfo": "P: 306-655-4275",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "Borden",
+      "address": "308 Shepard Street",
+      "contactInfo": "P: 306-655-4700",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "Dalmeny",
+      "address": "",
+      "contactInfo": "P: 306-655-4700",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "Delisle",
+      "address": "Primary Health Center",
+      "contactInfo": "P: 306-655-4275",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "Dundurn",
+      "address": "Community Hall",
+      "contactInfo": "P: 306-655-4730",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "Idylwyld Health Centre Switchboard",
+      "address": "101–310 Idylwyld Drive N\nSaskatoon, SK, S7L 0Z2",
+      "contactInfo": "P: 306-655-4620",
+      "hours": "",
+      "services": [
+        "General Inquiries"
+      ],
+      "latitude": 52.13277411106907,
+      "longitude": -106.67032653561681
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "Langham",
+      "address": "",
+      "contactInfo": "P: 306-655-4700",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "Martensville",
+      "address": "Civic Center, 66 Main Street",
+      "contactInfo": "P: 306-655-4700",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "North East Health Center",
+      "address": "108-407 Ludlow Street",
+      "contactInfo": "P: 306-655-4700",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "Our Neighbourhood Health Center/ Station 20 West",
+      "address": "#102-1120 20th Street West",
+      "contactInfo": "P: 306-655-3250",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "Pinehouse Clinic",
+      "address": "327 Pinehouse Drive (Located out of 7th Day Adventist Church)",
+      "contactInfo": "P: 306-655-4700",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "South East Health Center",
+      "address": "3006 Taylor Street East",
+      "contactInfo": "P: 306-655-4730",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "Specialty Immunization and Travel Health",
+      "address": "108-407 Ludlow Street",
+      "contactInfo": "P: 306-655-4780",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Travel",
+        "Purchased",
+        "*This is an international travel clinic"
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "Warman",
+      "address": "GAMA Medical Center, 102 Central Street West",
+      "contactInfo": "P: 306-655-4700",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.131802,
+      "longitude": -106.660767
+    },
+    {
+      "serviceArea": "Saskatoon",
+      "name": "West Winds Primary Health Center",
+      "address": "3311 Fairlight Drive",
+      "contactInfo": "P: 306-655-4275",
+      "hours": "",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.12328315322211,
+      "longitude": -106.73773078854123
+    },
+    {
+      "serviceArea": "Shaunavon",
+      "name": "Shaunavon Hospital and Care Centre",
+      "address": "660 4th St. E, Shaunavon, SK",
+      "contactInfo": "P: 306-778-5280\n\nor 1-866-786-2510 toll free",
+      "hours": "Clinic options available weekly. Inquire re: available times.",
+      "services": [
+        "Childhood ",
+        "Adult"
+      ],
+      "latitude": 49.6507703,
+      "longitude": -108.410021
+    },
+    {
+      "serviceArea": "Shellbrook",
+      "name": "Parkland Integrated Health Facility",
+      "address": "100 Dr. JL Spencer Drive\n2nd Ave West\nShellbrook",
+      "contactInfo": "",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 53.22248,
+      "longitude": -106.387482
+    },
+    {
+      "serviceArea": "Spiritwood",
+      "name": "Spiritwood & District Health Complex",
+      "address": "400 1st St East\nSpiritwood",
+      "contactInfo": "P: 306-883-4470",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 53.365233,
+      "longitude": -107.5175024
+    },
+    {
+      "serviceArea": "Stoughton",
+      "name": "Stoughton Town Office",
+      "address": "232 Main Street Stoughton SK S0G 4T0",
+      "contactInfo": "P: 306-842-8618\n\nF: 306-842-8637",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.67746205,
+      "longitude": -103.02952035
+    },
+    {
+      "serviceArea": "Swift Current ",
+      "name": "Swift Current E.I. Wood Building",
+      "address": "4th Floor - 350 Cheadle Street West\nSwift Current, SK\nS9H 4G3",
+      "contactInfo": "P: 306-778-5280\n\nor 1-866-786-2510 toll free",
+      "hours": "Mon – Fri\n\n8:30 a.m. - 4:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Purchased"
+      ],
+      "latitude": 50.2849138,
+      "longitude": -107.7984496
+    },
+    {
+      "serviceArea": "Tisdale",
+      "name": "Tisdale Public Health",
+      "address": "600 –110th Ave\nTisdale",
+      "contactInfo": "P: 306-873-8282",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Travel",
+        "Purchased"
+      ],
+      "latitude": 52.850059,
+      "longitude": -104.048767
+    },
+    {
+      "serviceArea": "Turtleford ",
+      "name": "Riverside Health Complex",
+      "address": "1st St. South",
+      "contactInfo": "P: 306-845-3768",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 53.3878475,
+      "longitude": -108.9581917
+    },
+    {
+      "serviceArea": "Unity",
+      "name": "Unity Health Centre",
+      "address": "",
+      "contactInfo": "P: 306-228-2666 Ext. 2961",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.4428508,
+      "longitude": -109.1548985
+    },
+    {
+      "serviceArea": "Val Marie ",
+      "name": "Val Marie Village Complex",
+      "address": "101 1st Ave., Val Marie, SK",
+      "contactInfo": "P: 306-778-5280\n\nor 1-866-786-2510 toll free",
+      "hours": "Every 6th Wednesday\n\n10:00 a.m. - 3:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.24497637147437,
+      "longitude": -107.73014112351234
+    },
+    {
+      "serviceArea": "Vanguard",
+      "name": "Vanguard Health Centre",
+      "address": "Centre St., Vanguard, SK",
+      "contactInfo": "P: 306-778-5280\n\nor 1-866-786-2510 toll free",
+      "hours": "Every 4th Wednesday\n\n10:00 a.m. - 3:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.9081257,
+      "longitude": -107.299645
+    },
+    {
+      "serviceArea": "Wadena",
+      "name": "Wadena Public Health",
+      "address": "433 5th St. NE\nWadena, SK\nS0A 4J0",
+      "contactInfo": "P: 306-338-2510\n\nF: 306-338-2538",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.9439343,
+      "longitude": -103.8022616
+    },
+    {
+      "serviceArea": "Watrous",
+      "name": "Watrous District Health Complex",
+      "address": "702 4th St. E.\nWatrous, SK\nS0K 4T0",
+      "contactInfo": "P: 306-946-2102\n\nF: 306-946-2369",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 51.675148,
+      "longitude": -105.4655393
+    },
+    {
+      "serviceArea": "Wawota",
+      "name": "Wawota Memorial Health Centre",
+      "address": "201 1 Ave NW Wawota SK S0G 5A0",
+      "contactInfo": "P: 306-736-2522\n\nF: 306-736-2300",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.9041649,
+      "longitude": -102.0241117
+    },
+    {
+      "serviceArea": "Weyburn",
+      "name": "Weyburn Public Health",
+      "address": "900 Saskatchewan Drive Weyburn SK S4H 3C3",
+      "contactInfo": "P: 306-842-8618\n\nF: 306-842-8637",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 49.6651238,
+      "longitude": -103.854034
+    },
+    {
+      "serviceArea": "Whitewood",
+      "name": "Whitewood Community Health Centre",
+      "address": "921 Gambetta St Whitewood SK S0G 5C0",
+      "contactInfo": "P: 306-435-6279\n\nF: 306-435-2386",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.326705832155604,
+      "longitude": -102.26104997079067
+    },
+    {
+      "serviceArea": "Wilkie",
+      "name": "Wilkie Health Centre",
+      "address": "",
+      "contactInfo": "P: 306-228-2666 Ext. 2961",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 52.4095307,
+      "longitude": -108.7068761
+    },
+    {
+      "serviceArea": "Wolseley",
+      "name": "Wolseley Hospital and Lakeside Nursing Home",
+      "address": "702 Ouimet St Wolseley SK S0G 5H0",
+      "contactInfo": "P: 306-697-4040\n\nF: 306-697-4042",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 4:30 p.m.",
+      "services": [
+        "Childhood",
+        "Adult"
+      ],
+      "latitude": 50.42666387542433,
+      "longitude": -103.26883468374334
+    },
+    {
+      "serviceArea": "Yorkton",
+      "name": "Yorkton Health Office",
+      "address": "150 Independent Street, Yorkton",
+      "contactInfo": "P: 306-786-0600",
+      "hours": "Mon – Fri\n\n8:00 a.m. - 5:00 p.m.",
+      "services": [
+        "Childhood",
+        "Adult",
+        "Travel",
+        "Purchased"
+      ],
+      "latitude": 51.20644179071865,
+      "longitude": -102.48026803109423
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+# Any line starting with a pound/hashtag symbol will not be included in the list
+#
+# Please ensure that no message is longer than 90 characters and ends with a
+# newline character (make sure you press 'enter' on the keyboard so that each
+# fact is on a different line)
+
+Most childhood vaccines require multiple doses for full protection.
+Vaccines can prevent complications like blindness, brain damage, and death.
+The flu vaccine is recommended annually for children over 6 months.
+Measles is highly contagious, but the MMR vaccine is 97% effective.
+The HPV vaccine can prevent certain cancers later in life.
+Childhood vaccines are typically given in early life for maximum protection.
+Diphtheria, tetanus, and pertussis vaccines are combined into one shot, DTaP.
+Vaccines can prevent ear infections and hearing loss caused by diseases like pneumococcus.
+Vaccines are rigorously tested for safety before being approved.
+The MMR vaccine prevents measles, mumps, and rubella.
+Routine childhood vaccines prevent over 14 serious diseases.
+Vaccines contribute to herd immunity, protecting those who can’t be vaccinated.
+The first vaccine, for smallpox, was developed in 1796.
+Vaccines protect children from serious diseases like measles, polio, and chickenpox.
