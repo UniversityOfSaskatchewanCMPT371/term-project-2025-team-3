@@ -23,6 +23,16 @@ jest.mock("@react-native-async-storage/async-storage", () => ({
   removeItem: jest.fn(),
 }));
 
+// mock the logger to test its calls
+// Mock AsyncStorage methods
+// mock the logger to test its calls
+jest.mock("@/utils/logger", () => ({
+  error: jest.fn(),
+  info: jest.fn(),
+  warning: jest.fn(),
+  debug: jest.fn(),
+}));
+
 // Mock ClinicEntity
 jest.mock("@/myorm/clinic-entity", () => {
   class MockClinicEntity {
