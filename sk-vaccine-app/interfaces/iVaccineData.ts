@@ -50,7 +50,7 @@ export interface Vaccine {
 }
 
 export type VaccineListResponse = {
-  version: number;
+  timestamp: number;
   vaccines: VaccineInfoJSON[];
 };
 

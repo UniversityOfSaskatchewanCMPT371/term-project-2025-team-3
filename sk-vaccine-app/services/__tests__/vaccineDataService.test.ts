@@ -3,6 +3,14 @@ import test1Data from "@/services/__tests__/vaccineDataServiceTest1.data.json"
 import { VaccineDataService } from "@/services/vaccineDataService" 
 
 
+// mock the logger to test its calls
+jest.mock("@/utils/logger", () => ({
+  error: jest.fn(),
+  info: jest.fn(),
+  warning: jest.fn(),
+  debug: jest.fn(),
+}));
+
 
 
 // mock VaccineEntity

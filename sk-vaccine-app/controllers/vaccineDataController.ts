@@ -131,7 +131,7 @@ class VaccineDataController implements iVaccineDataController {
       const vaccineList: VaccineListResponse =
         await this.vaccineDataService.getVaccineListRemote();
       await this.vaccineDataService.storeVaccineListVersionLocal(
-        vaccineList.version
+        vaccineList.timestamp
       );
       const toDelete = await this.vaccineDataService.checkExistingVaccines(
         vaccineList.vaccines
