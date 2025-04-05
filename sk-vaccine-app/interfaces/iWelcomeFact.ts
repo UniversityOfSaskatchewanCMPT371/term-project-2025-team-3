@@ -66,8 +66,9 @@ export interface iWelcomeFactController {
    * to tell the hook to rerun the function.
    *
    * @async
+   * @param rerun if the function failed to give good results the first time
    * @returns An object containing the fact and whether the function should run again.
    * The second run is only needed on the first
    */
-  getFact(): Promise<{ rerun: boolean; fact: string }>;
+  getFact(rerun: boolean): Promise<{ rerun: boolean; fact: string }>;
 }

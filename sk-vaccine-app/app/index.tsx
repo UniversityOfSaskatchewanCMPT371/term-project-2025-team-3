@@ -22,6 +22,7 @@ import React from "react";
 import ClosestClincButton from "@/components/closest-clinic-btn";
 
 import { WelcomeFactController } from "@/controllers/welcomeFactController";
+import { WelcomeFactService } from "@/services/welcomeFactService";
 
 export const CLINIC_BTN_TEXT = "Clinic Info";
 export const BOOKING_BTN_TEXT = "Booking";
@@ -45,7 +46,7 @@ export default function Index() {
     navigation.setOptions({ headerShown: true });
   }, [navigation]);
 
-  const welcomeFact = useWelcomeFact(new WelcomeFactController());
+  const welcomeFact = useWelcomeFact(new WelcomeFactController(new WelcomeFactService()));
 
   const timeOfDayText = useDayParts();
 

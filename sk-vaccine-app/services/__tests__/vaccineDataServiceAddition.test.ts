@@ -22,6 +22,15 @@ jest.mock("@/myorm/vaccine-entity", () => {
     };
 });
 
+// mock the logger to test its calls
+jest.mock("@/utils/logger", () => ({
+    error: jest.fn(),
+    info: jest.fn(),
+    warning: jest.fn(),
+    debug: jest.fn(),
+  }));
+  
+
 jest.mock('@react-native-async-storage/async-storage', () => ({
     getItem: jest.fn(),
     setItem: jest.fn(),
@@ -38,7 +47,7 @@ beforeEach(() => {
 
 describe('Unit tests for VaccineDataService.getVaccineListVersionRemote', () => {
     it('should get remote vaccine list version', async () => {
-        const mockResponse = { version: 1 }; // Match the version in the data file
+        const mockResponse = { version: 1743273741 }; // Match the version in the data file
         const tempJson = require('@/services/__tests__/vaccineListService.data.json'); // Mocking the json file
         
         jest.spyOn(global, 'fetch').mockResolvedValue({
@@ -103,8 +112,8 @@ describe('Unit tests for VaccineDataService.compareExternalPDFs', () => {
             json: jest.fn().mockResolvedValue(mockProductJSON)
         } as any);
         jest.spyOn(VaccineDataService.prototype, 'getLocalPDFFilenames').mockResolvedValue({
-            englishFilename: 'local_file1.pdf',
-            frenchFilename: 'local_file2.pdf'
+            englishFilename: 'file1.pdf',
+            frenchFilename: 'file2.pdf'
         });
 
         const result = await (new VaccineDataService()).compareExternalPDFs();

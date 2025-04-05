@@ -44,7 +44,6 @@ const runAsync = (sql: string, ...params: any[]) => {
     // If no parameters are provided, run query without parameters
     return promisify(
       (query: string, callback: (err: Error | null, rows: any[]) => void) => {
-        console.log(query); // Logs the query
         sqliteDb.run(query, callback); // Executes the query with no parameters
       }
     )(sql);

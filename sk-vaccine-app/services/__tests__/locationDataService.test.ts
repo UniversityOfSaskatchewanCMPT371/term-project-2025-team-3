@@ -9,6 +9,15 @@ import {
 import { PermissionStatus } from "expo-location";
 import { LocationAccessError } from "@/utils/ErrorTypes";
 
+// mock the logger to test its calls
+jest.mock("@/utils/logger", () => ({
+  error: jest.fn(),
+  info: jest.fn(),
+  warning: jest.fn(),
+  debug: jest.fn(),
+}));
+
+
 jest.mock("expo-location", () => ({
   __esModule: true,
   hasServicesEnabledAsync: jest.fn(),
