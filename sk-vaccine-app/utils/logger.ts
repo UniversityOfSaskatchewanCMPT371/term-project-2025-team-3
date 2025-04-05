@@ -18,7 +18,7 @@ const logger = reactLogger.createLogger({
   transportOptions: {
     colors: {
       error: 'red',
-      warn: 'yellow',
+      warning: 'yellow',
       info: 'cyan',
       http: 'green',
       debug: 'magenta',

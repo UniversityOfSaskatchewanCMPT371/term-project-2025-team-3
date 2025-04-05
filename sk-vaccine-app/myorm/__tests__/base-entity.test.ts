@@ -13,6 +13,14 @@ import BaseEntity from "../base-entity";
 import * as SQLite from 'expo-sqlite';
 import { ColumnMetadata, mapTsTypeToSql } from "../decorators";
 
+// mock the logger to test its calls
+jest.mock("@/utils/logger", () => ({
+    error: jest.fn(),
+    info: jest.fn(),
+    warning: jest.fn(),
+    debug: jest.fn(),
+  }));
+  
 
 const mockdb = {
     execAsync: jest.fn(),

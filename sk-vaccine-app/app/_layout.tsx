@@ -12,6 +12,7 @@ import settingsButton from "@/components/settings-btn";
 import { ScreenHeight } from "react-native-elements/dist/helpers";
 import { WelcomeFactController } from "@/controllers/welcomeFactController";
 import { useUpdateWelcomeFacts } from "@/hooks/welcomeData";
+import { WelcomeFactService } from "@/services/welcomeFactService";
 
 const CustomHeader = memo(() => {
   /**
@@ -38,7 +39,7 @@ const CustomHeader = memo(() => {
  */
 export default function RootLayout() {
   const updateWelcomeResult = useUpdateWelcomeFacts(
-    new WelcomeFactController()
+    new WelcomeFactController(new WelcomeFactService())
   );
   const vaccineController = new VaccineDataController(new VaccineDataService());
 

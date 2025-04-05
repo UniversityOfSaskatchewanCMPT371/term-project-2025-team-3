@@ -28,6 +28,9 @@
     "transformIgnorePatterns": [
       "node_modules/(?!.*)"
     ],
+    "transform": {
+      "\\.txt$": "<rootDir>/jest/jest-transformer.js"
+    },
     "testMatch": [
       "**/__tests__/**/*.js?(x)",
       "**/?(*.)+(spec|test).[tj]s?(x)"
@@ -66,6 +69,7 @@
     "expo-system-ui": "~4.0.7",
     "expo-updates": "~0.26.13",
     "expo-web-browser": "~14.0.2",
+    "fs": "^0.0.1-security",
     "husky": "^9.1.7",
     "react": "^18.3.1",
     "react-dom": "18.3.1",

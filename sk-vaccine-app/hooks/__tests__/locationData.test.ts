@@ -15,6 +15,14 @@ beforeEach(() => {
 
 });
 
+// mock the logger to test its calls
+jest.mock("@/utils/logger", () => ({
+    error: jest.fn(),
+    info: jest.fn(),
+    warning: jest.fn(),
+    debug: jest.fn(),
+  }));
+  
 
 
 describe('Unit tests for useLocation', () => {

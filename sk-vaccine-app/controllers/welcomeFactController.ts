@@ -1,12 +1,12 @@
 import { iWelcomeFactController, WelcomeFact } from "@/interfaces/iWelcomeFact";
-import WelcomeFactService from "@/services/welcomeFactService";
+import { WelcomeFactService } from "@/services/welcomeFactService";
 import logger from "@/utils/logger";
 
 export class WelcomeFactController implements iWelcomeFactController {
   private welcomeService: WelcomeFactService;
 
-  constructor() {
-    this.welcomeService = new WelcomeFactService();
+  constructor(welcomeFactService: WelcomeFactService) {
+    this.welcomeService = welcomeFactService;
   }
 
   /**
@@ -35,23 +35,39 @@ export class WelcomeFactController implements iWelcomeFactController {
 
   /**
    * Gets a fact from the database using the current language.
-   * 
+   *
    * If no fact is retrieved a standard message is sent as well as a flag
    * to tell the hook to rerun the function.
-   * 
+   * @param rerun if the function failed to give good results the first time
    * @returns An object containing the fact and whether the function should run again.
    * The second run is only needed on the first
    */
-  async getFact(): Promise<{ rerun: boolean; fact: string; }> {
+  async getFact(rerun: boolean): Promise<{ rerun: boolean; fact: string }> {
     try {
-      const fact = (await this.welcomeService.getRandomFact()).message;
-      if (fact === undefined) {
-        return {rerun: true, fact: "To get started, please ensure you have an internet connection!"};
-      }
-      return { rerun: false, fact: fact }
+      const fact = await this.welcomeService.getRandomFact();
+      if (!fact?.message) {
+        if (rerun) {
+          // DB has no facts, second run, something wrong.
+          return {
+            rerun: false,
+            fact: "The first vaccine, for smallpox, was developed in 1796.",
+          };
+        } else {
+          // DB has no facts yet, uninitialized
+          return {
+            rerun: true,
+            fact: "To get started, please ensure you have an internet connection!",
+          };
+        }
+      } 
+      return { rerun: false, fact: fact.message };
     } catch (error) {
       logger.error("Problem getting a fact, displaying default.", error);
-      return {rerun: true, fact: "To get started, please ensure you have an internet connection!"};
+      // Error getting fact, return default
+      return {
+        rerun: false,
+        fact: "The first vaccine, for smallpox, was developed in 1796.",
+      };
     }
   }
 }
