@@ -1,74 +1,106 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react-native';
-import ClinicInfo from '../clinic-info';
-import { db } from '../../myorm/decorators';
+import ClinicDataService, { ClinicArray, Clinic, CLINIC_TIMESTAMP_KEY } from "@/services/clinicDataService";
+import { EmptyStorageError, InvalidArgumentError } from "@/utils/ErrorTypes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SQLite from "expo-sqlite"; // Importing expo-sqlite
+import { ColumnMetadata } from "@/myorm/decorators";
 
-// Mock the SQLite database and the getAllSync method
-jest.mock('../../myorm/decorators', () => ({
-  ...jest.requireActual('../../myorm/decorators'),
-  db: {
-    getAllSync: jest.fn((query: string) => {
-      // Check if the query is for table information (PRAGMA table_info)
-      if (query.includes('PRAGMA table_info')) {
-        return [
-          { name: 'id', type: 'INTEGER', notnull: 0, pk: 1 },
-          { name: 'name', type: 'TEXT', notnull: 0, pk: 0 },
-          { name: 'address', type: 'TEXT', notnull: 0, pk: 0 },
-        ];  // Mocked return for table_info query
-      }
-
-      // Return a default empty array for all other queries
-      return [];
-    }),
+// Mock SQLite methods
+jest.mock("expo-sqlite", () => ({
+  openDatabaseSync: jest.fn(() => ({
+    execAsync: jest.fn(),
+    getAllAsync: jest.fn(),
+    getFirstAsync: jest.fn(),
+    runAsync: jest.fn(),
     execSync: jest.fn(),
-  },
+    getAllSync: jest.fn(),
+  })),
 }));
 
-describe('ClinicInfo', () => {
+// Mock AsyncStorage methods
+jest.mock("@react-native-async-storage/async-storage", () => ({
+  setItem: jest.fn(),
+  getItem: jest.fn(),
+  removeItem: jest.fn(),
+}));
+
+// Mock ClinicEntity
+jest.mock("@/myorm/clinic-entity", () => {
+  class MockClinicEntity {
+    static find = jest.fn();
+    static count = jest.fn();
+    static clear = jest.fn();
+    static queryObjs = jest.fn();
+    static getColumns = jest.fn();
+    save = jest.fn();
+  }
+
+  return {
+    __esModule: true,
+    default: MockClinicEntity,
+  };
+});
+
+
+describe("ClinicDataService", () => {
+  let clinicDataService: ClinicDataService;
+  let testClinicArray: ClinicArray;
+  let testClinics: Clinic[];
+
   beforeEach(() => {
+    testClinics = [
+      {
+        latitude: 12.345,
+        longitude: 67.89,
+        serviceArea: "Test 1",
+        name: "Test 1 Clinic",
+        address: "1 Test Street",
+        contactInfo: "306-555-1234",
+        hours: "8 AM - 6 PM",
+        services: ["Child", "Adult"],
+      },
+      {
+        latitude: 67.89,
+        longitude: 12.345,
+        serviceArea: "Test 2",
+        name: "Test 2 Doctor's office",
+        address: "2 Test Ave",
+        contactInfo: "306-555-4321",
+        hours: "9 AM - 7 PM",
+        services: ["Child"],
+      },
+    ];
 
-    db.getAllSync.mockClear();
-    db.execSync.mockClear();
+    const timeStamp = new Date("2025-02-15T12:00:00Z");
+    testClinicArray = new ClinicArray(testClinics, timeStamp);
+
+    clinicDataService = new ClinicDataService();
   });
 
-  it('renders clinic data correctly', async () => {
-    render(<ClinicInfo />);
-
-    // Ensure the clinic data or a specific part of the UI renders correctly
-    expect(await screen.findByText('Clinic Data')).toBeTruthy();  // Adjust based on actual UI text
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('handles search input correctly', async () => {
-    render(<ClinicInfo />);
+  describe("storeClinics", () => {
 
-    const searchInput = screen.getByPlaceholderText('Search clinics');
-    fireEvent.changeText(searchInput, 'Test Clinic');
+    it("should store clinics and update the timestamp in AsyncStorage", async () => {
+      await expect(clinicDataService.storeClinics(testClinicArray)).resolves.not.toThrow();
 
-    // Verify that the input value matches what was entered
-    expect(searchInput.props.value).toBe('Test Clinic');
-  });
-
-  it('shows an error message when fetching data fails', async () => {
-    // Simulate a failure scenario for db.getAllSync
-    db.getAllSync.mockImplementationOnce(() => {
-      throw new Error('Database error');
-    });
-
-    render(<ClinicInfo />);
-
-    // Wait for the error message to be displayed after data fetch failure
-    expect(await screen.findByText('Failed to load clinic data')).toBeTruthy();  // Adjust this text based on actual error message displayed
-  });
-
-  it('calls db.getAllSync on mount', async () => {
-    render(<ClinicInfo />);
-
-    // Wait for db.getAllSync to be called once the component mounts
-    await waitFor(() => {
-      expect(db.getAllSync).toHaveBeenCalledWith(
-        expect.stringContaining('PRAGMA table_info') // Ensure this matches your query logic
+      // Check that the timestamp is updated correctly
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
+        CLINIC_TIMESTAMP_KEY,
+        testClinicArray.timeStamp.toISOString()
       );
     });
   });
 
+  describe("getClinics", () => {
+
+    it("should throw EmptyStorageError when no clinic data is available", async () => {
+      const mockGetItem = AsyncStorage.getItem as jest.Mock;
+      mockGetItem.mockResolvedValueOnce(null);
+
+      // Expect EmptyStorageError to be thrown when no clinic data is available
+      await expect(clinicDataService.getClinics()).rejects.toThrow(EmptyStorageError);
+    });
+});
 });
