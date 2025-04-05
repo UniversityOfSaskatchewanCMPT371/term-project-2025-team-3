@@ -132,7 +132,7 @@ const vaccine = async () => {
                 Math.min(parseAge(existingEntry.starting), parseAge(curr.age)) +
                 " months";
               // Update productId only if it is empty
-              if (!existingEntry.productId && curr.productId) {
+              if (!existingEntry.productId && curr.productId || isNaN(curr.productId)) {
                 existingEntry.productId = curr.productId;
               }
               // Combine diseases without duplicates
@@ -158,16 +158,18 @@ const vaccine = async () => {
     }
   });
 
-  console.log(vaccineDataEnglish);
+  //console.log(vaccineDataEnglish);
 
   const output = {
     timestamp: Math.floor(Date.now() / 1000),
-    vaccines: vaccineDataEnglish.map((vaccine) => {
-      return {
-        ...vaccine,
-        productId: isNaN(vaccine.productId) ? vaccine.productId : Number(vaccine.productId)
-      }
-    }),
+    vaccines: vaccineDataEnglish
+      .map((vaccine) => {
+        return {
+          ...vaccine,
+          productId: isNaN(vaccine.productId) ? vaccine.productId : Number(vaccine.productId),
+        };
+      })
+      .filter((vaccine) => !isNaN(vaccine.productId)), // Filter out entries where productId is not a number
   };
 
   fs.writeFileSync("vaccineData.json", JSON.stringify(output, null, 2));

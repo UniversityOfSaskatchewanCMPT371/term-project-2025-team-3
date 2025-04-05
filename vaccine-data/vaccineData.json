@@ -1,0 +1,195 @@
+{
+  "timestamp": 1743822337,
+  "vaccines": [
+    {
+      "starting": "2 months",
+      "vaccineName": "DTaP-IPV-Hib",
+      "productId": 11766,
+      "associatedDiseases": {
+        "english": [
+          "Diphtheria",
+          "Tetanus",
+          "acellular Pertussis",
+          "inactivated Polio",
+          "Haemophilus influenza type b"
+        ],
+        "french": []
+      }
+    },
+    {
+      "starting": "2 months",
+      "vaccineName": "Pneumococcal conjugate 15",
+      "productId": 123844,
+      "associatedDiseases": {
+        "english": [
+          "Pneumococcal conjugate 15"
+        ],
+        "french": []
+      }
+    },
+    {
+      "starting": "2 months",
+      "vaccineName": "Rotavirus",
+      "productId": 66690,
+      "associatedDiseases": {
+        "english": [
+          "Rotavirus"
+        ],
+        "french": []
+      }
+    },
+    {
+      "starting": "12 months",
+      "vaccineName": "MMRV",
+      "productId": 31975,
+      "associatedDiseases": {
+        "english": [
+          "Measles",
+          "Mumps",
+          "Rubella",
+          "Varicella"
+        ],
+        "french": []
+      }
+    },
+    {
+      "starting": "12 months",
+      "vaccineName": "Meningococcal conjugate C",
+      "productId": 11773,
+      "associatedDiseases": {
+        "english": [
+          "Meningococcal conjugate C"
+        ],
+        "french": []
+      }
+    },
+    {
+      "starting": "12 months",
+      "vaccineName": "Hepatitis A",
+      "productId": 11767,
+      "associatedDiseases": {
+        "english": [
+          "Hepatitis A"
+        ],
+        "french": []
+      }
+    },
+    {
+      "starting": "4-6 years",
+      "vaccineName": "Tdap-IPV",
+      "productId": 66929,
+      "associatedDiseases": {
+        "english": [
+          "Tetanus",
+          "Diphtheria",
+          "acellular Pertussis",
+          "inactivated Polio"
+        ],
+        "french": []
+      }
+    },
+    {
+      "starting": "Grade 6",
+      "vaccineName": "Hepatitis B",
+      "productId": 11785,
+      "associatedDiseases": {
+        "english": [
+          "Hepatitis B"
+        ],
+        "french": []
+      }
+    },
+    {
+      "starting": "Grade 6",
+      "vaccineName": "HPV-9",
+      "productId": 31980,
+      "associatedDiseases": {
+        "english": [
+          "Human Papillomavirus - 9 types"
+        ],
+        "french": []
+      }
+    },
+    {
+      "starting": "8 months",
+      "vaccineName": "Tdap",
+      "productId": 11776,
+      "associatedDiseases": {
+        "english": [
+          "Tetanus",
+          "Diphtheria",
+          "acellular Pertussis"
+        ],
+        "french": []
+      }
+    },
+    {
+      "starting": "6 months",
+      "vaccineName": "Influenza",
+      "productId": 82503,
+      "associatedDiseases": {
+        "english": [
+          "Influenza"
+        ],
+        "french": []
+      }
+    },
+    {
+      "starting": "18 years and older",
+      "vaccineName": "MMR",
+      "productId": 11771,
+      "associatedDiseases": {
+        "english": [
+          "Measles",
+          "Mumps",
+          "Rubella"
+        ],
+        "french": []
+      }
+    },
+    {
+      "starting": "18 years and older",
+      "vaccineName": "Polio",
+      "productId": 31991,
+      "associatedDiseases": {
+        "english": [
+          "Polio"
+        ],
+        "french": []
+      }
+    },
+    {
+      "starting": "18 years and older",
+      "vaccineName": "Varicella",
+      "productId": 31987,
+      "associatedDiseases": {
+        "english": [
+          "Varicella"
+        ],
+        "french": []
+      }
+    },
+    {
+      "starting": "65 years and older",
+      "vaccineName": "Influenza vaccine",
+      "productId": 82503,
+      "associatedDiseases": {
+        "english": [
+          "Influenza vaccine"
+        ],
+        "french": []
+      }
+    },
+    {
+      "starting": "65 years and older",
+      "vaccineName": "Pneu-C-20 (Pneumococcal conjugate 20)",
+      "productId": 123846,
+      "associatedDiseases": {
+        "english": [
+          "pneumococcal vaccines."
+        ],
+        "french": []
+      }
+    }
+  ]
+}
