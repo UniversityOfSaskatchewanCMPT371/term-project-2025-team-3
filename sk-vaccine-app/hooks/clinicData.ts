@@ -8,29 +8,29 @@ import { useEffect, useState, useRef } from "react";
 export const JSON_TIMESTAMP_KEY = "time-created"
 
 /**
-* Holds the current state of loading clinic data.
-*/
+ * Holds the current state of loading clinic data.
+ */
 class ClinicResults {
-/** stores loaded clinic data */
-clinicArray: ClinicArray | null;
-/** true if the clinic array is still loading, otherwise false */
-loading: boolean;
-/** true if the remote storage of the clinic data cannot be accessed, false otherwise */
-serverAccessFailed: boolean;
-/** if an error occurs a string representing the error is stored */
-error: string | null;
+    /** stores loaded clinic data */
+    clinicArray: ClinicArray | null;
+    /** true if the clinic array is still loading, otherwise false */
+    loading: boolean;
+    /** true if the remote storage of the clinic data cannot be accessed, false otherwise */
+    serverAccessFailed: boolean;
+    /** if an error occurs a string representing the error is stored */
+    error: string | null;
 
-/**
-* Stored data related to loading clinic details.
-*
-* @param {Partial<ClinicResults>} data The input data for initializing the object.
-*
-* @property {ClinicArray | null} [data.clinicArray] The array of clinics. Defaults to `null` if not loaded.
-* @property {boolean} [data.loading] Indicates whether data is currently loading. Defaults to `false`.
-* @property {boolean} [data.serverAccessFailed] Specifies if a server access failure occurred. Defaults to `false`.
-* @property {string | null} [data.error] Holds an error message if an error occurs. Defaults to `null` if no error.
-*/
-constructor(data: Partial<ClinicResults>) {
+    /**
+     * Stored data related to loading clinic details.
+     *
+     * @param {Partial<ClinicResults>} data The input data for initializing the object.
+     * 
+     * @property {ClinicArray | null} [data.clinicArray] The array of clinics. Defaults to `null` if not loaded.
+     * @property {boolean} [data.loading] Indicates whether data is currently loading. Defaults to `false`.
+     * @property {boolean} [data.serverAccessFailed] Specifies if a server access failure occurred. Defaults to `false`.
+     * @property {string | null} [data.error] Holds an error message if an error occurs. Defaults to `null` if no error.
+     */
+    constructor(data: Partial<ClinicResults>) {
         this.clinicArray = data.clinicArray ?? null;
         this.loading = data.loading ?? false;
         this.serverAccessFailed = data.serverAccessFailed ?? false;
@@ -171,48 +171,40 @@ export default function useClinicData(
 
                 // sort clinics by distance to user if location access is enabled
                 if (sortByDistance && clinicArray && await locationService!.requestPermission()) {
-                    let location: [number, number];
-                    try {
-                        location = await locationService!.getLocation();
-                        clinicArray!.clinics =  clinicArray!.clinics.sort(
-                            (a: Clinic, b: Clinic) => {
-                                // make sure undefined cordinates go to the end of the list
-                                if ((a.latitude == undefined || a.longitude  == undefined) && (b.latitude  == undefined || b.longitude  == undefined)) {
-                                    return 0;
-                                }
-                                else if (a.latitude == undefined || a.longitude  == undefined) {
-                                    // indicate that `a` is larger than `b`
-                                    return 1;
-                                }
-                                else if (b.latitude == undefined || b.longitude  == undefined) {
-                                    // indicate that `b` is larger than `a`
-                                    return -1;
-                                }
-                                else {
-                                    assert(a.latitude! >= -90 && a.latitude! <= 90, "Latitude of `a` must be between -90 and 90 degrees");
-                                    assert(a.longitude! >= -180 && a.longitude! <= 180, "Longitude of `a` must be between -180 and 180 degrees");
-                                    assert(b.latitude! >= -90 && b.latitude! <= 90, "Latitude of `b` must be between -90 and 90 degrees");
-                                    assert(b.longitude! >= -180 && b.longitude! <= 180, "Longitude of `b` must be between -180 and 180 degrees");
-
-
-                                    const distA = locationService!.compareLocations(location, [a.latitude!, a.longitude!]);
-                                    const distB = locationService!.compareLocations(location, [b.latitude!, b.longitude!]);
-                                    return distA - distB;
-                                }
+                    const location = await locationService!.getLocation();
+                    clinicArray!.clinics =  clinicArray!.clinics.sort(
+                        (a: Clinic, b: Clinic) => {
+                            // make sure undefined cordinates go to the end of the list
+                            if ((a.latitude == undefined || a.longitude  == undefined) && (b.latitude  == undefined || b.longitude  == undefined)) {
+                                return 0;
                             }
-                        );
-                    }
-                    catch (error) {
-                        setError(String(error));
-                    }
+                            else if (a.latitude == undefined || a.longitude  == undefined) {
+                                // indicate that `a` is larger than `b`
+                                return 1;
+                            }
+                            else if (b.latitude == undefined || b.longitude  == undefined) {
+                                // indicate that `b` is larger than `a`
+                                return -1;
+                            }
+                            else {
+                                assert(a.latitude! >= -90 && a.latitude! <= 90, "Latitude of `a` must be between -90 and 90 degrees");
+                                assert(a.longitude! >= -180 && a.longitude! <= 180, "Longitude of `a` must be between -180 and 180 degrees");
+                                assert(b.latitude! >= -90 && b.latitude! <= 90, "Latitude of `b` must be between -90 and 90 degrees");
+                                assert(b.longitude! >= -180 && b.longitude! <= 180, "Longitude of `b` must be between -180 and 180 degrees");
+    
+    
+                                const distA = locationService!.compareLocations(location, [a.latitude!, a.longitude!]);
+                                const distB = locationService!.compareLocations(location, [b.latitude!, b.longitude!]);
+                                return distA - distB;
+                            }
 
 
 
-
-
+                        }
+                    );
 
                 }
-
+                
                 setClinics(clinicArray);
 
 
