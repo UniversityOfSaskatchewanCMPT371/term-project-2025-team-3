@@ -55,6 +55,7 @@ export default function VaccineInfo() {
             <SearchBar
               value={searchVal}
               onChangeText={setSearchVal}
+              placeholder="Search by Vaccine or Disease"
             />
           </View>
         </View>
