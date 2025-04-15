@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1743830529448" clover="3.2.0">
-  <project timestamp="1743830529448" name="All files">
+<coverage generated="1744756349493" clover="3.2.0">
+  <project timestamp="1744756349493" name="All files">
     <metrics statements="771" coveredstatements="577" conditionals="379" coveredconditionals="267" methods="159" coveredmethods="122" elements="1309" coveredelements="966" complexity="0" loc="771" ncloc="771" packages="10" files="25" classes="25"/>
     <package name="app.vaccine-info">
       <metrics statements="15" coveredstatements="1" conditionals="7" coveredconditionals="0" methods="6" coveredmethods="0"/>
