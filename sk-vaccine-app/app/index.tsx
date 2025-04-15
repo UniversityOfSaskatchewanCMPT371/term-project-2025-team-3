@@ -103,7 +103,7 @@ export default function Index() {
     <View style={{ flex: 1 }}>
       <View style={styles.header}>
         <Image source={saskLogo} style={styles.logo} />
-        <Text style={styles.headerTitle}>Usask Immunization Guide</Text>
+        <Text style={styles.headerTitle}>USask Immunization Guide</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
